@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Pit
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Walls
+  - 
+  - Dashing Player
+  - Player
+  - Shield
+  - 
+  - Hazards
+  - 
+  - Lasers
+  - Projectiles
+  - 
+  - 
+  - NC Hazard
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 2797672895
+    locked: 0
+  - name: Floor
+    uniqueID: 560340477
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2920298799
+    locked: 0
+  - name: Top
+    uniqueID: 3207801355
+    locked: 0
