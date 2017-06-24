@@ -204,27 +204,6 @@ public class GameManager : MonoBehaviour {
             player.transform.position = playerSpawnPoints[playerNum-1].position;
             livingPlayers[playerNum] = player.GetComponent<PlayerController>();
             livingPlayers[playerNum].GetComponent<PlayerInput>().playerNum = playerNum; //todo: clean this up
-            SpriteRenderer psr = player.GetComponent<PlayerInput>().sprite.GetComponent<SpriteRenderer>();
-
-            switch (playerNum)
-            {
-                case 1:
-                    psr.color = player1Color;
-                    //ssr.color = player1Color;
-                    break;
-                case 2:
-                    psr.color = player2Color;
-                    //ssr.color = player2Color;
-                    break;
-                case 3:
-                    psr.color = player3Color;
-                    //ssr.color = player3Color;
-                    break;
-                case 4:
-                    psr.color = player4Color;
-                    //ssr.color = player4Color;
-                    break;
-            }
         }
 
         if (gameOptions.isSpinnerEnabled)
