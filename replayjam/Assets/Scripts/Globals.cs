@@ -22,6 +22,7 @@ public class Globals : Singleton<Globals>
     public SoundEffectHandler unpauseSound;
 
     public float screenShakeFactor = 1.0f;
+    public Transform dynamicsParent;
 
     public GameManager GameManager;
 

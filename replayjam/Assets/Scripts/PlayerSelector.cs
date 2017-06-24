@@ -30,10 +30,10 @@ public class PlayerSelector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (playerJoined && !Globals.Instance.GameManager.joinedPlayers.Contains(playerNum))
-        {
-            Leave();
-        }
+        //if (playerJoined && !Globals.Instance.GameManager.joinedPlayers.Contains(playerNum))
+        //{
+        //    Leave();
+        //}
 
         if (XCI.GetButtonDown(XboxButton.A, controller))
         {
@@ -59,11 +59,6 @@ public class PlayerSelector : MonoBehaviour {
                 //start game!
                 Globals.Instance.GameManager.StartRound();
             }
-        }
-
-        if (XCI.GetButtonDown(XboxButton.Back, controller))
-        {
-            Globals.Instance.GameManager.DisplayOptions();
         }
 	}
 

@@ -5,6 +5,7 @@ using System;
 
 public class PlayerInput : MonoBehaviour {
     public int playerNum = 1;
+    public int playerHealth = 3;
     public float maxReticalX;
     public float maxReticalY;
     public Transform retical;
@@ -12,6 +13,8 @@ public class PlayerInput : MonoBehaviour {
     public float reticalLowMin;
     public float reticalHighMax;
     public float reticalHighMin;
+
+    public ShootProjectiles gun;
 
     private HingeJoint2D hinge;
     private Vector2 rinput;
@@ -35,7 +38,42 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
-        xboxController = (XboxController)playerNum;
+        xboxController = (XboxController)1;// playerNum;
+
+        //JointAngleLimits2D limits = new JointAngleLimits2D();
+        //limits.min = 180 * (playerNum - 1);
+        //limits.max = 180 * playerNum;
+        //hinge.limits = limits;
+        //hinge.useLimits = true;
+        int numPlayers = Globals.Instance.GameManager.numPlayers;
+        float degreesPerPlayer = Mathf.Round(360.0f / numPlayers);
+        float startAngle = degreesPerPlayer * -1 * playerNum;
+
+        float offset = 0.0f;
+        if (numPlayers == 3)
+        {
+            offset = 90.0f;
+        }
+        else if (numPlayers == 4)
+        {
+            offset = 135.0f;
+        }
+
+        startAngle -= offset;
+
+        Vector3 startRotation = new Vector3(0.0f, 0.0f, startAngle);
+
+        transform.Rotate(startRotation);
+
+        float angleLimit = Mathf.Round(degreesPerPlayer * 0.5f);
+
+        JointAngleLimits2D limits = new JointAngleLimits2D();
+        limits.min = angleLimit * -1;
+        limits.max = angleLimit;
+        hinge.limits = limits;
+
+        hinge.enabled = true;
+        //transform.Rotate(initRotation * (playerNum - 1));
     }
 	
 	// Update is called once per frame
@@ -53,13 +91,27 @@ public class PlayerInput : MonoBehaviour {
             HandleAiming();
             HandleThrust();
         }
+
+        CheckHingeAlign();
+    }
+
+    private void CheckHingeAlign()
+    {
+        if (hinge.jointAngle < hinge.limits.min)
+        {
+            rb2d.AddForce(-transform.right * maxThrust * 0.5f, ForceMode2D.Force);
+        }
+        else if (hinge.jointAngle > hinge.limits.max)
+        {
+            rb2d.AddForce(transform.right * maxThrust * 0.5f, ForceMode2D.Force);
+        }
     }
 
     private void HandleAttack()
     {
-        if (XCI.GetButton(XboxButton.A))
+        if (XCI.GetButton(XboxButton.RightBumper))
         {
-            Debug.Log("A button pressed");
+            gun.Shoot();
         }
     }
 
@@ -142,22 +194,28 @@ public class PlayerInput : MonoBehaviour {
     void ApplyJoystickThrust()
     {
         float x = XCI.GetAxisRaw(XboxAxis.LeftStickX, xboxController);
-        float y = -XCI.GetAxisRaw(XboxAxis.LeftStickY, xboxController);
+        float y = XCI.GetAxisRaw(XboxAxis.LeftStickY, xboxController);
+
 
         if (Math.Abs(x) > .5 || Math.Abs(y) > .5)
         {
-            Vector2 toDir = new Vector2(x, y);
-            Vector2 fromDir = (Vector2)(Quaternion.Euler(0, 0, hinge.jointAngle) * Vector2.up);
+            Vector2 toDir = new Vector2(x, y).normalized;
+            //Vector2 fromDir = (Vector2)(Quaternion.Euler(0, 0, hinge.jointAngle) * Vector2.up);
+            Vector2 fromDir = transform.localPosition.normalized;
             
             float ang = Vector2.Angle(fromDir, toDir);
 
+            
+
             Vector3 cross = Vector3.Cross(fromDir, toDir);
 
-            if (cross.z > 0) ang = 360 - ang;
-            
+            if (cross.z < 0) ang = ang * -1;
+
+            Debug.Log(fromDir + " " + toDir + " " + ang);
+
             Vector3 thrust = Vector3.zero;
 
-            if (ang < 180)
+            if (ang > 0)
             {
                 thrust = transform.right * maxThrust;
             }
@@ -166,7 +224,7 @@ public class PlayerInput : MonoBehaviour {
                 thrust = -transform.right * maxThrust;
             }
 
-            if (ang > 10)
+            if (Mathf.Abs(ang) > 10)
             {
                 rb2d.AddForce(thrust, ForceMode2D.Force);
             }
@@ -200,5 +258,25 @@ public class PlayerInput : MonoBehaviour {
             Globals.Instance.Pause(false);
             Globals.Instance.GameManager.SetupGame();
         }
+    }
+
+    public bool Hit()
+    {
+        playerHealth--;
+
+        bool killed = false;
+
+        if (playerHealth < 1)
+        {
+            Kill();
+            killed = true;
+        }
+        
+        return killed;
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 }

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4846539443723644}
   - component: {fileID: 212141792801475908}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 233941093312366888}
   - component: {fileID: 114361757731387380}
   - component: {fileID: 61204313744915920}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4976172307511576}
   - component: {fileID: 212704468946360676}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Retical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4435403763373654}
-  m_Layer: 0
+  - component: {fileID: 114012758290588268}
+  m_Layer: 17
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4497020434242310}
   - component: {fileID: 212118974415905750}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,8 +114,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287869048872812}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -12, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4497020434242310}
@@ -122,7 +123,7 @@ Transform:
   - {fileID: 4435403763373654}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &4497020434242310
 Transform:
   m_ObjectHideFlags: 1
@@ -143,7 +144,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1040004283273768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4459539113431886}
@@ -156,7 +157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1463397487929222}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4435403763373654}
@@ -173,7 +174,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 5
   m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -207,6 +208,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114012758290588268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628019337936026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3eb435e40cb1d64186b3512e6166f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 1649683819981324, guid: 22eca1a27bd2a7b4f920002795e55af6,
+    type: 2}
+  shooter: {fileID: 1287869048872812}
+  shootForce: 25
+  shootInterval: 0.5
+  spawnOffset: {x: 0, y: 1}
 --- !u!114 &114361757731387380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -219,10 +237,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
+  playerHealth: 3
   maxReticalX: 1
   maxReticalY: 1
   retical: {fileID: 4435403763373654}
-  maxThrust: 500
+  reticalLowMax: 60
+  reticalLowMin: 0
+  reticalHighMax: 360
+  reticalHighMin: 300
+  gun: {fileID: 114012758290588268}
+  maxThrust: 750
   thrustStyle: 1
 --- !u!212 &212118974415905750
 SpriteRenderer:
@@ -297,7 +321,7 @@ SpriteRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 30b7ef6fbb1cc254ba5107787e7307d9, type: 3}
-  m_Color: {r: 0.8897059, g: 0, b: 0, a: 0.316}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -350,20 +374,20 @@ HingeJoint2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287869048872812}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 8}
-  m_ConnectedAnchor: {x: 0, y: -4}
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 15}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 10.62
     m_MaximumMotorForce: 10000
-  m_UseLimits: 0
+  m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_LowerAngle: -45
+    m_UpperAngle: 45

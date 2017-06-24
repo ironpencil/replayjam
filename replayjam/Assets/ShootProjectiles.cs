@@ -5,10 +5,13 @@ using UnityEngine;
 public class ShootProjectiles : MonoBehaviour {
 
     public GameObject projectilePrefab;
+    public GameObject shooter;
 
     public float shootForce = 10.0f;
 
     public float shootInterval = 0.5f;
+
+    public Vector2 spawnOffset;
 
     float lastShot = 0.0f;
 
@@ -19,21 +22,35 @@ public class ShootProjectiles : MonoBehaviour {
 	
 	void FixedUpdate () {
 		
-        if (Time.time > lastShot + shootInterval)
-        {
-            Shoot();
-            lastShot = Time.time;
-        }
+        //if (Time.time > lastShot + shootInterval)
+        //{
+        //    Shoot();
+        //    lastShot = Time.time;
+        //}
 	}
 
     public void Shoot()
     {
-        GameObject bullet = GameObject.Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        if (Time.time > lastShot + shootInterval)
+        {
+            GameObject bullet = GameObject.Instantiate(projectilePrefab, transform.position, Quaternion.identity);
 
-        Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
+            bullet.transform.parent = transform;
 
-        bulletRB.AddForce(transform.up * shootForce, ForceMode2D.Impulse);
+            bullet.transform.localPosition = spawnOffset;
 
-        GameObject.Destroy(bullet, 10.0f);
+            bullet.transform.parent = Globals.Instance.dynamicsParent;
+
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            bulletScript.shooter = shooter;
+
+            Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
+
+            bulletRB.AddForce(transform.up * shootForce, ForceMode2D.Impulse);
+
+            GameObject.Destroy(bullet, 10.0f);
+
+            lastShot = Time.time;
+        }
     }
 }
