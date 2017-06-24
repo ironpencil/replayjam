@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
+  playerPosition: 1
   playerHealth: 3
   maxReticalX: 1
   maxReticalY: 1
@@ -245,7 +246,11 @@ MonoBehaviour:
   reticalLowMin: 0
   reticalHighMax: 360
   reticalHighMin: 300
+  shieldAlpha: 0.35
+  aura: {fileID: 212141792801475908}
+  playerRing: {fileID: 0}
   gun: {fileID: 114012758290588268}
+  hinge: {fileID: 0}
   maxThrust: 750
   thrustStyle: 1
 --- !u!212 &212118974415905750
@@ -277,8 +282,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1374668497
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e919b04ac846aab499e096de1f05d433, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -317,8 +322,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 560340477
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 30b7ef6fbb1cc254ba5107787e7307d9, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 0.39215687}

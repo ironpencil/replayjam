@@ -5,6 +5,7 @@ using System;
 
 public class PlayerInput : MonoBehaviour {
     public int playerNum = 1;
+    public int playerPosition = 1;
     public int playerHealth = 3;
     public float maxReticalX;
     public float maxReticalY;
@@ -14,9 +15,14 @@ public class PlayerInput : MonoBehaviour {
     public float reticalHighMax;
     public float reticalHighMin;
 
+    public float shieldAlpha = 0.35f;
+
+    public SpriteRenderer aura;
+    public GameObject playerRing;
+
     public ShootProjectiles gun;
 
-    private HingeJoint2D hinge;
+    public HingeJoint2D hinge;
     private Vector2 rinput;
 
     public float maxThrust;
@@ -46,8 +52,9 @@ public class PlayerInput : MonoBehaviour {
         //hinge.limits = limits;
         //hinge.useLimits = true;
         int numPlayers = Globals.Instance.GameManager.numPlayers;
+
         float degreesPerPlayer = Mathf.Round(360.0f / numPlayers);
-        float startAngle = degreesPerPlayer * -1 * playerNum;
+        float startAngle = degreesPerPlayer * -1 * playerPosition;
 
         float offset = 0.0f;
         if (numPlayers == 3)
@@ -73,7 +80,22 @@ public class PlayerInput : MonoBehaviour {
         hinge.limits = limits;
 
         hinge.enabled = true;
-        //transform.Rotate(initRotation * (playerNum - 1));
+
+        Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerNum);
+        playerColor.a = shieldAlpha;
+
+        aura.color = playerColor;
+
+
+        //set up player ring
+        ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startColor = playerColor;
+        var shape = ps.shape;
+        shape.arc = degreesPerPlayer;
+
+        startRotation.z -= angleLimit;
+        playerRing.transform.Rotate(startRotation);
     }
 	
 	// Update is called once per frame

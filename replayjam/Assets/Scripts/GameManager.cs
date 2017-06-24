@@ -8,11 +8,16 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public int numPlayers = 2;
-    
+
+    public List<int> joinedPlayers;
+
+    public List<PlayerInput> livingPlayers;
+
     public bool isRoundActive = false;
     public bool isRoundReady = false;
 
     public GameObject playerPrefab;
+    public GameObject ringPrefab;
     public Color player1Color = Color.red;
     public Color player2Color = Color.green;
     public Color player3Color = Color.blue;
@@ -20,23 +25,29 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        for (int i = 0; i < numPlayers; i++)
-        {
-            SpawnPlayer(i + 1);
-        }
+        
     }
 
-    void SpawnPlayer(int playerNum)
+    void SpawnPlayer(int playerNum, int playerPosition)
     {
         GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
         PlayerInput playerScript = player.GetComponent<PlayerInput>();
         playerScript.playerNum = playerNum;
+
+        playerScript.playerPosition = playerPosition;
+
+        GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
+        playerScript.playerRing = playerRing;
+
+        livingPlayers.Add(playerScript);
     }
 
     public void SetupGame()
     {
         CleanupRound();
 
+        
+        StartRound();
         
     }
     
@@ -62,13 +73,12 @@ public class GameManager : MonoBehaviour {
 
     public void AddPlayer(int playerNum)
     {
-        
-        
+        if (!joinedPlayers.Contains(playerNum)) { joinedPlayers.Add(playerNum); }
     }
 
     public void RemovePlayer(int playerNum)
     {
-       
+       if (joinedPlayers.Contains(playerNum)) { joinedPlayers.Remove(playerNum); }
     }
 
     public void DisplayPlayerSetup()
@@ -78,11 +88,22 @@ public class GameManager : MonoBehaviour {
 
     public void StartRound()
     {
-        
-        
+
+        livingPlayers.Clear();
 
         isRoundActive = true;
         isRoundReady = false;
+
+        joinedPlayers = joinedPlayers.Where(p => p > 0).ToList();
+        joinedPlayers.Sort();
+
+        numPlayers = joinedPlayers.Count;
+
+        for (int i = 0; i < numPlayers; i++)
+        {
+            SpawnPlayer(joinedPlayers[i], i + 1);
+        }
+
     }
 
    
