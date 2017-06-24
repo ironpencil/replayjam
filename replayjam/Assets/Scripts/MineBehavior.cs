@@ -101,7 +101,7 @@ public class MineBehavior : MonoBehaviour, Explosive {
 
         if (pi != null)
         {
-            colliders.Add(pi.PlayerNum);
+            colliders.Add(pi.playerNum);
         }
 
         if (!onlyArmByPlayer)

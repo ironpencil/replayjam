@@ -4,74 +4,42 @@ using XboxCtrlrInput;
 using System;
 
 public class PlayerInput : MonoBehaviour {
-    private GameOptions go;
-
     private float currentSpeed;
-    public int PlayerNum = 1;
-    public bool UseForces = false;
-    public Sprite PlayerSprite;
-
-    //Dashing vars
-    public Sprite DashingSprite;
-    public bool IsDashing = false;
-    public GameObject dashTrail;
-    private float DashRechargeTimeLeft = 0.0f;
-    private float DashTimeLeft = 0.0f;
-    private float LastHorizontal = 0.0f;
-    private float LastVertical = 0.0f;
+    public int playerNum = 1;
+    public Sprite playerSprite;
     
-    public GameObject hand;
     public GameObject sprite;
     public GameObject baseSprite;
-    public GameObject shield;
 
-    public SoundEffectHandler dashSound;
+    private HingeJoint2D hinge;
+
+    public float maxThrust;
     
-    public bool mouseInput = false;
-    private bool dashPressed = false;
-    private bool dashReleased = false;
-
     XboxController xboxController;
 
     Rigidbody2D rb2d;
 
     bool playerPaused = false;
 
+    public ThrustStyle thrustStyle;
+
+    public enum ThrustStyle
+    {
+        trigger, joystick
+    }
+
 	// Use this for initialization
 	void Start () {
-        go = Globals.Instance.GameManager.gameOptions;
-        
+        hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
-        currentSpeed = go.playerMoveSpeed;
-        dashTrail.GetComponent<ParticleSystem>().Stop(false);
-        xboxController = (XboxController)PlayerNum;
+        xboxController = (XboxController)playerNum;
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (Globals.Instance.acceptPlayerGameInput)
         {
-            HandleShieldMovement();
             HandleAttack();
-            CheckDash();
-        }
-        HandlePause();
-    }
-
-    private void CheckDash()
-    {
-        if (XCI.GetButtonDown(XboxButton.A, xboxController)
-            || XCI.GetButtonDown(XboxButton.RightBumper, xboxController)
-            || XCI.GetButtonDown(XboxButton.B, xboxController))
-        {
-            dashPressed = true;
-        }
-
-        if (!XCI.GetButton(XboxButton.A, xboxController)
-            && !XCI.GetButton(XboxButton.B, xboxController)
-            && !XCI.GetButton(XboxButton.RightBumper, xboxController))
-        {
-            dashReleased = true;
         }
     }
 
@@ -79,16 +47,79 @@ public class PlayerInput : MonoBehaviour {
     {
         if (Globals.Instance.acceptPlayerGameInput)
         {
-            HandleDash();
-            HandleMovement();
+            HandleThrust();
         }
     }
 
     private void HandleAttack()
     {
-        if (XCI.GetButtonDown(XboxButton.B))
+        if (XCI.GetButton(XboxButton.A))
         {
-            Debug.Log("B button pressed");
+            Debug.Log("A button pressed");
+        }
+    }
+
+    void HandleThrust()
+    {
+        switch(thrustStyle)
+        {
+            case ThrustStyle.trigger:
+                ApplyTriggerThrust();
+                break;
+            case ThrustStyle.joystick:
+                ApplyJoystickThrust();
+                break;
+        }
+        
+
+        //float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90;
+        //if (sprite != null) sprite.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    void ApplyTriggerThrust()
+    {
+        float rightThrust = XCI.GetAxisRaw(XboxAxis.RightTrigger, xboxController);
+        float leftThrust = XCI.GetAxisRaw(XboxAxis.LeftTrigger, xboxController);
+
+        Vector3 thrust = (transform.up * rightThrust * maxThrust) + (-transform.up * leftThrust * maxThrust);
+
+        Debug.Log("Thrust: " + thrust);
+
+        rb2d.AddForce(thrust, ForceMode2D.Force);
+    }
+
+    void ApplyJoystickThrust()
+    {
+        float x = XCI.GetAxisRaw(XboxAxis.LeftStickX, xboxController);
+        float y = -XCI.GetAxisRaw(XboxAxis.LeftStickY, xboxController);
+
+        Debug.Log("x: " + x);
+        Debug.Log("y: " + y);
+
+        if (Math.Abs(x) > .5 || Math.Abs(y) > .5)
+        {
+            Vector2 toDir = new Vector2(x, y);
+            Vector2 fromDir = (Vector2)(Quaternion.Euler(0, 0, hinge.jointAngle) * Vector2.right);
+            float ang = Vector2.Angle(fromDir, toDir);
+            Vector3 cross = Vector3.Cross(fromDir, toDir);
+
+            if (cross.z > 0) ang = 360 - ang;
+            
+            Vector3 thrust = Vector3.zero;
+
+            if (ang < 180)
+            {
+                thrust = transform.up * maxThrust;
+            }
+            else
+            {
+                thrust = -transform.up * maxThrust;
+            }
+
+            if (ang > 20)
+            {
+                rb2d.AddForce(thrust, ForceMode2D.Force);
+            }
         }
     }
 
@@ -118,145 +149,6 @@ public class PlayerInput : MonoBehaviour {
             //return to player select screen
             Globals.Instance.Pause(false);
             Globals.Instance.GameManager.SetupGame();
-        }
-    }
-
-    void HandleDash()
-    {
-        DashRechargeTimeLeft -= Time.fixedDeltaTime;
-
-//        Debug.Log("A? " + XCI.GetButtonDown(XboxButton.A, xboxController));
-  //      Debug.Log("B? " + XCI.GetButtonDown(XboxButton.B, xboxController));
-    //    Debug.Log("RB? " + XCI.GetButtonDown(XboxButton.RightBumper, xboxController));
-
-        if (dashPressed)
-        {
-            if (DashRechargeTimeLeft <= 0 && !IsDashing)
-            {
-                
-                BeginDash();
-            }
-            else
-            {
-                // TODO Alert the player that they can't dash yet
-                //Debug.Log("Can't dash, let player know here");
-            }
-        }
-        else if (IsDashing && dashReleased)
-        {
-            dashReleased = false;
-            EndDash();
-        }
-
-        dashPressed = false;
-        dashReleased = false;
-    }
-
-    private Vector3 beginDashPos;
-    void BeginDash()
-    {
-        beginDashPos = gameObject.transform.position;
-        IsDashing = true;
-        DashTimeLeft = go.playerDashTime;
-        SpriteRenderer sr = sprite.GetComponent<SpriteRenderer>();
-        sr.sprite = DashingSprite;
-        baseSprite.GetComponent<SpriteRenderer>().enabled = false;
-        currentSpeed = go.playerDashSpeed;
-        gameObject.GetComponent<BoundsChecker>().enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("Dashing Player");
-        dashSound.PlayEffect();
-        dashTrail.GetComponent<ParticleSystem>().Play();
-        float angle = Mathf.Atan2(rb2d.velocity.y, rb2d.velocity.x) * Mathf.Rad2Deg + 90;
-        Vector3 rotation = new Vector3(0, 0, angle);
-        dashTrail.transform.eulerAngles = rotation;
-    }
-
-    void EndDash()
-    {
-        IsDashing = false;
-        DashTimeLeft = 0.0f;
-        DashRechargeTimeLeft = go.playerDashRechargeTime;
-        SpriteRenderer sr = sprite.GetComponent<SpriteRenderer>();
-        sr.sprite = PlayerSprite;
-        baseSprite.GetComponent<SpriteRenderer>().enabled = true;
-        currentSpeed = go.playerMoveSpeed;
-        gameObject.GetComponent<BoundsChecker>().enabled = true;
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        dashTrail.GetComponent<ParticleSystem>().Stop(false);
-    }
-
-    void HandleMovement()
-    {
-        if (IsDashing)
-        {
-            DashTimeLeft -= Time.fixedDeltaTime;
-            if (DashTimeLeft <= 0)
-            {
-                EndDash();
-            }
-        }
-
-        float horizontal = 0.0f;
-        float vertical = 0.0f;
-
-        if (go.playerLockDashDirection && IsDashing)
-        {
-            horizontal = LastHorizontal;
-            vertical = LastVertical;
-        }
-        else
-        {
-            horizontal = XCI.GetAxisRaw(XboxAxis.LeftStickX, xboxController);
-            vertical = XCI.GetAxisRaw(XboxAxis.LeftStickY, xboxController);
-            LastHorizontal = horizontal;
-            LastVertical = vertical;
-        }
-
-        Vector2 moveDirection = new Vector2(horizontal, vertical);
-
-        if (IsDashing)
-        {
-            moveDirection.Normalize(); //always dash with full speed
-        }
-
-        Vector2 moveForce = moveDirection * currentSpeed;
-
-        if (UseForces)
-        {
-            rb2d.AddForce(moveForce, ForceMode2D.Force);
-        }
-        else
-        {
-            rb2d.velocity = moveForce;
-        }
-
-        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90;
-        if (sprite != null) sprite.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }
-
-    void HandleShieldMovement()
-    {
-        if (!IsDashing)
-        {
-            Vector2 rinput;
-            if (mouseInput)
-            {
-                rinput = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                rinput.Normalize();
-            }
-            else
-            {
-                // We are going to read the input every frame
-                //rinput = new Vector2(Input.GetAxisRaw("RHorizontal" + PlayerNum), Input.GetAxisRaw("RVertical" + PlayerNum));
-                rinput = new Vector2(XCI.GetAxisRaw(XboxAxis.RightStickX, xboxController), XCI.GetAxisRaw(XboxAxis.RightStickY, xboxController));
-            }
-
-            if (rinput.magnitude > 0)
-            {
-                // Apply the transform to the object  
-                var angle = Mathf.Atan2(rinput.y, rinput.x) * Mathf.Rad2Deg;
-                hand.transform.eulerAngles = new Vector3(0, 0, angle);
-            }
         }
     }
 }

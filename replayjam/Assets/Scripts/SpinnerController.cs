@@ -63,7 +63,7 @@ public class SpinnerController : MonoBehaviour {
         PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
         if (pc != null)
         {
-            int victimPlayerNum = pc.GetComponent<PlayerInput>().PlayerNum;
+            int victimPlayerNum = pc.GetComponent<PlayerInput>().playerNum;
             PlayerCollision lastCollider = GetLastCollider(victimPlayerNum);
             Debug.Log("Kill Credit Time: " + (Time.time - timeForKillCredit));
             if (lastCollider != null) Debug.Log("Last Collider Time: " + lastCollider.time);
@@ -82,7 +82,7 @@ public class SpinnerController : MonoBehaviour {
             float pushModifier = Mathf.Max(Vector2.Dot(pushDirection.normalized, rb2d.velocity.normalized), 0);
             pushModifier = minPushPercent + (pushModifier * (1 - minPushPercent));
             pushes[playerRigidBody] = pushDirection.normalized * PushForce * pushModifier;
-            colliders.Add(new PlayerCollision(Time.time, playerRigidBody.gameObject.GetComponent<PlayerInput>().PlayerNum));
+            colliders.Add(new PlayerCollision(Time.time, playerRigidBody.gameObject.GetComponent<PlayerInput>().playerNum));
         }
     }
 

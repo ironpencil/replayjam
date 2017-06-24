@@ -45,7 +45,7 @@ public class ProjectileController : MonoBehaviour {
         PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
         if (pc != null)
         {
-            int playerNum = pc.gameObject.GetComponent<PlayerInput>().PlayerNum;
+            int playerNum = pc.gameObject.GetComponent<PlayerInput>().playerNum;
             Globals.Instance.GameManager.AddKill(GetLastCollider(playerNum), playerNum, Kill.Weapon.Laser);
             pc.Kill(PlayerController.KillType.Dissolve);
             Destroy(gameObject);
@@ -62,7 +62,7 @@ public class ProjectileController : MonoBehaviour {
             {
                 // Collided with a player's shield?
                 PlayerInput pi = collision.collider.transform.parent.parent.gameObject.GetComponent<PlayerInput>();
-                colliders.Add(pi.PlayerNum);
+                colliders.Add(pi.playerNum);
             }
             catch (NullReferenceException)
             {
