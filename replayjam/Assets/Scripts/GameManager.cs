@@ -28,19 +28,7 @@ public class GameManager : MonoBehaviour {
         
     }
 
-    void SpawnPlayer(int playerNum, int playerPosition)
-    {
-        GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
-        PlayerInput playerScript = player.GetComponent<PlayerInput>();
-        playerScript.playerNum = playerNum;
-
-        playerScript.playerPosition = playerPosition;
-
-        GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
-        playerScript.playerRing = playerRing;
-
-        livingPlayers.Add(playerScript);
-    }
+    
 
     public void SetupGame()
     {
@@ -170,6 +158,115 @@ public class GameManager : MonoBehaviour {
             case 4:
                 player4Color = color;
                 break;
+        }
+    }
+
+
+    void SpawnPlayer(int playerNum, int playerPosition)
+    {
+        GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
+        PlayerInput playerScript = player.GetComponent<PlayerInput>();
+        playerScript.playerNum = playerNum;
+
+        playerScript.playerPosition = playerPosition;
+
+        GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
+        playerScript.playerRing = playerRing;
+
+        livingPlayers.Add(playerScript);
+    }
+
+
+    public void KillPlayer(int playerNum)
+    {
+        PlayerInput pi = livingPlayers.FirstOrDefault(p => p.playerNum == playerNum);
+
+        if (pi != null)
+        {
+            PlayerInput pos1 = livingPlayers.FirstOrDefault(p => p.playerPosition == 1);
+            PlayerInput pos2 = livingPlayers.FirstOrDefault(p => p.playerPosition == 2);
+            PlayerInput pos3 = livingPlayers.FirstOrDefault(p => p.playerPosition == 3);
+            PlayerInput pos4 = livingPlayers.FirstOrDefault(p => p.playerPosition == 4);
+
+            livingPlayers.Remove(pi);
+
+            //get player position
+            int removedPosition = pi.playerPosition;
+
+            int remainingPlayers = livingPlayers.Count;
+
+            if (remainingPlayers == 3)
+            {
+                switch (removedPosition)
+                {
+                    case 1:
+                        pos2.AdjustHingeLimits(-45, -15); //ccw
+                        pos4.AdjustHingeLimits(15, 45); //cw
+                        pos3.AdjustHingeLimits(-15, 15); //both
+                        pos2.playerPosition--;
+                        pos3.playerPosition--;
+                        pos4.playerPosition--;
+                        break;
+                    case 2:
+                        pos3.AdjustHingeLimits(-45, -15); //ccw
+                        pos1.AdjustHingeLimits(15, 45); //cw
+                        pos4.AdjustHingeLimits(-15, 15); //both
+                        pos3.playerPosition--;
+                        pos4.playerPosition--;
+                        break;
+                    case 3:
+                        pos4.AdjustHingeLimits(-45, -15); //ccw
+                        pos2.AdjustHingeLimits(15, 45); //cw
+                        pos1.AdjustHingeLimits(-15, 15); //both
+                        pos4.playerPosition--;
+                        break;
+                    case 4:
+                        pos1.AdjustHingeLimits(-45, -15); //ccw
+                        pos3.AdjustHingeLimits(15, 45); //cw
+                        pos2.AdjustHingeLimits(-15, 15); //both
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (remainingPlayers == 2)
+            {
+                switch (removedPosition)
+                {
+                    case 1:
+                        pos2.AdjustHingeLimits(-60, 0); //ccw
+                        pos3.AdjustHingeLimits(0, 60); //cw
+                        pos2.playerPosition--;
+                        pos3.playerPosition--;
+                        break;
+                    case 2:
+                        pos3.AdjustHingeLimits(-60, 0); //ccw
+                        pos1.AdjustHingeLimits(0, 60); //cw
+                        pos3.playerPosition--;
+                        break;
+                    case 3:
+                        pos1.AdjustHingeLimits(-60, 0); //ccw
+                        pos2.AdjustHingeLimits(0, 60); //cw
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (remainingPlayers == 1)
+            {
+                //someone won!
+            }
+            else
+            {
+                // wtf?? all dead??
+            }
+
+
+
+
+
+
+
         }
     }
 }

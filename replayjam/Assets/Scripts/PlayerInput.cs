@@ -32,6 +32,7 @@ public class PlayerInput : MonoBehaviour {
     Rigidbody2D rb2d;
 
     bool playerPaused = false;
+    public bool kill = false;
 
     public ThrustStyle thrustStyle;
 
@@ -103,6 +104,11 @@ public class PlayerInput : MonoBehaviour {
         if (Globals.Instance.acceptPlayerGameInput)
         {
             HandleAttack();
+        }
+
+        if (kill)
+        {
+            Kill();
         }
     }
 
@@ -233,7 +239,7 @@ public class PlayerInput : MonoBehaviour {
 
             if (cross.z < 0) ang = ang * -1;
 
-            Debug.Log(fromDir + " " + toDir + " " + ang);
+            //Debug.Log(fromDir + " " + toDir + " " + ang);
 
             Vector3 thrust = Vector3.zero;
 
@@ -300,5 +306,24 @@ public class PlayerInput : MonoBehaviour {
     public void Kill()
     {
         Destroy(gameObject);
+        ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
+        ps.Stop();
+        Destroy(playerRing, 5.0f);
+
+        Globals.Instance.GameManager.KillPlayer(playerNum);
+    }
+
+    public void AdjustHingeLimits(float min, float max)
+    {
+        JointAngleLimits2D limits = hinge.limits;
+        limits.min += min;
+        limits.max += max;
+
+        hinge.limits = limits;
+
+        playerRing.transform.Rotate(new Vector3(0, 0, max * -1));
+        ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
+        var shape = ps.shape;
+        shape.arc = limits.max - limits.min;
     }
 }
