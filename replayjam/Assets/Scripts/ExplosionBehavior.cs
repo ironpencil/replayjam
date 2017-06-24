@@ -41,7 +41,7 @@ public class ExplosionBehavior : MonoBehaviour {
         {
             foreach (Explosive ex in explosives)
             {
-                ex.KilledPlayer(pc.gameObject.GetComponent<PlayerInput>().PlayerNum);
+                ex.KilledPlayer(pc.gameObject.GetComponent<PlayerInput>().playerNum);
             }
             pc.Kill(PlayerController.KillType.Explode);
         }

@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour {
                 if (numPlayers > 1)
                 {
                     //stop, this player won
-                    lastRoundWinner = livingPlayersList[0].GetComponent<PlayerInput>().PlayerNum;
+                    lastRoundWinner = livingPlayersList[0].GetComponent<PlayerInput>().playerNum;
                     StartCoroutine(EndRound());
                 }
             }
@@ -203,9 +203,8 @@ public class GameManager : MonoBehaviour {
             GameObject player = GameObject.Instantiate(playerPrefab, dynamicsParent);
             player.transform.position = playerSpawnPoints[playerNum-1].position;
             livingPlayers[playerNum] = player.GetComponent<PlayerController>();
-            livingPlayers[playerNum].GetComponent<PlayerInput>().PlayerNum = playerNum; //todo: clean this up
+            livingPlayers[playerNum].GetComponent<PlayerInput>().playerNum = playerNum; //todo: clean this up
             SpriteRenderer psr = player.GetComponent<PlayerInput>().sprite.GetComponent<SpriteRenderer>();
-            SpriteRenderer ssr = player.GetComponent<PlayerInput>().shield.GetComponent<SpriteRenderer>();
 
             switch (playerNum)
             {
@@ -399,7 +398,7 @@ public class GameManager : MonoBehaviour {
         {
             if (player != null)
             {
-                playerStats[player.GetComponent<PlayerInput>().PlayerNum].survivalTime += Time.time - roundStartTime;
+                playerStats[player.GetComponent<PlayerInput>().playerNum].survivalTime += Time.time - roundStartTime;
                 Destroy(player.gameObject);
             }
         }

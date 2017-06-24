@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (isDead)
         {
-            int playerNum = gameObject.GetComponent<PlayerInput>().PlayerNum;
+            int playerNum = gameObject.GetComponent<PlayerInput>().playerNum;
             Globals.Instance.GameManager.playerStats[playerNum].survivalTime += Time.time - Globals.Instance.GameManager.roundStartTime;
             Destroy(gameObject);
             Globals.Instance.GameManager.livingPlayers.Remove(playerNum);          
