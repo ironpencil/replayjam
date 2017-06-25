@@ -452,7 +452,7 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: beae9712c823382408ecfe3d9ad8b503, type: 3}
   playRandom: 0
-  volume: 1
+  volume: 0.3
   variableVolume: 0
   volumeMin: 0.9
   volumeMax: 1
@@ -682,7 +682,7 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 08fd494217246734b96969546a1e7a40, type: 3}
   playRandom: 0
-  volume: 1
+  volume: 0.3
   variableVolume: 0
   volumeMin: 0.9
   volumeMax: 1

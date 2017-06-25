@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: GameEnd
-  useUISource: 0
+  useUISource: 1
   clips:
   - {fileID: 8300000, guid: e6d11b95a2032da40a238f0e0a9690d7, type: 3}
   playRandom: 0
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: RoundEnd
-  useUISource: 0
+  useUISource: 1
   clips:
   - {fileID: 8300000, guid: b3240c85617645b48b9512b5befe92c2, type: 3}
   playRandom: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: RoundStart
-  useUISource: 0
+  useUISource: 1
   clips:
   - {fileID: 8300000, guid: fe3c8e4c7562bbb449edc30884ff8ec7, type: 3}
   playRandom: 0
