@@ -15,19 +15,21 @@ public class PortraitBehavior : MonoBehaviour {
     private float startTime;
     public Vector2 startPos;
     public Vector2 endPos;
-    public float slideTime;
+    public float minSlideTime;
+    public float maxSlideTime;
+    private float slideTime;
     public AnimationCurve slideCurve;
 
     // Use this for initialization
     void Start () {
         startTime = Time.time;
         rt = GetComponent<RectTransform>();
+        slideTime = UnityEngine.Random.Range(minSlideTime, maxSlideTime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
         float percent = slideCurve.Evaluate((Time.time - startTime) / slideTime);
-        Debug.Log("Percent: " + percent);
-        rt.position = Vector2.Lerp(startPos, endPos, percent);
+        rt.anchoredPosition = Vector2.Lerp(startPos, endPos, percent);
 	}
 }
