@@ -169,9 +169,6 @@ public class PlayerInput : MonoBehaviour {
                 min = reticalLowMin;
             }
             
-            Debug.Log("General Angle: " + angle);
-            Debug.Log("Local Angle: " + retical.localEulerAngles.z);
-
             if (retical.localEulerAngles.z > max || retical.localEulerAngles.z < min)
             {
                 retical.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(retical.localEulerAngles.z, min, max));
