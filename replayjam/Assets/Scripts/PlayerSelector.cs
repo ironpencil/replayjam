@@ -65,7 +65,11 @@ public class PlayerSelector : MonoBehaviour {
     public void Join()
     {
         playerJoined = true;
-        Globals.Instance.GameManager.AddPlayer(playerNum);
+        PlayerInfo pi = new PlayerInfo();
+        pi.playerNum = playerNum;
+        pi.name = "Player " + playerNum;
+        pi.roundsWon = 0;
+        Globals.Instance.GameManager.AddPlayer(pi);
         if (playerStatus != null)
         {
             playerStatus.text = "Joined! Press B to cancel...";

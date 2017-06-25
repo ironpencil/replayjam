@@ -4,7 +4,6 @@ using XboxCtrlrInput;
 using System;
 
 public class PlayerInput : MonoBehaviour {
-    public int playerNum = 1;
     public int playerPosition = 1;
     public int playerHealth = 3;
     public float maxReticalX;
@@ -35,6 +34,7 @@ public class PlayerInput : MonoBehaviour {
     public bool kill = false;
 
     public ThrustStyle thrustStyle;
+    public PlayerInfo playerInfo;
 
     public enum ThrustStyle
     {
@@ -82,7 +82,7 @@ public class PlayerInput : MonoBehaviour {
 
         hinge.enabled = true;
 
-        Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerNum);
+        Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
         playerColor.a = shieldAlpha;
 
         aura.color = playerColor;
@@ -310,7 +310,7 @@ public class PlayerInput : MonoBehaviour {
         ps.Stop();
         Destroy(playerRing, 5.0f);
 
-        Globals.Instance.GameManager.KillPlayer(playerNum);
+        Globals.Instance.GameManager.KillPlayer(playerInfo.playerNum);
     }
 
     public void AdjustHingeLimits(float min, float max)

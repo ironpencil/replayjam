@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour {
 
     public int numPlayers = 2;
 
-    public List<int> joinedPlayers = new List<int>();
+    public PlayerInfo lastRoundWinner;
 
+    public List<PlayerInfo> joinedPlayers;
     public List<PlayerInput> livingPlayers;
 
     public bool isRoundActive = false;
@@ -24,18 +25,16 @@ public class GameManager : MonoBehaviour {
     public Color player4Color = Color.yellow;
 
     public PlayerSelectController playerSelect;
+    public RoundWonBehavior roundWonScreen;
 
     // Use this for initialization
     void Start () {
         
     }
-
     
-
     public void SetupGame()
     {
         CleanupRound();
-
         playerSelect.gameObject.SetActive(true);   
     }
     
@@ -46,10 +45,17 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
         if (isRoundActive)
         {
-            
+            if (livingPlayers.Count == 1)
+            {
+                lastRoundWinner = livingPlayers[0].playerInfo;
+                lastRoundWinner.roundsWon++;
+                roundWonScreen.Display();
+            } else if (livingPlayers.Count == 0)
+            {
+                DisplayTieScreen();
+            }
         } else
         {
             if (isRoundReady && Input.anyKeyDown)
@@ -59,14 +65,19 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    public void AddPlayer(int playerNum)
+    public void DisplayTieScreen()
     {
-        if (!joinedPlayers.Contains(playerNum)) { joinedPlayers.Add(playerNum); }
+
+    }
+
+    public void AddPlayer(PlayerInfo player)
+    {
+        if (!joinedPlayers.Contains(player)) { joinedPlayers.Add(player); }
     }
 
     public void RemovePlayer(int playerNum)
     {
-       if (joinedPlayers.Contains(playerNum)) { joinedPlayers.Remove(playerNum); }
+        joinedPlayers.RemoveAt(playerNum);
     }
 
     public void DisplayPlayerSetup()
@@ -82,17 +93,16 @@ public class GameManager : MonoBehaviour {
         isRoundReady = false;
 
         playerSelect.gameObject.SetActive(false);
+        joinedPlayers = joinedPlayers.Where(p => p.playerNum > 0).ToList();
 
-        joinedPlayers = joinedPlayers.Where(p => p > 0).ToList();
         joinedPlayers.Sort();
 
         numPlayers = joinedPlayers.Count;
 
         for (int i = 0; i < numPlayers; i++)
         {
-            SpawnPlayer(joinedPlayers[i], i + 1);
+            SpawnPlayer(joinedPlayers[i].playerNum, i + 1);
         }
-
         
     }
 
@@ -169,12 +179,12 @@ public class GameManager : MonoBehaviour {
     {
         GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
         PlayerInput playerScript = player.GetComponent<PlayerInput>();
-        playerScript.playerNum = playerNum;
 
         playerScript.playerPosition = playerPosition;
 
         GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
         playerScript.playerRing = playerRing;
+        playerScript.playerInfo = joinedPlayers[playerNum];
 
         livingPlayers.Add(playerScript);
     }
@@ -182,7 +192,7 @@ public class GameManager : MonoBehaviour {
 
     public void KillPlayer(int playerNum)
     {
-        PlayerInput pi = livingPlayers.FirstOrDefault(p => p.playerNum == playerNum);
+        PlayerInput pi = livingPlayers.FirstOrDefault(p => p.playerInfo.playerNum == playerNum);
 
         if (pi != null)
         {
@@ -263,13 +273,6 @@ public class GameManager : MonoBehaviour {
             {
                 // wtf?? all dead??
             }
-
-
-
-
-
-
-
         }
     }
 }
