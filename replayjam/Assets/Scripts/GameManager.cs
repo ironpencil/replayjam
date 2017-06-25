@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 
     public int numPlayers = 2;
 
-    public List<int> joinedPlayers;
+    public List<int> joinedPlayers = new List<int>();
 
     public List<PlayerInput> livingPlayers;
 
@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour {
     public Color player3Color = Color.blue;
     public Color player4Color = Color.yellow;
 
+    public PlayerSelectController playerSelect;
+
     // Use this for initialization
     void Start () {
         
@@ -34,9 +36,7 @@ public class GameManager : MonoBehaviour {
     {
         CleanupRound();
 
-        
-        StartRound();
-        
+        playerSelect.gameObject.SetActive(true);   
     }
     
     void UpdateHud()
@@ -77,10 +77,11 @@ public class GameManager : MonoBehaviour {
     public void StartRound()
     {
 
-        livingPlayers.Clear();
-
+        
         isRoundActive = true;
         isRoundReady = false;
+
+        playerSelect.gameObject.SetActive(false);
 
         joinedPlayers = joinedPlayers.Where(p => p > 0).ToList();
         joinedPlayers.Sort();
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour {
             SpawnPlayer(joinedPlayers[i], i + 1);
         }
 
+        
     }
 
    
@@ -120,10 +122,11 @@ public class GameManager : MonoBehaviour {
             Destroy(trans.gameObject);
         }
 
+        livingPlayers.Clear();
 
     }
 
-    
+
 
     internal Color GetPlayerColor(int playerNum)
     {

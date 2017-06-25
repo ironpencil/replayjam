@@ -45,7 +45,7 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
-        xboxController = (XboxController)1;// playerNum;
+        xboxController = (XboxController) playerNum;
 
         //JointAngleLimits2D limits = new JointAngleLimits2D();
         //limits.min = 180 * (playerNum - 1);
@@ -137,7 +137,7 @@ public class PlayerInput : MonoBehaviour {
 
     private void HandleAttack()
     {
-        if (XCI.GetButton(XboxButton.RightBumper))
+        if (XCI.GetButton(XboxButton.RightBumper, xboxController))
         {
             gun.Shoot();
         }
