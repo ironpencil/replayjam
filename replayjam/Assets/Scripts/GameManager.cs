@@ -14,14 +14,15 @@ public class GameManager : MonoBehaviour {
 
     public List<PlayerInfo> joinedPlayers = new List<PlayerInfo>();
     public List<PlayerInput> livingPlayers;
-
-    public bool isRoundActive = false;
+    
+public bool isRoundActive = false;
     public bool isRoundReady = false;
 
     public GameObject playerPrefab;
     public GameObject ringPrefab;
     public List<Color> playerColors = new List<Color>() { Color.red, Color.green, Color.blue, Color.yellow };
     public List<Sprite> playerSprites;
+    public List<PortraitBehavior> playerPortraits;
 
     public PlayerSelectController playerSelect;
     public RoundWonBehavior roundWon;
@@ -123,6 +124,8 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < numPlayers; i++)
         {
             SpawnPlayer(joinedPlayers[i], i + 1);
+            playerPortraits[joinedPlayers[i].playerNum - 1].transform.parent.gameObject.SetActive(true);
+            playerPortraits[joinedPlayers[i].playerNum - 1].SlideIn();
         }
 
         if (numPlayers == 4)
@@ -153,6 +156,11 @@ public class GameManager : MonoBehaviour {
         foreach (Transform trans in Globals.Instance.dynamicsParent)
         {
             Destroy(trans.gameObject);
+        }
+
+        foreach (PlayerInput pi in livingPlayers)
+        {
+            playerPortraits[pi.playerInfo.playerNum - 1].SlideOut();
         }
 
         livingPlayers.Clear();
@@ -187,6 +195,7 @@ public class GameManager : MonoBehaviour {
         playerScript.playerRing = playerRing;
         playerScript.playerInfo = pi;
         playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
+        playerScript.portrait = playerPortraits[pi.playerNum - 1];
 
         livingPlayers.Add(playerScript);
     }
@@ -194,6 +203,8 @@ public class GameManager : MonoBehaviour {
 
     public void KillPlayer(int playerNum)
     {
+        playerPortraits[playerNum - 1].SlideOut();
+
         PlayerInput pi = livingPlayers.FirstOrDefault(p => p.playerInfo.playerNum == playerNum);
 
         if (pi != null)
