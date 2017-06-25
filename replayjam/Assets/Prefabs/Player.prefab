@@ -418,8 +418,8 @@ MonoBehaviour:
   destShieldPrefab: {fileID: 1297483270237544, guid: 28bc101792bc6ab4d9bc4f9bafa01c1d,
     type: 2}
   playerExplosion: {fileID: 1638691807027702, guid: 31fece60878628044a57934daa6c6534,
-  portrait: {fileID: 0}
     type: 2}
+  portrait: {fileID: 0}
   playerShip: {fileID: 212118974415905750}
   blink: {r: 0, g: 0, b: 0, a: 0}
   playerRing: {fileID: 0}
