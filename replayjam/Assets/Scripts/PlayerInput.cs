@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour {
     public ParticleSystem shield;
     public GameObject destShieldPrefab;
     public GameObject playerExplosion;
+    public PortraitBehavior portrait;
 
     //public float shieldAlpha = 0.35f;
 
@@ -44,6 +45,7 @@ public class PlayerInput : MonoBehaviour {
     public ThrustStyle thrustStyle;
     public PlayerInfo playerInfo;
 
+    public GameObjectShaker portraitShaker;
     public SoundEffectHandler shieldHitSound;
     public SoundEffectHandler shipHitSound;
     public SoundEffectHandler shieldFadeSound;
@@ -58,6 +60,8 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
+        portraitShaker = gameObject.GetComponent<GameObjectShaker>();
+        portraitShaker.shakeObject = portrait.gameObject.GetComponent<GameObjectShake>();
 
         xboxController = (XboxController) playerInfo.playerNum;
 
@@ -236,9 +240,7 @@ public class PlayerInput : MonoBehaviour {
         float leftThrust = XCI.GetAxisRaw(XboxAxis.LeftTrigger, xboxController);
 
         Vector3 thrust = (transform.up * rightThrust * maxThrust) + (-transform.up * leftThrust * maxThrust);
-
-        Debug.Log("Thrust: " + thrust);
-
+        
         rb2d.AddForce(thrust, ForceMode2D.Force);
     }
 
@@ -255,8 +257,6 @@ public class PlayerInput : MonoBehaviour {
             Vector2 fromDir = transform.localPosition.normalized;
             
             float ang = Vector2.Angle(fromDir, toDir);
-
-            
 
             Vector3 cross = Vector3.Cross(fromDir, toDir);
 
@@ -317,6 +317,10 @@ public class PlayerInput : MonoBehaviour {
 
         if (invincibleTimeLeft == 0)
         {
+            Debug.Log("Preparing to shake " + playerInfo.playerNum);
+            portraitShaker.Shake();
+            portrait.TakeDamage();
+
             invincibleTimeLeft = invincibleTime;
 
             StartCoroutine(HandleInvincibility());

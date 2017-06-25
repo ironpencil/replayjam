@@ -18,7 +18,7 @@ public class PlayerSelector : MonoBehaviour {
     XboxController controller;
 
     PlayerInfo pInfo;
-
+    
     // Use this for initialization
     void Start () {
         controller = (XboxController)playerNum;
