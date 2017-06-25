@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviour {
     public float reticalHighMin;
     public ParticleSystem shield;
     public GameObject destShieldPrefab;
+    public GameObject playerExplosion;
 
     //public float shieldAlpha = 0.35f;
 
@@ -392,10 +393,18 @@ public class PlayerInput : MonoBehaviour {
     {
         shipExplodeSound.PlayEffect();
 
+        GameObject explosion = GameObject.Instantiate(playerExplosion, transform.position, Quaternion.identity, Globals.Instance.dynamicsParent);
+
+        ParticleSystem explosionPS = explosion.GetComponent<ParticleSystem>();
+
+        var main = explosionPS.main;
+        main.startColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
+
         Destroy(gameObject);
         ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
         ps.Stop();
         Destroy(playerRing, 5.0f);
+        Destroy(explosion, 5.0f);
 
         Globals.Instance.GameManager.KillPlayer(playerInfo.playerNum);
     }
