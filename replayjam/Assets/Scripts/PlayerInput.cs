@@ -6,6 +6,8 @@ using System;
 public class PlayerInput : MonoBehaviour {
     public int playerPosition = 1;
     public int playerHealth = 3;
+    public float invincibleTime = 3;
+    private float invincibleTimeLeft = 0;
     public float maxReticalX;
     public float maxReticalY;
     public Transform retical;
@@ -13,10 +15,14 @@ public class PlayerInput : MonoBehaviour {
     public float reticalLowMin;
     public float reticalHighMax;
     public float reticalHighMin;
+    public ParticleSystem shield;
+    public GameObject destShieldPrefab;
 
     //public float shieldAlpha = 0.35f;
 
     public SpriteRenderer playerShip;
+    public Color blink;
+
     //public SpriteRenderer aura;
     public GameObject playerRing;
 
@@ -46,6 +52,7 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
+
         xboxController = (XboxController) playerInfo.playerNum;
 
         //JointAngleLimits2D limits = new JointAngleLimits2D();
@@ -84,8 +91,10 @@ public class PlayerInput : MonoBehaviour {
         hinge.enabled = true;
 
         Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
-        playerColor.a = 0.25f;
 
+        playerColor.a = 0.25f;
+        blink = playerColor;
+        
         //aura.color = playerColor;
 
 
@@ -102,6 +111,15 @@ public class PlayerInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (invincibleTimeLeft > 0)
+        {
+            invincibleTimeLeft -= Time.deltaTime;
+            if (invincibleTimeLeft < 0)
+            {
+                invincibleTimeLeft = 0;
+            }
+        }
+        
         if (Globals.Instance.acceptPlayerGameInput)
         {
             HandleAttack();
@@ -288,17 +306,71 @@ public class PlayerInput : MonoBehaviour {
 
     public bool Hit()
     {
-        playerHealth--;
-
         bool killed = false;
 
-        if (playerHealth < 1)
+        if (invincibleTimeLeft == 0)
         {
-            Kill();
-            killed = true;
+            invincibleTimeLeft = invincibleTime;
+
+            StartCoroutine(HandleInvincibility());
+            
+            playerHealth--;
+            
+            if (playerHealth < 1)
+            {
+                Kill();
+                killed = true;
+            } else if (playerHealth == 2)
+            {
+                ParticleSystem.MainModule main = shield.main;
+                main.simulationSpeed = 3.0f;
+            } else if (playerHealth == 1)
+            {
+                StartCoroutine(DestroyShield());
+            }
         }
         
         return killed;
+    }
+
+    IEnumerator DestroyShield()
+    {
+        shield.gameObject.SetActive(false);
+        GameObject destShield = GameObject.Instantiate(destShieldPrefab, gameObject.transform);
+        SpriteRenderer shieldSprite = destShield.GetComponentInChildren<SpriteRenderer>();
+        bool isFading = true;
+        while (isFading)
+        {
+            Color newColor = shieldSprite.color;
+            newColor.a -= 0.05f;
+            isFading = newColor.a > 0;
+            shieldSprite.color = newColor;
+
+            yield return new WaitForSecondsRealtime(0.05f);
+        }
+
+        destShield.SetActive(false);
+    }
+
+    IEnumerator HandleInvincibility()
+    {
+        bool isBlinking = false;
+        while (invincibleTimeLeft > 0)
+        {
+            isBlinking = !isBlinking;
+
+            if (isBlinking)
+            {
+                playerShip.color = blink;
+            } else
+            {
+                playerShip.color = Color.white;
+            }
+            
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        playerShip.color = Color.white;
     }
 
     public void Kill()

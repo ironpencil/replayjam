@@ -66,7 +66,6 @@ public class RoundWonBehavior : MonoBehaviour {
 
         foreach (PlayerInfo pi in gm.joinedPlayers)
         {
-            Debug.Log("playerNum: " + pi.playerNum);
             playerNames[i].transform.parent.gameObject.SetActive(true);
 
             Color playerColor = gm.GetPlayerColor(pi.playerNum);
