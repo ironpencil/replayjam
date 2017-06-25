@@ -117,6 +117,7 @@ public class Globals : Singleton<Globals>
         //AudioManager.Instance.StartMusic(AudioManager.Instance.musicFadeInTime, false);
 
         //TODO: do screen transition in
+        AudioManager.Instance.StartGameMusic();
         GameManager.SetupGame();
     }
 

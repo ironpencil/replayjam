@@ -50,7 +50,7 @@ public class ShootProjectiles : MonoBehaviour {
 
             bulletRB.AddForce(transform.up * shootForce, ForceMode2D.Impulse);
 
-            GameObject.Destroy(bullet, 10.0f);
+            GameObject.Destroy(bullet, 5.0f);
 
             if (shootSound != null) { shootSound.PlayEffect(); }
 

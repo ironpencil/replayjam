@@ -20,7 +20,7 @@ public class RoundWonBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        UpdateFields();
+        //UpdateFields();
 
         for (int i = 1; i <= 4; i++)
         {

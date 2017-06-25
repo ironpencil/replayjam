@@ -6,7 +6,8 @@ public class AudioManager : Singleton<AudioManager>
 {
     public AudioSource sfxSource;
     public AudioSource sharedSFXSource;
-    public AudioSource musicSource;
+    public AudioSource musicSource1;
+    public AudioSource musicSource2;
     public AudioSource uiSource;
 
     public float volumeIncrement = 0.1f;
@@ -25,6 +26,8 @@ public class AudioManager : Singleton<AudioManager>
         if (this == null) { return; }
 
         AudioListener.volume = startingVolume;
+
+        StartMusic(musicSource1, 2.0f, true);
     }
 
     // Update is called once per frame
@@ -41,6 +44,12 @@ public class AudioManager : Singleton<AudioManager>
         //}
     }
 
+    public void StartGameMusic()
+    {
+        StartMusic(musicSource2, 0.5f, true);
+        StopMusic(musicSource1, 0.5f);
+    }
+
     public void SetVolume(float volume)
     {
         AudioListener.volume = Mathf.Clamp(volume, minVolume, maxVolume);
@@ -48,10 +57,10 @@ public class AudioManager : Singleton<AudioManager>
 
     public void SetMusicVolume(float volume)
     {
-        musicSource.volume = Mathf.Clamp(volume, minVolume, maxVolume);
+        //musicSource1.volume = Mathf.Clamp(volume, minVolume, maxVolume);
     }
 
-    public void StartMusic(float fadeInTime, bool restartIfPlaying)
+    public void StartMusic(AudioSource musicSource, float fadeInTime, bool restartIfPlaying)
     {
         if (musicSource.isPlaying)
         {
@@ -60,10 +69,10 @@ public class AudioManager : Singleton<AudioManager>
             musicSource.Stop();
         }
 
-        StartCoroutine(DoStartMusic(fadeInTime));
+        StartCoroutine(DoStartMusic(musicSource, fadeInTime));
     }
 
-    private IEnumerator DoStartMusic(float fadeInTime)
+    private IEnumerator DoStartMusic(AudioSource musicSource, float fadeInTime)
     {
         float startTime = Time.time;
         float elapsedTime = 0.0f;
@@ -82,8 +91,30 @@ public class AudioManager : Singleton<AudioManager>
         musicSource.volume = targetVolume;
     }
 
-    public void StopMusic()
+    public void StopMusic(AudioSource musicSource, float fadeOutTime)
     {
+        if (musicSource.isPlaying)
+        {
+            StartCoroutine(DoStopMusic(musicSource, fadeOutTime));
+        }        
+    }
+
+    private IEnumerator DoStopMusic(AudioSource musicSource, float fadeOutTime)
+    {
+        float startTime = Time.time;
+        float elapsedTime = 0.0f;
+
+        float targetVolume = 0.0f;
+        float startVolume = musicSource.volume;
+
+        while (elapsedTime < fadeOutTime)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsedTime = Time.time - startTime;
+            musicSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / fadeOutTime);
+        }
+
+        musicSource.volume = targetVolume;
         musicSource.Stop();
     }
 
@@ -91,11 +122,11 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (pause)
         {
-            musicSource.Pause();
+            musicSource1.Pause();
         }
         else
         {
-            musicSource.UnPause();
+            musicSource1.UnPause();
         }
     }
 

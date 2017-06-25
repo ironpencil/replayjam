@@ -88,8 +88,6 @@ public class TitleController : MonoBehaviour {
         StartCoroutine(WaitThenPlay(titleSound, titleBeginTime));
 
         directions.SetAlpha(0.0f);
-
-        AudioManager.Instance.StartMusic(AudioManager.Instance.musicFadeInTime, false);
     }
 
     IEnumerator DoMoveTransform(RectTransform t, Vector2 from, Vector2 to, float start, float duration, AnimationCurve easing)

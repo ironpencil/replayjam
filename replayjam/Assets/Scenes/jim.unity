@@ -366,7 +366,7 @@ MonoBehaviour:
   pauseScreenUI: {fileID: 0}
   paused: 0
   acceptPlayerGameInput: 1
-  playIntro: 1
+  playIntro: 0
   deletePlayerPrefs: 0
   firstPanel: {fileID: 608655846}
   screenTransition: {fileID: 683861667}
@@ -435,7 +435,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 1792470905}
   sharedSFXSource: {fileID: 1019427625}
-  musicSource: {fileID: 72804923}
+  musicSource1: {fileID: 72804923}
+  musicSource2: {fileID: 1252518662}
   uiSource: {fileID: 1072607609}
   volumeIncrement: 0.1
   startingVolume: 0.8
@@ -1170,24 +1171,34 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 82140379348337620, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+    - target: {fileID: 82116971603142524, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
         type: 2}
-      propertyPath: spreadCustomCurve.m_RotationOrder
-      value: 0
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ce7aa82511939114e940234493bd878d, type: 3}
+    - target: {fileID: 82372431372937632, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 21fbbe380b390d04189979204eaf109f, type: 3}
+    - target: {fileID: 82116971603142524, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.75
       objectReference: {fileID: 0}
-    - target: {fileID: 82140379348337620, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+    - target: {fileID: 82372431372937632, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
         type: 2}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82651978998503766, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
-        type: 2}
-      propertyPath: spreadCustomCurve.m_RotationOrder
-      value: 0
+      propertyPath: m_Volume
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db0272d8e6e3bca4c9cbfde1f98a268c, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &1252518662 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82372431372937632, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1252518661}
 --- !u!224 &1342141487
 RectTransform:
   m_ObjectHideFlags: 0

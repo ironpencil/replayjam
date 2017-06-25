@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour {
     
     public void EndGame()
     {
-        CleanupRound();
+        CleanupGame();
         victory.gameObject.SetActive(true);
     }
 
     public void SetupGame()
     {
-        CleanupRound();
+        CleanupGame();
         playerSelect.gameObject.SetActive(true);
     }
     
@@ -140,10 +140,12 @@ public class GameManager : MonoBehaviour {
         //Time.timeScale = 0.0f;
         
         yield return new WaitForSecondsRealtime(2.0f);
-        
+
+        roundWon.DisplayScreen();
+
         CleanupRound();
         //Time.timeScale = 1.0f;
-        roundWon.DisplayScreen();
+        
     }
 
     private void CleanupRound()
@@ -157,10 +159,15 @@ public class GameManager : MonoBehaviour {
 
         livingPlayers.Clear();
 
+    }
+
+    private void CleanupGame()
+    {
+        CleanupRound();
+
         joinedPlayers = new List<PlayerInfo>();
 
         playerSelect.ResetScreen();
-
     }
 
 
