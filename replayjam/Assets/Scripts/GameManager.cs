@@ -61,21 +61,36 @@ public class GameManager : MonoBehaviour {
             }
         } else
         {
-            if (isRoundReady && Input.anyKeyDown)
-            {
-                StartRound();
-            }
+            //if (isRoundReady && Input.anyKeyDown)
+            //{
+            //    StartRound();
+            //}
         }
 	}
 
     public void AddPlayer(PlayerInfo player)
     {
         if (!joinedPlayers.Contains(player)) { joinedPlayers.Add(player); }
+
+        CheckPlayerCount();
     }
 
     public void RemovePlayer(PlayerInfo player)
     {
         joinedPlayers.Remove(player);
+
+        CheckPlayerCount();
+    }
+
+    void CheckPlayerCount()
+    {
+        bool wasRoundReady = isRoundReady;
+        isRoundReady = joinedPlayers.Count > 1;
+
+        if (wasRoundReady != isRoundReady)
+        {
+            playerSelect.DisplayStartGame(isRoundReady);
+        }
     }
 
     public void DisplayPlayerSetup()

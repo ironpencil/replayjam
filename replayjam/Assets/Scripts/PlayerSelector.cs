@@ -59,8 +59,7 @@ public class PlayerSelector : MonoBehaviour {
         if (XCI.GetButtonDown(XboxButton.Start, controller))
         {
 
-            //todo: make it so that game can only start with 2 or more players
-            if (playerJoined)
+            if (playerJoined && Globals.Instance.GameManager.isRoundReady)
             {
                 //start game!
                 Globals.Instance.GameManager.StartRound();

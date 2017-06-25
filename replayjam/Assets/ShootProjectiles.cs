@@ -13,6 +13,8 @@ public class ShootProjectiles : MonoBehaviour {
 
     public Vector2 spawnOffset;
 
+    public SoundEffectHandler shootSound;
+
     float lastShot = 0.0f;
 
 	// Use this for initialization
@@ -49,6 +51,8 @@ public class ShootProjectiles : MonoBehaviour {
             bulletRB.AddForce(transform.up * shootForce, ForceMode2D.Impulse);
 
             GameObject.Destroy(bullet, 10.0f);
+
+            if (shootSound != null) { shootSound.PlayEffect(); }
 
             lastShot = Time.time;
         }

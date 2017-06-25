@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4435403763373654}
   - component: {fileID: 114012758290588268}
+  - component: {fileID: 114676440155957488}
   m_Layer: 17
   m_Name: Hand
   m_TagString: Untagged
@@ -257,6 +258,7 @@ MonoBehaviour:
   shootForce: 25
   shootInterval: 0.5
   spawnOffset: {x: 0, y: 0}
+  shootSound: {fileID: 114676440155957488}
 --- !u!114 &114094880503600548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,6 +301,38 @@ MonoBehaviour:
   maxThrust: 1000
   kill: 0
   thrustStyle: 1
+--- !u!114 &114676440155957488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628019337936026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Shoot
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: 7dfcffc8b2068f845bb7509f1454e7eb, type: 3}
+  - {fileID: 8300000, guid: e9d504cc60e8a064384a6926d13a12f8, type: 3}
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!198 &198739360664260542
 ParticleSystem:
   m_ObjectHideFlags: 1
