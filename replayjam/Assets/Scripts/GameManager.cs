@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
     
     public void EndGame()
     {
+        joinedPlayers = new List<PlayerInfo>();
+        playerSelect.ResetScreen();
         victory.gameObject.SetActive(true);
     }
 
@@ -44,11 +46,6 @@ public class GameManager : MonoBehaviour {
         playerSelect.gameObject.SetActive(true);
     }
     
-    void UpdateHud()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update () {
         

@@ -83,6 +83,12 @@ public class PlayerSelector : MonoBehaviour {
     {
         playerStatus.text = "Press A to join!";
         playerJoined = false;
+
         Globals.Instance.GameManager.RemovePlayer(pInfo);
+
+        pInfo = new PlayerInfo();
+        pInfo.playerNum = playerNum;
+        pInfo.name = "Player " + playerNum;
+        pInfo.roundsWon = 0;
     }
 }

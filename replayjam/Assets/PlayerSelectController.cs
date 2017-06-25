@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerSelectController : MonoBehaviour {
 
     public Text startGame;
+    public List<PlayerSelector> playerSelectors;
 
 	// Use this for initialization
 	void Start () {
@@ -16,4 +17,12 @@ public class PlayerSelectController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void ResetScreen()
+    {
+        foreach (PlayerSelector ps in playerSelectors)
+        {
+            ps.Leave();
+        }
+    }
 }

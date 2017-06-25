@@ -6,15 +6,18 @@ using XboxCtrlrInput;
 
 public class VictoryBehavior : MonoBehaviour {
     public Text victoryText;
+    public GameManager gm;
 
 	// Use this for initialization
 	void Start () {
-		
+        gm = Globals.Instance.GameManager;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        victoryText.text = Globals.Instance.GameManager.lastRoundWinner.name + " is the victor!";
+        
+        victoryText.text = gm.lastRoundWinner.name + " is the victor!";
+        victoryText.color = gm.GetPlayerColor(gm.lastRoundWinner.playerNum);
 
         for (int i = 1; i <= 4; i++)
         {
