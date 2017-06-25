@@ -25,17 +25,23 @@ public class GameManager : MonoBehaviour {
     public Color player4Color = Color.yellow;
 
     public PlayerSelectController playerSelect;
-    public RoundWonBehavior roundWonScreen;
+    public RoundWonBehavior roundWon;
+    public VictoryBehavior victory;
 
     // Use this for initialization
     void Start () {
         
     }
     
+    public void EndGame()
+    {
+        victory.gameObject.SetActive(true);
+    }
+
     public void SetupGame()
     {
         CleanupRound();
-        playerSelect.gameObject.SetActive(true);   
+        playerSelect.gameObject.SetActive(true);
     }
     
     void UpdateHud()
@@ -45,16 +51,18 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        
         if (isRoundActive)
         {
             if (livingPlayers.Count == 1)
             {
                 lastRoundWinner = livingPlayers[0].playerInfo;
                 lastRoundWinner.roundsWon++;
-                roundWonScreen.Display();
+                StartCoroutine(EndRound());
             } else if (livingPlayers.Count == 0)
             {
-                DisplayTieScreen();
+                lastRoundWinner = null;
+                StartCoroutine(EndRound());
             }
         } else
         {
@@ -64,11 +72,6 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
-
-    public void DisplayTieScreen()
-    {
-
-    }
 
     public void AddPlayer(PlayerInfo player)
     {
@@ -87,8 +90,6 @@ public class GameManager : MonoBehaviour {
 
     public void StartRound()
     {
-
-        
         isRoundActive = true;
         isRoundReady = false;
 
@@ -101,24 +102,18 @@ public class GameManager : MonoBehaviour {
         {
             SpawnPlayer(joinedPlayers[i], i + 1);
         }
-        
     }
-
-   
 
     IEnumerator EndRound()
     {
         isRoundActive = false;
         Time.timeScale = 0.0f;
-
         
-
         yield return new WaitForSecondsRealtime(2.0f);
-
+        
         CleanupRound();
-
         Time.timeScale = 1.0f;
-
+        roundWon.DisplayScreen();
     }
 
     private void CleanupRound()

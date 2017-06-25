@@ -10,7 +10,7 @@ public class PlayerInfo {
     public bool Equals(PlayerInfo other)
     {
         if (other == this) return true;
-        if (other.name.Equals(this.name)) return true;
+        if (this.playerNum == other.playerNum) return true;
         return false;
     }
 }
