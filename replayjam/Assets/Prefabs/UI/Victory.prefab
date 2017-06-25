@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   victoryText: {fileID: 114666332579715576}
+  gm: {fileID: 0}
 --- !u!114 &114171959000769300
 MonoBehaviour:
   m_ObjectHideFlags: 1
