@@ -107,6 +107,7 @@ public class PlayerInput : MonoBehaviour {
 
         startRotation.z -= angleLimit;
         playerRing.transform.Rotate(startRotation);
+
     }
 	
 	// Update is called once per frame
@@ -332,7 +333,7 @@ public class PlayerInput : MonoBehaviour {
         
         return killed;
     }
-
+    
     IEnumerator DestroyShield()
     {
         shield.gameObject.SetActive(false);
@@ -346,10 +347,12 @@ public class PlayerInput : MonoBehaviour {
             isFading = newColor.a > 0;
             shieldSprite.color = newColor;
 
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return new WaitForSecondsRealtime(0.2f);
         }
 
-        destShield.SetActive(false);
+        //Wait a bit to allow the particle effect to fade
+        yield return new WaitForSecondsRealtime(2.0f);
+        Destroy(destShield);
     }
 
     IEnumerator HandleInvincibility()
