@@ -19,10 +19,8 @@ public class GameManager : MonoBehaviour {
 
     public GameObject playerPrefab;
     public GameObject ringPrefab;
-    public Color player1Color = Color.red;
-    public Color player2Color = Color.green;
-    public Color player3Color = Color.blue;
-    public Color player4Color = Color.yellow;
+    public List<Color> playerColors = new List<Color>() { Color.red, Color.green, Color.blue, Color.yellow };
+    public List<Sprite> playerSprites;
 
     public PlayerSelectController playerSelect;
     public RoundWonBehavior roundWonScreen;
@@ -101,7 +99,14 @@ public class GameManager : MonoBehaviour {
         {
             SpawnPlayer(joinedPlayers[i], i + 1);
         }
-        
+
+        if (numPlayers == 4)
+        {
+            //swap 3 and 4 positions to read left->right instead of clockwise around a circle
+            livingPlayers[2].playerPosition = 4;
+            livingPlayers[3].playerPosition = 3;
+        }
+
     }
 
    
@@ -138,38 +143,12 @@ public class GameManager : MonoBehaviour {
 
     internal Color GetPlayerColor(int playerNum)
     {
-        switch (playerNum)
-        {
-            case 1:
-                return player1Color;
-            case 2:
-                return player2Color;
-            case 3:
-                return player3Color;
-            case 4:
-                return player4Color;
-        }
-
-        return Color.white;
+        return playerColors[playerNum - 1];
     }
 
     internal void SetPlayerColor(Color color, int playerNum)
     {
-        switch (playerNum)
-        {
-            case 1:
-                player1Color = color;
-                break;
-            case 2:
-                player2Color = color;
-                break;
-            case 3:
-                player3Color = color;
-                break;
-            case 4:
-                player4Color = color;
-                break;
-        }
+        playerColors[playerNum - 1] = color;
     }
 
 
@@ -183,6 +162,7 @@ public class GameManager : MonoBehaviour {
         GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
         playerScript.playerRing = playerRing;
         playerScript.playerInfo = pi;
+        playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
 
         livingPlayers.Add(playerScript);
     }

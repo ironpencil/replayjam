@@ -14,9 +14,10 @@ public class PlayerInput : MonoBehaviour {
     public float reticalHighMax;
     public float reticalHighMin;
 
-    public float shieldAlpha = 0.35f;
+    //public float shieldAlpha = 0.35f;
 
-    public SpriteRenderer aura;
+    public SpriteRenderer playerShip;
+    //public SpriteRenderer aura;
     public GameObject playerRing;
 
     public ShootProjectiles gun;
@@ -83,9 +84,9 @@ public class PlayerInput : MonoBehaviour {
         hinge.enabled = true;
 
         Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
-        playerColor.a = shieldAlpha;
+        playerColor.a = 0.25f;
 
-        aura.color = playerColor;
+        //aura.color = playerColor;
 
 
         //set up player ring
