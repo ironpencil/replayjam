@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 
     public PlayerInfo lastRoundWinner;
 
-    public List<PlayerInfo> joinedPlayers = new List<PlayerInfo>();
+    public List<PlayerInfo> joinedPlayers;
     public List<PlayerInput> livingPlayers;
 
     public bool isRoundActive = false;
@@ -75,9 +75,9 @@ public class GameManager : MonoBehaviour {
         if (!joinedPlayers.Contains(player)) { joinedPlayers.Add(player); }
     }
 
-    public void RemovePlayer(PlayerInfo player)
+    public void RemovePlayer(int playerNum)
     {
-        joinedPlayers.Remove(player);
+        joinedPlayers.RemoveAt(playerNum);
     }
 
     public void DisplayPlayerSetup()
@@ -93,13 +93,15 @@ public class GameManager : MonoBehaviour {
         isRoundReady = false;
 
         playerSelect.gameObject.SetActive(false);
-        joinedPlayers = joinedPlayers.Where(p => p.playerNum > 0).OrderBy(p => p.playerNum).ToList();
+        joinedPlayers = joinedPlayers.Where(p => p.playerNum > 0).ToList();
+
+        joinedPlayers.Sort();
 
         numPlayers = joinedPlayers.Count;
 
         for (int i = 0; i < numPlayers; i++)
         {
-            SpawnPlayer(joinedPlayers[i], i + 1);
+            SpawnPlayer(joinedPlayers[i].playerNum, i + 1);
         }
         
     }
@@ -173,7 +175,7 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    void SpawnPlayer(PlayerInfo pi, int playerPosition)
+    void SpawnPlayer(int playerNum, int playerPosition)
     {
         GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
         PlayerInput playerScript = player.GetComponent<PlayerInput>();
@@ -182,7 +184,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject playerRing = GameObject.Instantiate(ringPrefab, Globals.Instance.dynamicsParent);
         playerScript.playerRing = playerRing;
-        playerScript.playerInfo = pi;
+        playerScript.playerInfo = joinedPlayers[playerNum];
 
         livingPlayers.Add(playerScript);
     }

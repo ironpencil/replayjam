@@ -17,6 +17,7 @@ public class PlayerSelector : MonoBehaviour {
 
     XboxController controller;
 
+    PlayerInfo pInfo;
 
     // Use this for initialization
     void Start () {
@@ -24,6 +25,11 @@ public class PlayerSelector : MonoBehaviour {
         Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerNum);
         playerName.color = playerColor;
         playerStatus.color = playerColor;
+
+        pInfo = new PlayerInfo();
+        pInfo.playerNum = playerNum;
+        pInfo.name = "Player " + playerNum;
+        pInfo.roundsWon = 0;
     }
 	
 	// Update is called once per frame
@@ -65,11 +71,8 @@ public class PlayerSelector : MonoBehaviour {
     public void Join()
     {
         playerJoined = true;
-        PlayerInfo pi = new PlayerInfo();
-        pi.playerNum = playerNum;
-        pi.name = "Player " + playerNum;
-        pi.roundsWon = 0;
-        Globals.Instance.GameManager.AddPlayer(pi);
+
+        Globals.Instance.GameManager.AddPlayer(pInfo);
         if (playerStatus != null)
         {
             playerStatus.text = "Joined! Press B to cancel...";
@@ -80,6 +83,6 @@ public class PlayerSelector : MonoBehaviour {
     {
         playerStatus.text = "Press A to join!";
         playerJoined = false;
-        Globals.Instance.GameManager.RemovePlayer(playerNum);
+        Globals.Instance.GameManager.RemovePlayer(pInfo);
     }
 }

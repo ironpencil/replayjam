@@ -45,7 +45,7 @@ public class PlayerInput : MonoBehaviour {
 	void Start () {
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
-        xboxController = (XboxController) playerNum;
+        xboxController = (XboxController) playerInfo.playerNum;
 
         //JointAngleLimits2D limits = new JointAngleLimits2D();
         //limits.min = 180 * (playerNum - 1);
