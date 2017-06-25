@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 114050359278066320}
   - component: {fileID: 114756024892751792}
   - component: {fileID: 114028963500817328}
+  - component: {fileID: 114147618279231666}
   m_Layer: 17
   m_Name: Player
   m_TagString: Untagged
@@ -372,6 +373,26 @@ MonoBehaviour:
   doRotate: 1
   startingRotation: 0
   rotationPerSecond: 540
+--- !u!114 &114147618279231666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af765aee4a0c9d48896c59b2b931760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnitude: 30
+  sustainTime: 0.2
+  decayTime: 0.2
+  shakeOnStart: 0
+  shakeOnCollision: 0
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  shakeObject: {fileID: 0}
 --- !u!114 &114361757731387380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -397,6 +418,7 @@ MonoBehaviour:
   destShieldPrefab: {fileID: 1297483270237544, guid: 28bc101792bc6ab4d9bc4f9bafa01c1d,
     type: 2}
   playerExplosion: {fileID: 1638691807027702, guid: 31fece60878628044a57934daa6c6534,
+  portrait: {fileID: 0}
     type: 2}
   playerShip: {fileID: 212118974415905750}
   blink: {r: 0, g: 0, b: 0, a: 0}
@@ -406,6 +428,7 @@ MonoBehaviour:
   maxThrust: 1000
   kill: 0
   thrustStyle: 1
+  portraitShaker: {fileID: 0}
   shieldHitSound: {fileID: 114849728119449954}
   shipHitSound: {fileID: 114050359278066320}
   shieldFadeSound: {fileID: 114028963500817328}
