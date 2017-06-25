@@ -345,6 +345,9 @@ GameObject:
   - component: {fileID: 271390535}
   - component: {fileID: 271390537}
   - component: {fileID: 271390538}
+  - component: {fileID: 271390541}
+  - component: {fileID: 271390540}
+  - component: {fileID: 271390539}
   m_Layer: 0
   m_Name: Globals
   m_TagString: Untagged
@@ -366,7 +369,7 @@ MonoBehaviour:
   pauseScreenUI: {fileID: 0}
   paused: 0
   acceptPlayerGameInput: 1
-  playIntro: 1
+  playIntro: 0
   deletePlayerPrefs: 0
   firstPanel: {fileID: 608655846}
   screenTransition: {fileID: 683861667}
@@ -422,6 +425,9 @@ MonoBehaviour:
   playerSelect: {fileID: 1211943184}
   roundWon: {fileID: 2094583075}
   victory: {fileID: 1346406159}
+  startRoundSound: {fileID: 271390541}
+  endRoundSound: {fileID: 271390540}
+  endGameSound: {fileID: 271390539}
 --- !u!114 &271390538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,13 +441,107 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 1792470905}
   sharedSFXSource: {fileID: 1019427625}
-  musicSource: {fileID: 72804923}
+  musicSource1: {fileID: 72804923}
+  musicSource2: {fileID: 1252518662}
   uiSource: {fileID: 1072607609}
   volumeIncrement: 0.1
   startingVolume: 0.8
   maxVolume: 1
   minVolume: 0
   musicFadeInTime: 2
+--- !u!114 &271390539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 271390534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: GameEnd
+  useUISource: 1
+  clips:
+  - {fileID: 8300000, guid: e6d11b95a2032da40a238f0e0a9690d7, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &271390540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 271390534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: RoundEnd
+  useUISource: 1
+  clips:
+  - {fileID: 8300000, guid: b3240c85617645b48b9512b5befe92c2, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &271390541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 271390534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: RoundStart
+  useUISource: 1
+  clips:
+  - {fileID: 8300000, guid: fe3c8e4c7562bbb449edc30884ff8ec7, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!224 &438616126 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224857880897734388, guid: 0b5c598d20aebd946ac73cc0bdf3b5b5,
@@ -590,12 +690,12 @@ Prefab:
     - target: {fileID: 224054438919644252, guid: a210da8ac5bd40447aa2509eca09e621,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 459.99997
+      value: 460
       objectReference: {fileID: 0}
     - target: {fileID: 224267262024249518, guid: a210da8ac5bd40447aa2509eca09e621,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 459.99997
+      value: 460
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a210da8ac5bd40447aa2509eca09e621, type: 2}
@@ -1170,24 +1270,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 82140379348337620, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
-        type: 2}
-      propertyPath: spreadCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82140379348337620, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
-        type: 2}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82651978998503766, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
-        type: 2}
-      propertyPath: spreadCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db0272d8e6e3bca4c9cbfde1f98a268c, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &1252518662 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82372431372937632, guid: db0272d8e6e3bca4c9cbfde1f98a268c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1252518661}
 --- !u!224 &1342141487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1222,9 +1312,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInTime: 1
-  displayTime: 0
+  displayTime: 2
   fadeOutTime: 0.5
-  minimumDisplayTime: 0
+  minimumDisplayTime: 2.5
   automaticallyDismiss: 0
   minimumDisplayTimeMet: 0
   fader: {fileID: 1406662785}
@@ -1471,6 +1561,9 @@ GameObject:
   - component: {fileID: 1406662785}
   - component: {fileID: 1406662786}
   - component: {fileID: 1342141488}
+  - component: {fileID: 1406662788}
+  - component: {fileID: 1406662790}
+  - component: {fileID: 1406662789}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1525,6 +1618,84 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1406662784}
+--- !u!114 &1406662788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1406662784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158b20c339d323a4caf93d889515025d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directions: {fileID: 0}
+  directionsFadeInTime: 0
+  directionsFadeDuration: 0
+  welcomeTo: {fileID: 1406662790}
+  blackHoleBullet: {fileID: 1406662789}
+--- !u!114 &1406662789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1406662784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Black Hole Bullet
+  useUISource: 1
+  clips:
+  - {fileID: 8300000, guid: 3f3f892a527c5e940a5adaaebe3cf19e, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 1.25
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 1
+--- !u!114 &1406662790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1406662784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Welcome To
+  useUISource: 1
+  clips:
+  - {fileID: 8300000, guid: ec2ef5ccbef43fe4d90f92fcdddcb4b5, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 1
 --- !u!1 &1513556157
 GameObject:
   m_ObjectHideFlags: 0

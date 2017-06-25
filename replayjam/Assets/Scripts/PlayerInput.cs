@@ -45,6 +45,10 @@ public class PlayerInput : MonoBehaviour {
     public PlayerInfo playerInfo;
 
     public GameObjectShaker portraitShaker;
+    public SoundEffectHandler shieldHitSound;
+    public SoundEffectHandler shipHitSound;
+    public SoundEffectHandler shieldFadeSound;
+    public SoundEffectHandler shipExplodeSound;
 
     public enum ThrustStyle
     {
@@ -319,7 +323,11 @@ public class PlayerInput : MonoBehaviour {
             invincibleTimeLeft = invincibleTime;
 
             StartCoroutine(HandleInvincibility());
-            
+
+
+
+            shipHitSound.PlayEffect();
+
             playerHealth--;
             
             if (playerHealth < 1)
@@ -330,6 +338,8 @@ public class PlayerInput : MonoBehaviour {
             {
                 ParticleSystem.MainModule main = shield.main;
                 main.simulationSpeed = 3.0f;
+                shieldHitSound.PlayEffect();
+
             } else if (playerHealth == 1)
             {
                 StartCoroutine(DestroyShield());
@@ -341,6 +351,7 @@ public class PlayerInput : MonoBehaviour {
     
     IEnumerator DestroyShield()
     {
+        shieldFadeSound.PlayEffect();
         shield.gameObject.SetActive(false);
         GameObject destShield = GameObject.Instantiate(destShieldPrefab, gameObject.transform);
         SpriteRenderer shieldSprite = destShield.GetComponentInChildren<SpriteRenderer>();
@@ -383,6 +394,8 @@ public class PlayerInput : MonoBehaviour {
 
     public void Kill()
     {
+        shipExplodeSound.PlayEffect();
+
         Destroy(gameObject);
         ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
         ps.Stop();

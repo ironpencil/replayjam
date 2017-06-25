@@ -28,6 +28,10 @@ public bool isRoundActive = false;
     public RoundWonBehavior roundWon;
     public VictoryBehavior victory;
 
+    public SoundEffectHandler startRoundSound;
+    public SoundEffectHandler endRoundSound;
+    public SoundEffectHandler endGameSound;
+
     // Use this for initialization
     void Start () {
         
@@ -35,13 +39,14 @@ public bool isRoundActive = false;
     
     public void EndGame()
     {
-        CleanupRound();
+        CleanupGame();
         victory.gameObject.SetActive(true);
+        endGameSound.PlayEffect();
     }
 
     public void SetupGame()
     {
-        CleanupRound();
+        CleanupGame();
         playerSelect.gameObject.SetActive(true);
     }
     
@@ -135,6 +140,8 @@ public bool isRoundActive = false;
             livingPlayers[3].playerPosition = 3;
         }
 
+        startRoundSound.PlayEffect();
+
     }
 
     IEnumerator EndRound()
@@ -143,10 +150,13 @@ public bool isRoundActive = false;
         //Time.timeScale = 0.0f;
         
         yield return new WaitForSecondsRealtime(2.0f);
-        
+
+        roundWon.DisplayScreen();
+        endRoundSound.PlayEffect();
+
         CleanupRound();
         //Time.timeScale = 1.0f;
-        roundWon.DisplayScreen();
+        
     }
 
     private void CleanupRound()
@@ -165,10 +175,15 @@ public bool isRoundActive = false;
 
         livingPlayers.Clear();
 
+    }
+
+    private void CleanupGame()
+    {
+        CleanupRound();
+
         joinedPlayers = new List<PlayerInfo>();
 
         playerSelect.ResetScreen();
-
     }
 
 

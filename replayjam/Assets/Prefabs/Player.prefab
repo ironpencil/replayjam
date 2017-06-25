@@ -56,6 +56,10 @@ GameObject:
   - component: {fileID: 233941093312366888}
   - component: {fileID: 114361757731387380}
   - component: {fileID: 61204313744915920}
+  - component: {fileID: 114849728119449954}
+  - component: {fileID: 114050359278066320}
+  - component: {fileID: 114756024892751792}
+  - component: {fileID: 114028963500817328}
   m_Layer: 17
   m_Name: Player
   m_TagString: Untagged
@@ -120,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1628019337936026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4976172307511576}
@@ -228,7 +232,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.24}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -239,7 +243,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1}
+  m_Size: {x: 2.8, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &114012758290588268
 MonoBehaviour:
@@ -259,6 +263,69 @@ MonoBehaviour:
   shootInterval: 0.5
   spawnOffset: {x: 0, y: 0}
   shootSound: {fileID: 114676440155957488}
+--- !u!114 &114028963500817328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Shield Fade
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: 41f25f2ec717a674c9c86e9a298958f2, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &114050359278066320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Ship Hit
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: a09fbfac79d134a48bde991140cc11dc, type: 3}
+  - {fileID: 8300000, guid: e56db57a286b4e84298cdee389e06ff9, type: 3}
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!114 &114094880503600548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,6 +373,10 @@ MonoBehaviour:
   maxThrust: 1000
   kill: 0
   thrustStyle: 1
+  shieldHitSound: {fileID: 114849728119449954}
+  shipHitSound: {fileID: 114050359278066320}
+  shieldFadeSound: {fileID: 114028963500817328}
+  shipExplodeSound: {fileID: 114756024892751792}
 --- !u!114 &114676440155957488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,6 +393,70 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 7dfcffc8b2068f845bb7509f1454e7eb, type: 3}
   - {fileID: 8300000, guid: e9d504cc60e8a064384a6926d13a12f8, type: 3}
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &114756024892751792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Ship Asplode
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: 8346d09bfbadc3e4392268c35356432a, type: 3}
+  - {fileID: 8300000, guid: f1566a8a326032a40b3e443726e94640, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &114849728119449954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Shield Hit
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: 7887a9f674d83f14583c63122fc6246e, type: 3}
+  - {fileID: 8300000, guid: 47c833b00b02a6149abc40bd06018b66, type: 3}
   playRandom: 1
   volume: 1
   variableVolume: 0
@@ -395,7 +530,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -724199662
+  randomSeed: -781084364
   InitialModule:
     serializedVersion: 3
     enabled: 1
