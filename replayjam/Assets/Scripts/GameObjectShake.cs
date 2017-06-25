@@ -93,13 +93,13 @@ public class GameObjectShake : MonoBehaviour {
     [ContextMenu("Shake It Up!")]
     public void DoShake()
     {
-        Debug.Log("DoShake called");
+        //Debug.Log("DoShake called");
         ShakeObject(testMagnitude, testSustain, testDecay);
     }
 
     public void ShakeObject(float magnitude, float sustainTime, float decayTime)
     {
-        Debug.Log("ShakeObjectd called");
+        //Debug.Log("ShakeObjectd called");
         StartCoroutine(AddShake(magnitude * Globals.Instance.screenShakeFactor, sustainTime * Globals.Instance.screenShakeFactor, decayTime * Globals.Instance.screenShakeFactor));
     }
 

@@ -25,6 +25,7 @@ public class PlayerInput : MonoBehaviour {
     public SpriteRenderer playerShip;
     public Color blink;
 
+    public bool invulnerable = false;
     //public SpriteRenderer aura;
     public GameObject playerRing;
 
@@ -167,7 +168,10 @@ public class PlayerInput : MonoBehaviour {
 
     private void HandleAttack()
     {
-        if (XCI.GetButton(XboxButton.RightBumper, xboxController))
+        if (XCI.GetButton(XboxButton.RightBumper, xboxController) ||
+            XCI.GetButton(XboxButton.LeftBumper, xboxController) ||
+            XCI.GetAxis(XboxAxis.RightTrigger, xboxController) > 0.0f ||
+            XCI.GetAxis(XboxAxis.LeftTrigger, xboxController) > 0.0f)
         {
             gun.Shoot();
         }
@@ -315,9 +319,11 @@ public class PlayerInput : MonoBehaviour {
     {
         bool killed = false;
 
+        if (invulnerable) { return false; }
+
         if (invincibleTimeLeft == 0)
         {
-            Debug.Log("Preparing to shake " + playerInfo.playerNum);
+            //Debug.Log("Preparing to shake " + playerInfo.playerNum);
             portraitShaker.Shake();
             portrait.TakeDamage();
 

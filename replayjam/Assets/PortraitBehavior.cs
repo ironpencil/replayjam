@@ -44,8 +44,16 @@ public class PortraitBehavior : MonoBehaviour {
         glass.color = Color.white;
     }
 
+    public void ResetDamage()
+    {
+        damage = 0;
+        glass.sprite = null;
+        glass.color = Color.clear;
+    }
+
     public void SlideIn()
     {
+        ResetDamage();
         startTime = Time.time;
         slideInTime = UnityEngine.Random.Range(minSlideInTime, maxSlideInTime);
         slidingIn = true;
@@ -65,7 +73,8 @@ public class PortraitBehavior : MonoBehaviour {
         if (slidingIn)
         {
             float percent = slideInCurve.Evaluate((Time.time - startTime) / slideInTime);
-            container.anchoredPosition = Vector2.Lerp(startPos, endPos, percent);
+            Vector2 newPos = startPos + ((endPos - startPos) * percent); //lerp is capped at 1
+            container.anchoredPosition = newPos; //Vector2.Lerp(startPos, endPos, percent);
 
             if (percent == 1) gameObject.GetComponent<GameObjectShake>().enabled = true;
         } else

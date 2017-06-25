@@ -375,38 +375,44 @@ MonoBehaviour:
   glass: {fileID: 114790507799093374}
   container: {fileID: 224606294083864858}
   startPos: {x: -1100, y: 365}
-  endPos: {x: -780, y: 365}
-  minSlideInTime: 0.5
-  maxSlideInTime: 2.5
-  minSlideOutTime: 1
-  maxSlideOutTime: 1
+  endPos: {x: -790, y: 365}
+  minSlideInTime: 0.75
+  maxSlideInTime: 1
+  minSlideOutTime: 0.25
+  maxSlideOutTime: 0.5
   slideInCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: 1.7395828
+      outSlope: 1.7395828
+      tangentMode: 34
     - serializedVersion: 2
-      time: 0.87021667
-      value: 0.99297464
-      inSlope: 0.95546246
-      outSlope: 0.95546246
-      tangentMode: 0
+      time: 0.60091555
+      value: 1.0453423
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
-      time: 0.92619026
-      value: 0.8708636
-      inSlope: 1.0001659
-      outSlope: 1.0001659
-      tangentMode: 0
+      time: 0.75
+      value: 0.975
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 0.9
+      value: 1.0221983
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: -0.22198313
+      outSlope: -0.22198313
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -416,14 +422,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -511,38 +517,44 @@ MonoBehaviour:
   glass: {fileID: 114781654954756810}
   container: {fileID: 224837691221205130}
   startPos: {x: -1100, y: -360}
-  endPos: {x: -780, y: -360}
-  minSlideInTime: 0.5
-  maxSlideInTime: 2.5
-  minSlideOutTime: 1
-  maxSlideOutTime: 1
+  endPos: {x: -790, y: -360}
+  minSlideInTime: 0.75
+  maxSlideInTime: 1
+  minSlideOutTime: 0.25
+  maxSlideOutTime: 0.5
   slideInCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: 1.7395828
+      outSlope: 1.7395828
+      tangentMode: 34
     - serializedVersion: 2
-      time: 0.87021667
-      value: 0.99297464
-      inSlope: 0.95546246
-      outSlope: 0.95546246
-      tangentMode: 0
+      time: 0.60091555
+      value: 1.0453423
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
-      time: 0.92619026
-      value: 0.8708636
-      inSlope: 1.0001659
-      outSlope: 1.0001659
-      tangentMode: 0
+      time: 0.75
+      value: 0.975
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 0.9
+      value: 1.0221983
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: -0.22198313
+      outSlope: -0.22198313
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -552,14 +564,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -636,38 +648,44 @@ MonoBehaviour:
   glass: {fileID: 114580398371790550}
   container: {fileID: 224049943571404176}
   startPos: {x: 1100, y: -360}
-  endPos: {x: 780, y: -360}
-  minSlideInTime: 0.5
-  maxSlideInTime: 2.5
-  minSlideOutTime: 1
-  maxSlideOutTime: 1
+  endPos: {x: 790, y: -360}
+  minSlideInTime: 0.75
+  maxSlideInTime: 1
+  minSlideOutTime: 0.25
+  maxSlideOutTime: 0.5
   slideInCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: 1.7395828
+      outSlope: 1.7395828
+      tangentMode: 34
     - serializedVersion: 2
-      time: 0.87021667
-      value: 0.99297464
-      inSlope: 0.95546246
-      outSlope: 0.95546246
-      tangentMode: 0
+      time: 0.60091555
+      value: 1.0453423
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
-      time: 0.92619026
-      value: 0.8708636
-      inSlope: 1.0001659
-      outSlope: 1.0001659
-      tangentMode: 0
+      time: 0.75
+      value: 0.975
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 0.9
+      value: 1.0221983
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: -0.22198313
+      outSlope: -0.22198313
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -677,14 +695,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -888,38 +906,44 @@ MonoBehaviour:
   glass: {fileID: 114273823690482568}
   container: {fileID: 224901776358433752}
   startPos: {x: 1100, y: 365}
-  endPos: {x: 780, y: 365}
-  minSlideInTime: 0.5
-  maxSlideInTime: 2.5
-  minSlideOutTime: 1
-  maxSlideOutTime: 1
+  endPos: {x: 790, y: 365}
+  minSlideInTime: 0.75
+  maxSlideInTime: 1
+  minSlideOutTime: 0.25
+  maxSlideOutTime: 0.5
   slideInCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: 1.7395828
+      outSlope: 1.7395828
+      tangentMode: 34
     - serializedVersion: 2
-      time: 0.87021667
-      value: 0.99297464
-      inSlope: 0.95546246
-      outSlope: 0.95546246
-      tangentMode: 0
+      time: 0.60091555
+      value: 1.0453423
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
-      time: 0.92619026
-      value: 0.8708636
-      inSlope: 1.0001659
-      outSlope: 1.0001659
-      tangentMode: 0
+      time: 0.75
+      value: 0.975
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 0.9
+      value: 1.0221983
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      inSlope: -0.22198313
+      outSlope: -0.22198313
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -929,14 +953,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

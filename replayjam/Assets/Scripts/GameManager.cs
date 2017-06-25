@@ -63,6 +63,7 @@ public bool isRoundActive = false;
                 //still playing
                 if (livingPlayers.Count == 1)
                 {
+                    livingPlayers[0].invulnerable = true;
                     lastRoundWinner = livingPlayers[0].playerInfo;
                     lastRoundWinner.roundsWon++;
                     StartCoroutine(EndRound());
