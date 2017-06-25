@@ -39,7 +39,7 @@ public class PlayerSelector : MonoBehaviour {
         //    Leave();
         //}
 
-        if (XCI.GetButtonDown(XboxButton.A, controller))
+        if (XCI.GetButtonDown(XboxButton.A))
         {
             if (!playerJoined)
             {
