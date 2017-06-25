@@ -296,7 +296,8 @@ MonoBehaviour:
   reticalHighMax: 360
   reticalHighMin: 300
   shield: {fileID: 198739360664260542}
-  destShieldPrefab: {fileID: 0}
+  destShieldPrefab: {fileID: 1297483270237544, guid: 28bc101792bc6ab4d9bc4f9bafa01c1d,
+    type: 2}
   playerShip: {fileID: 212118974415905750}
   blink: {r: 0, g: 0, b: 0, a: 0}
   playerRing: {fileID: 0}

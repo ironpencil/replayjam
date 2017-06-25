@@ -366,7 +366,7 @@ MonoBehaviour:
   pauseScreenUI: {fileID: 0}
   paused: 0
   acceptPlayerGameInput: 1
-  playIntro: 1
+  playIntro: 0
   deletePlayerPrefs: 0
   firstPanel: {fileID: 608655846}
   screenTransition: {fileID: 683861667}
@@ -467,7 +467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &441695057
 RectTransform:
   m_ObjectHideFlags: 0
