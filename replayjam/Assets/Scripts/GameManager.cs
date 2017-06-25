@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour {
     public RoundWonBehavior roundWon;
     public VictoryBehavior victory;
 
+    public SoundEffectHandler startRoundSound;
+    public SoundEffectHandler endRoundSound;
+    public SoundEffectHandler endGameSound;
+
     // Use this for initialization
     void Start () {
         
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour {
     {
         CleanupGame();
         victory.gameObject.SetActive(true);
+        endGameSound.PlayEffect();
     }
 
     public void SetupGame()
@@ -132,6 +137,8 @@ public class GameManager : MonoBehaviour {
             livingPlayers[3].playerPosition = 3;
         }
 
+        startRoundSound.PlayEffect();
+
     }
 
     IEnumerator EndRound()
@@ -142,6 +149,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSecondsRealtime(2.0f);
 
         roundWon.DisplayScreen();
+        endRoundSound.PlayEffect();
 
         CleanupRound();
         //Time.timeScale = 1.0f;

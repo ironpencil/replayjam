@@ -6,39 +6,15 @@ using XboxCtrlrInput;
 
 public class TitleController : MonoBehaviour {
 
-    public RectTransform bg;
-    public RectTransform fg;
-    public RectTransform title;
     public CanvasRenderer directions;
-
-    public Vector2 bgStartPos;
-    public Vector2 bgEndPos;
-    public AnimationCurve bgEasing;
-
-    public float bgBeginTime;
-    public float bgDuration;
-
-    public Vector2 fgStartPos;
-    public Vector2 fgEndPos;
-    public AnimationCurve fgEasing;
-
-    public float fgBeginTime;
-    public float fgDuration;
-
-    public Vector2 titleStartPos;
-    public Vector2 titleEndPos;
-    public AnimationCurve titleEasing;
-
-    public float titleBeginTime;
-    public float titleDuration;
-
-    public SoundEffectHandler titleSound;
 
     public float directionsFadeInTime;
     public float directionsFadeDuration;
 
-    int finishedComponents = 0;
-    List<int> controllers = new List<int>() { 1, 2, 3, 4 };
+    public SoundEffectHandler welcomeTo;
+    public SoundEffectHandler blackHoleBullet;
+
+    bool introFinished = false;
 
     bool directionsDisplayed = false;
     
@@ -50,44 +26,38 @@ public class TitleController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (!directionsDisplayed && finishedComponents == 3)
+        if (!directionsDisplayed && introFinished)
         {
             directionsDisplayed = true;
             StartCoroutine(DoFadeInCanvas(directions, directionsFadeInTime, directionsFadeDuration));
         }
 
-        if (controllers.Any(c => XCI.GetButtonDown(XboxButton.A, (XboxController)c)))
-        {
-            //button was pressed
-            if (finishedComponents < 3)
-            {
-                //intro hasn't finished playing - finish it
-                StopAllCoroutines();
-                bg.anchoredPosition = bgEndPos;
-                fg.anchoredPosition = fgEndPos;
-                title.anchoredPosition = titleEndPos;
-                titleSound.PlayEffect();
+        //if (Input.anyKeyDown)
+        //{
+        //    //button was pressed
+        //    if (!introFinished)
+        //    {
+        //        //intro hasn't finished playing - finish it
+        //        StopAllCoroutines();
+                
 
-                directionsDisplayed = false;
-                finishedComponents = 3;
+        //        directionsDisplayed = false;
+        //        introFinished = true;
 
-            } else
-            {
-                IntroPanel panel = gameObject.GetComponent<IntroPanel>();
-                panel.DoneDisplaying();
-            }
-        }
+        //    } else
+        //    {
+        //        //IntroPanel panel = gameObject.GetComponent<IntroPanel>();
+        //        //panel.DoneDisplaying();
+        //    }
+        //}
 		
 	}
 
     public void DisplayTitle()
     {
-        StartCoroutine(DoMoveTransform(bg, bgStartPos, bgEndPos, bgBeginTime, bgDuration, bgEasing));
-        StartCoroutine(DoMoveTransform(fg, fgStartPos, fgEndPos, fgBeginTime, fgDuration, fgEasing));
-        StartCoroutine(DoMoveTransform(title, titleStartPos, titleEndPos, titleBeginTime, titleDuration, titleEasing));
-        StartCoroutine(WaitThenPlay(titleSound, titleBeginTime));
+        
 
-        directions.SetAlpha(0.0f);
+        //directions.SetAlpha(0.0f);
     }
 
     IEnumerator DoMoveTransform(RectTransform t, Vector2 from, Vector2 to, float start, float duration, AnimationCurve easing)
@@ -113,7 +83,6 @@ public class TitleController : MonoBehaviour {
 
         t.anchoredPosition = to;
 
-        finishedComponents++;
     }
 
     IEnumerator DoFadeInCanvas(CanvasRenderer cr, float start, float duration)
