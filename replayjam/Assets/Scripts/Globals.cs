@@ -122,20 +122,22 @@ public class Globals : Singleton<Globals>
 
     public void Pause(bool pause)
     {
+        return; //disable pause
+
         if (isQuitting) { return; }
 
         paused = pause;
 
         if (paused)
         {
-            pauseSound.PlayEffect();
+            if (pauseSound != null) { pauseSound.PlayEffect(); }
             Time.timeScale = 0.0f;
             acceptPlayerGameInput = false;
             pauseScreenUI.SetActive(true);
         }
         else
         {
-            unpauseSound.PlayEffect();
+            if (unpauseSound != null) { unpauseSound.PlayEffect(); }
             Time.timeScale = 1.0f;
             acceptPlayerGameInput = true;
             pauseScreenUI.SetActive(false);
@@ -152,14 +154,14 @@ public class Globals : Singleton<Globals>
 
     public void DoQuit()
     {
-        Pause(false);
+        //Pause(false);
         isQuitting = true;
         StartCoroutine(WaitAndQuit(1.0f));
     }
 
     private IEnumerator WaitAndQuit(float time)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
 
         Application.Quit();
     }    
