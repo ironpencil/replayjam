@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using XboxCtrlrInput;
 
 public class GameManager : MonoBehaviour {
 
@@ -33,8 +34,7 @@ public class GameManager : MonoBehaviour {
     
     public void EndGame()
     {
-        joinedPlayers = new List<PlayerInfo>();
-        playerSelect.ResetScreen();
+        CleanupRound();
         victory.gameObject.SetActive(true);
     }
 
@@ -49,18 +49,30 @@ public class GameManager : MonoBehaviour {
         
         if (isRoundActive)
         {
-            if (livingPlayers.Count == 1)
+            if (CheckForExitInput((XboxController)1))
             {
-                lastRoundWinner = livingPlayers[0].playerInfo;
-                lastRoundWinner.roundsWon++;
-                StartCoroutine(EndRound());
-            } else if (livingPlayers.Count == 0)
-            {
-                lastRoundWinner = null;
-                StartCoroutine(EndRound());
+                SetupGame();
+            }
+            else {
+                //still playing
+                if (livingPlayers.Count == 1)
+                {
+                    lastRoundWinner = livingPlayers[0].playerInfo;
+                    lastRoundWinner.roundsWon++;
+                    StartCoroutine(EndRound());
+                }
+                else if (livingPlayers.Count == 0)
+                {
+                    lastRoundWinner = null;
+                    StartCoroutine(EndRound());
+                }
             }
         } else
         {
+            if (CheckForExitInput((XboxController)1)) {
+                Globals.Instance.DoQuit();
+            }
+
             //if (isRoundReady && Input.anyKeyDown)
             //{
             //    StartRound();
@@ -125,18 +137,18 @@ public class GameManager : MonoBehaviour {
     IEnumerator EndRound()
     {
         isRoundActive = false;
-        Time.timeScale = 0.0f;
+        //Time.timeScale = 0.0f;
         
         yield return new WaitForSecondsRealtime(2.0f);
         
         CleanupRound();
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         roundWon.DisplayScreen();
     }
 
     private void CleanupRound()
     {
-
+        isRoundActive = false;
 
         foreach (Transform trans in Globals.Instance.dynamicsParent)
         {
@@ -144,6 +156,10 @@ public class GameManager : MonoBehaviour {
         }
 
         livingPlayers.Clear();
+
+        joinedPlayers = new List<PlayerInfo>();
+
+        playerSelect.ResetScreen();
 
     }
 
@@ -260,5 +276,15 @@ public class GameManager : MonoBehaviour {
                 // wtf?? all dead??
             }
         }
+    }
+
+    bool CheckForExitInput(XboxController controller)
+    {
+        bool doExit = 
+            (XCI.GetButton(XboxButton.Start, controller) && XCI.GetButtonDown(XboxButton.Back, controller)) ||
+            (XCI.GetButton(XboxButton.Back, controller) && XCI.GetButtonDown(XboxButton.Start, controller)) ||
+            Input.GetKeyDown(KeyCode.Escape);
+
+        return doExit;
     }
 }
