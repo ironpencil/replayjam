@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour {
     public ShootProjectiles gun;
 
     public HingeJoint2D hinge;
-    private Vector2 rinput;
+    private Vector2 rInput;
 
     public float maxThrust;
     
@@ -105,19 +105,31 @@ public class PlayerInput : MonoBehaviour {
 
         playerColor.a = 0.25f;
         blink = playerColor;
-        
-        //aura.color = playerColor;
 
+        //aura.color = playerColor;
+        invincibleTimeLeft = invincibleTime;
+        StartCoroutine(HandleInvincibility());
 
         //set up player ring
         ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
-        var main = ps.main;
-        main.startColor = playerColor;
-        var shape = ps.shape;
-        shape.arc = degreesPerPlayer;
 
-        startRotation.z -= angleLimit;
-        playerRing.transform.Rotate(startRotation);
+        if (!ps.isPlaying)
+        {
+            var main = ps.main;
+            main.startColor = playerColor;
+            var shape = ps.shape;
+            shape.arc = degreesPerPlayer;
+
+            startRotation.z -= angleLimit;
+            playerRing.transform.Rotate(startRotation);
+            ps.Play();
+        }
+
+        if (!Globals.Instance.GameManager.enableShields)
+        {
+            shield.gameObject.SetActive(false);
+            playerHealth = 1;
+        }
 
     }
 	
@@ -182,30 +194,51 @@ public class PlayerInput : MonoBehaviour {
         float x = XCI.GetAxisRaw(XboxAxis.RightStickX, xboxController);
         float y = XCI.GetAxisRaw(XboxAxis.RightStickY, xboxController);
         
-        rinput = new Vector2(x, y);
+        rInput = new Vector2(x, y);
 
-        if (rinput.magnitude > 0)
+        if (rInput.magnitude > 0)
         {
             // Original Rotation Setup
-            var angle = Mathf.Atan2(rinput.y, rinput.x) * Mathf.Rad2Deg -90;
+            var angle = Mathf.Atan2(rInput.y, rInput.x) * Mathf.Rad2Deg -90;
+
+            //angle *= (2 / 3);
 
             retical.eulerAngles = new Vector3(0, 0, angle);
+
+            float adjustedAngle;
+
             float max = 0.0f;
             float min = 0.0f;
             if (retical.localEulerAngles.z > 180)
             {
+                //smoothing
+                float angleOffset = 360 - retical.localEulerAngles.z;
+                adjustedAngle = 360 - (angleOffset * 0.85f);
+
                 max = reticalHighMax;
                 min = reticalHighMin;
             } else
             {
+                //smoothing
+                adjustedAngle = retical.localEulerAngles.z; // * (2 / 3);
+                adjustedAngle *= 0.85f;
+                
                 max = reticalLowMax;
                 min = reticalLowMin;
             }
+
+            Vector3 angles = new Vector3(0, 0, adjustedAngle);
+
+            //if (playerInfo.playerNum == 1) { Debug.Log("Input: " + rInput + " Aim angle: " + adjustedAngle + " Local: " + retical.localEulerAngles.z); }
+
+            retical.localEulerAngles = angles;
             
             if (retical.localEulerAngles.z > max || retical.localEulerAngles.z < min)
             {
                 retical.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(retical.localEulerAngles.z, min, max));
             }
+
+            
 
             /*
             if (x > 0)
@@ -411,9 +444,15 @@ public class PlayerInput : MonoBehaviour {
         main.startColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
 
         Destroy(gameObject);
-        ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
-        ps.Stop();
-        Destroy(playerRing, 5.0f);
+
+        if (Globals.Instance.GameManager.gameMode == GameManager.GameMode.Survival)
+        {
+            ParticleSystem ps = playerRing.GetComponent<ParticleSystem>();
+            ps.Stop();
+            Destroy(playerRing, 5.0f);
+            
+        }
+
         Destroy(explosion, 5.0f);
 
         Globals.Instance.GameManager.KillPlayer(playerInfo.playerNum);

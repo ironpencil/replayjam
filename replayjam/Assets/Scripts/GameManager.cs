@@ -8,15 +8,28 @@ using XboxCtrlrInput;
 
 public class GameManager : MonoBehaviour {
 
+    public enum GameMode
+    {
+        Deathmatch,
+        Survival
+    }
+
+    public GameMode gameMode = GameMode.Deathmatch;
+
     public int numPlayers = 2;
+
+    public bool enableShields = false;
 
     public PlayerInfo lastRoundWinner;
 
     public List<PlayerInfo> joinedPlayers = new List<PlayerInfo>();
     public List<PlayerInput> livingPlayers;
-    
-public bool isRoundActive = false;
+
+    public Dictionary<int, int> kills = new Dictionary<int, int>();
+
+    public bool isRoundActive = false;
     public bool isRoundReady = false;
+    public float respawnTime = 1.0f;
 
     public GameObject playerPrefab;
     public GameObject ringPrefab;
@@ -61,17 +74,20 @@ public bool isRoundActive = false;
             }
             else {
                 //still playing
-                if (livingPlayers.Count == 1)
+                if (gameMode == GameMode.Survival)
                 {
-                    livingPlayers[0].invulnerable = true;
-                    lastRoundWinner = livingPlayers[0].playerInfo;
-                    lastRoundWinner.roundsWon++;
-                    StartCoroutine(EndRound());
-                }
-                else if (livingPlayers.Count == 0)
-                {
-                    lastRoundWinner = null;
-                    StartCoroutine(EndRound());
+                    if (livingPlayers.Count == 1)
+                    {
+                        livingPlayers[0].invulnerable = true;
+                        lastRoundWinner = livingPlayers[0].playerInfo;
+                        lastRoundWinner.roundsWon++;
+                        StartCoroutine(EndRound());
+                    }
+                    else if (livingPlayers.Count == 0)
+                    {
+                        lastRoundWinner = null;
+                        StartCoroutine(EndRound());
+                    }
                 }
             }
         } else
@@ -84,6 +100,23 @@ public bool isRoundActive = false;
             //{
             //    StartRound();
             //}
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            enableShields = !enableShields;
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (gameMode == GameMode.Survival)
+            {
+                gameMode = GameMode.Deathmatch;
+            }
+            else
+            {
+                gameMode = GameMode.Survival;
+            }
         }
 	}
 
@@ -216,92 +249,136 @@ public bool isRoundActive = false;
         livingPlayers.Add(playerScript);
     }
 
+    void RespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
+    {
+        StartCoroutine(DoRespawnPlayer(pi, playerRing, playerPosition));
+    }
+
+    IEnumerator DoRespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
+    {
+        yield return new WaitForSeconds(respawnTime);
+
+        GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
+        PlayerInput playerScript = player.GetComponent<PlayerInput>();
+
+        playerScript.playerPosition = playerPosition;
+
+        playerScript.playerRing = playerRing;
+        playerScript.playerInfo = pi;
+        playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
+        playerScript.portrait = playerPortraits[pi.playerNum - 1];
+
+        livingPlayers.Add(playerScript);
+    }
+
 
     public void KillPlayer(int playerNum)
     {
-        playerPortraits[playerNum - 1].SlideOut();
-
         PlayerInput pi = livingPlayers.FirstOrDefault(p => p.playerInfo.playerNum == playerNum);
 
-        if (pi != null)
+        if (gameMode == GameMode.Survival)
         {
-            PlayerInput pos1 = livingPlayers.FirstOrDefault(p => p.playerPosition == 1);
-            PlayerInput pos2 = livingPlayers.FirstOrDefault(p => p.playerPosition == 2);
-            PlayerInput pos3 = livingPlayers.FirstOrDefault(p => p.playerPosition == 3);
-            PlayerInput pos4 = livingPlayers.FirstOrDefault(p => p.playerPosition == 4);
+            playerPortraits[playerNum - 1].SlideOut();
+
+            if (pi != null)
+            {
+                PlayerInput pos1 = livingPlayers.FirstOrDefault(p => p.playerPosition == 1);
+                PlayerInput pos2 = livingPlayers.FirstOrDefault(p => p.playerPosition == 2);
+                PlayerInput pos3 = livingPlayers.FirstOrDefault(p => p.playerPosition == 3);
+                PlayerInput pos4 = livingPlayers.FirstOrDefault(p => p.playerPosition == 4);
+
+                livingPlayers.Remove(pi);
+
+                //get player position
+                int removedPosition = pi.playerPosition;
+
+                int remainingPlayers = livingPlayers.Count;
+
+                if (remainingPlayers == 3)
+                {
+                    switch (removedPosition)
+                    {
+                        case 1:
+                            pos2.AdjustHingeLimits(-45, -15); //ccw
+                            pos4.AdjustHingeLimits(15, 45); //cw
+                            pos3.AdjustHingeLimits(-15, 15); //both
+                            pos2.playerPosition--;
+                            pos3.playerPosition--;
+                            pos4.playerPosition--;
+                            break;
+                        case 2:
+                            pos3.AdjustHingeLimits(-45, -15); //ccw
+                            pos1.AdjustHingeLimits(15, 45); //cw
+                            pos4.AdjustHingeLimits(-15, 15); //both
+                            pos3.playerPosition--;
+                            pos4.playerPosition--;
+                            break;
+                        case 3:
+                            pos4.AdjustHingeLimits(-45, -15); //ccw
+                            pos2.AdjustHingeLimits(15, 45); //cw
+                            pos1.AdjustHingeLimits(-15, 15); //both
+                            pos4.playerPosition--;
+                            break;
+                        case 4:
+                            pos1.AdjustHingeLimits(-45, -15); //ccw
+                            pos3.AdjustHingeLimits(15, 45); //cw
+                            pos2.AdjustHingeLimits(-15, 15); //both
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (remainingPlayers == 2)
+                {
+                    switch (removedPosition)
+                    {
+                        case 1:
+                            pos2.AdjustHingeLimits(-60, 0); //ccw
+                            pos3.AdjustHingeLimits(0, 60); //cw
+                            pos2.playerPosition--;
+                            pos3.playerPosition--;
+                            break;
+                        case 2:
+                            pos3.AdjustHingeLimits(-60, 0); //ccw
+                            pos1.AdjustHingeLimits(0, 60); //cw
+                            pos3.playerPosition--;
+                            break;
+                        case 3:
+                            pos1.AdjustHingeLimits(-60, 0); //ccw
+                            pos2.AdjustHingeLimits(0, 60); //cw
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (remainingPlayers == 1)
+                {
+                    //someone won!
+                }
+                else
+                {
+                    // wtf?? all dead??
+                }
+            }
+        } else if (gameMode == GameMode.Deathmatch)
+        {
+            
+            GameObject playerRing = pi.playerRing;
+
+            int playerPos = pi.playerPosition;
 
             livingPlayers.Remove(pi);
 
-            //get player position
-            int removedPosition = pi.playerPosition;
+            RespawnPlayer(pi.playerInfo, playerRing, playerPos);
 
-            int remainingPlayers = livingPlayers.Count;
 
-            if (remainingPlayers == 3)
-            {
-                switch (removedPosition)
-                {
-                    case 1:
-                        pos2.AdjustHingeLimits(-45, -15); //ccw
-                        pos4.AdjustHingeLimits(15, 45); //cw
-                        pos3.AdjustHingeLimits(-15, 15); //both
-                        pos2.playerPosition--;
-                        pos3.playerPosition--;
-                        pos4.playerPosition--;
-                        break;
-                    case 2:
-                        pos3.AdjustHingeLimits(-45, -15); //ccw
-                        pos1.AdjustHingeLimits(15, 45); //cw
-                        pos4.AdjustHingeLimits(-15, 15); //both
-                        pos3.playerPosition--;
-                        pos4.playerPosition--;
-                        break;
-                    case 3:
-                        pos4.AdjustHingeLimits(-45, -15); //ccw
-                        pos2.AdjustHingeLimits(15, 45); //cw
-                        pos1.AdjustHingeLimits(-15, 15); //both
-                        pos4.playerPosition--;
-                        break;
-                    case 4:
-                        pos1.AdjustHingeLimits(-45, -15); //ccw
-                        pos3.AdjustHingeLimits(15, 45); //cw
-                        pos2.AdjustHingeLimits(-15, 15); //both
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else if (remainingPlayers == 2)
-            {
-                switch (removedPosition)
-                {
-                    case 1:
-                        pos2.AdjustHingeLimits(-60, 0); //ccw
-                        pos3.AdjustHingeLimits(0, 60); //cw
-                        pos2.playerPosition--;
-                        pos3.playerPosition--;
-                        break;
-                    case 2:
-                        pos3.AdjustHingeLimits(-60, 0); //ccw
-                        pos1.AdjustHingeLimits(0, 60); //cw
-                        pos3.playerPosition--;
-                        break;
-                    case 3:
-                        pos1.AdjustHingeLimits(-60, 0); //ccw
-                        pos2.AdjustHingeLimits(0, 60); //cw
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else if (remainingPlayers == 1)
-            {
-                //someone won!
-            }
-            else
-            {
-                // wtf?? all dead??
-            }
+
+
+
+
+
+
+
         }
     }
 
