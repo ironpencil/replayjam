@@ -291,7 +291,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1649683819981324, guid: 22eca1a27bd2a7b4f920002795e55af6,
     type: 2}
   shooter: {fileID: 1287869048872812}
-  shootForce: 25
+  shootForce: 30
   shootInterval: 0.5
   spawnOffset: {x: 0, y: 0}
   shootSound: {fileID: 114676440155957488}
@@ -422,6 +422,7 @@ MonoBehaviour:
   portrait: {fileID: 0}
   playerShip: {fileID: 212118974415905750}
   blink: {r: 0, g: 0, b: 0, a: 0}
+  invulnerable: 0
   playerRing: {fileID: 0}
   gun: {fileID: 114012758290588268}
   hinge: {fileID: 0}

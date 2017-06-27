@@ -115,16 +115,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1372115511}
     m_Modifications:
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.maxCurve.m_Curve.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.minCurve.m_Curve.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4777536054450954, guid: fca1f3b86cc085948a7dbb5fb1e9c409, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -156,56 +146,6 @@ Prefab:
     - target: {fileID: 4777536054450954, guid: fca1f3b86cc085948a7dbb5fb1e9c409, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: prewarm
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.maxCurve.m_Curve.Array.data[0].outSlope
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.maxCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.maxCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.maxCurve.m_Curve.Array.data[1].inSlope
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.minCurve.m_Curve.Array.data[0].outSlope
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.minCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.minCurve.m_Curve.Array.data[1].value
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: startDelay.minCurve.m_Curve.Array.data[1].inSlope
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 198275848948574458, guid: fca1f3b86cc085948a7dbb5fb1e9c409,
-        type: 2}
-      propertyPath: randomSeed
-      value: 541000046
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fca1f3b86cc085948a7dbb5fb1e9c409, type: 2}
@@ -369,7 +309,7 @@ MonoBehaviour:
   pauseScreenUI: {fileID: 0}
   paused: 0
   acceptPlayerGameInput: 1
-  playIntro: 1
+  playIntro: 0
   deletePlayerPrefs: 0
   firstPanel: {fileID: 608655846}
   screenTransition: {fileID: 683861667}
