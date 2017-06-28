@@ -86,6 +86,7 @@ public class RoundWonBehavior : MonoBehaviour {
 
         foreach (PlayerInfo pi in gm.joinedPlayers)
         {
+            bool winner = gm.lastRoundWinner.playerNum == pi.playerNum;
             playerNames[i].transform.parent.parent.gameObject.SetActive(true);
 
             Color playerColor = gm.GetPlayerColor(pi.playerNum);
@@ -111,7 +112,7 @@ public class RoundWonBehavior : MonoBehaviour {
                     //display all kill icons
                     kills = playerKills.Count;
 
-                    StartCoroutine(AddKills(playerScores[i], kc, playerKills));
+                    StartCoroutine(AddKills(playerScores[i], kc, playerKills, winner));
                 }
                 
                 //set score to kills
@@ -122,7 +123,7 @@ public class RoundWonBehavior : MonoBehaviour {
         }
     }
 
-    private IEnumerator AddKills(Text playerScore, GameObject kc, List<int> kills)
+    private IEnumerator AddKills(Text playerScore, GameObject kc, List<int> kills, bool wasWinner)
     {
         playerScore.text = "0";
 
@@ -149,6 +150,11 @@ public class RoundWonBehavior : MonoBehaviour {
             yield return new WaitForSeconds(killStampInterval);
         }
 
-        Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Win, gm.lastRoundWinner.playerNum, true);
+        if (wasWinner)
+        {
+            yield return new WaitForSeconds(killStampInterval);
+
+            Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Win, gm.lastRoundWinner.playerNum, true);
+        }
     }
 }

@@ -459,7 +459,7 @@ MonoBehaviour:
   - {fileID: 1359605321}
   - {fileID: 1582893041}
   numPlayers: 0
-  enableShields: 1
+  enableShields: 0
   livingPlayers: []
   isRoundActive: 0
   isRoundReady: 0
