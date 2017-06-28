@@ -61,6 +61,9 @@ GameObject:
   - component: {fileID: 114756024892751792}
   - component: {fileID: 114028963500817328}
   - component: {fileID: 114147618279231666}
+  - component: {fileID: 114358656059259358}
+  - component: {fileID: 114550992551117136}
+  - component: {fileID: 114223804928811724}
   m_Layer: 17
   m_Name: Player
   m_TagString: Untagged
@@ -393,6 +396,66 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   shakeObject: {fileID: 0}
+--- !u!114 &114223804928811724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Hurt
+  useUISource: 0
+  clips: []
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &114358656059259358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Death
+  useUISource: 0
+  clips: []
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!114 &114361757731387380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -407,6 +470,9 @@ MonoBehaviour:
   playerPosition: 1
   playerHealth: 2
   invincibleTime: 1.5
+  hurtSoundChance: 1
+  deathSoundChance: 1
+  killSoundChance: 1
   maxReticalX: 1
   maxReticalY: 1
   retical: {fileID: 4435403763373654}
@@ -429,11 +495,45 @@ MonoBehaviour:
   maxThrust: 1000
   kill: 0
   thrustStyle: 1
+  tauntInterval: 10
   portraitShaker: {fileID: 0}
   shieldHitSound: {fileID: 114849728119449954}
   shipHitSound: {fileID: 114050359278066320}
   shieldFadeSound: {fileID: 114028963500817328}
   shipExplodeSound: {fileID: 114756024892751792}
+  deathSounds: {fileID: 114358656059259358}
+  tauntSounds: {fileID: 114550992551117136}
+  hurtSounds: {fileID: 114223804928811724}
+--- !u!114 &114550992551117136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287869048872812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Taunt
+  useUISource: 0
+  clips: []
+  playRandom: 1
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!114 &114676440155957488
 MonoBehaviour:
   m_ObjectHideFlags: 1

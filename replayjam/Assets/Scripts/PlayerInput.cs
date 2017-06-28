@@ -8,6 +8,9 @@ public class PlayerInput : MonoBehaviour {
     public int playerHealth = 3;
     public float invincibleTime = 3;
     private float invincibleTimeLeft = 0;
+    public float hurtSoundChance = 1.0f;
+    public float deathSoundChance = 1.0f;
+    public float killSoundChance = 1.0f;
     public float maxReticalX;
     public float maxReticalY;
     public Transform retical;
@@ -46,11 +49,17 @@ public class PlayerInput : MonoBehaviour {
     public ThrustStyle thrustStyle;
     public PlayerInfo playerInfo;
 
+    public float tauntInterval;
+    private float nextTauntTime;
+
     public GameObjectShaker portraitShaker;
     public SoundEffectHandler shieldHitSound;
     public SoundEffectHandler shipHitSound;
     public SoundEffectHandler shieldFadeSound;
     public SoundEffectHandler shipExplodeSound;
+    public SoundEffectHandler deathSounds;
+    public SoundEffectHandler tauntSounds;
+    public SoundEffectHandler hurtSounds;
 
     public enum ThrustStyle
     {
@@ -59,6 +68,7 @@ public class PlayerInput : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        nextTauntTime = Time.time;
         hinge = GetComponent<HingeJoint2D>();
         rb2d = GetComponent<Rigidbody2D>();
         portraitShaker = gameObject.GetComponent<GameObjectShaker>();
@@ -147,6 +157,7 @@ public class PlayerInput : MonoBehaviour {
         if (Globals.Instance.acceptPlayerGameInput)
         {
             HandleAttack();
+            HandleTaunt();
         }
 
         if (kill)
@@ -186,6 +197,16 @@ public class PlayerInput : MonoBehaviour {
             XCI.GetAxis(XboxAxis.LeftTrigger, xboxController) > 0.0f)
         {
             gun.Shoot();
+        }
+    }
+
+    private void HandleTaunt()
+    {
+        if (XCI.GetButtonDown(XboxButton.Y, xboxController) &&
+            nextTauntTime < Time.time)
+        {
+            nextTauntTime = Time.time + tauntInterval;
+            tauntSounds.PlayEffect();
         }
     }
 
@@ -237,20 +258,6 @@ public class PlayerInput : MonoBehaviour {
             {
                 retical.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(retical.localEulerAngles.z, min, max));
             }
-
-            
-
-            /*
-            if (x > 0)
-            {
-                retical.localEulerAngles = new Vector3(0, 0, (reticalHighMax - (reticalHighMax - reticalHighMin) * Math.Abs(x)));
-            }
-            else
-            {
-                retical.localEulerAngles = new Vector3(0, 0, (reticalLowMin + (reticalLowMax - reticalLowMin) * Math.Abs(x)));
-            }
-            */
-
         }
     }
 
@@ -363,9 +370,7 @@ public class PlayerInput : MonoBehaviour {
             invincibleTimeLeft = invincibleTime;
 
             StartCoroutine(HandleInvincibility());
-
-
-
+            
             shipHitSound.PlayEffect();
 
             playerHealth--;
@@ -383,6 +388,13 @@ public class PlayerInput : MonoBehaviour {
             } else if (playerHealth == 1)
             {
                 StartCoroutine(DestroyShield());
+            }
+            
+            float roll = UnityEngine.Random.Range(0.0f, 1.0f);
+            if (playerHealth > 0 && UnityEngine.Random.Range(0.0f, 1.0f) <= hurtSoundChance)
+            {
+                Debug.Log("Playing hurt sound for " + playerInfo.playerNum);
+                hurtSounds.PlayEffect();
             }
         }
         
@@ -436,6 +448,11 @@ public class PlayerInput : MonoBehaviour {
     {
         shipExplodeSound.PlayEffect();
 
+        if (deathSoundChance >= UnityEngine.Random.Range(0.0f, 1.0f))
+        {
+            deathSounds.PlayEffect();
+        }
+        
         GameObject explosion = GameObject.Instantiate(playerExplosion, transform.position, Quaternion.identity, Globals.Instance.dynamicsParent);
 
         ParticleSystem explosionPS = explosion.GetComponent<ParticleSystem>();

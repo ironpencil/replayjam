@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 271390541}
   - component: {fileID: 271390540}
   - component: {fileID: 271390539}
+  - component: {fileID: 271390542}
   m_Layer: 0
   m_Name: Globals
   m_TagString: Untagged
@@ -381,6 +382,38 @@ MonoBehaviour:
   - {fileID: 1495635409}
   - {fileID: 875765435}
   - {fileID: 1939596266}
+  killSoundChance: 1
+  killSounds: {fileID: 271390542}
+  redDeathSounds:
+  - {fileID: 8300000, guid: da69161efba950941a8f1f6ef83f9187, type: 3}
+  - {fileID: 8300000, guid: 937a6334052ca644f899f4320f004f57, type: 3}
+  - {fileID: 8300000, guid: ea613309706d97a4583387f3d890056a, type: 3}
+  redHurtSounds:
+  - {fileID: 8300000, guid: 937a6334052ca644f899f4320f004f57, type: 3}
+  - {fileID: 8300000, guid: ea613309706d97a4583387f3d890056a, type: 3}
+  redTauntSounds:
+  - {fileID: 8300000, guid: 011a5785c5a83874e9608949b35d6b32, type: 3}
+  - {fileID: 8300000, guid: 0df24333e3290414a9af58d511681ef7, type: 3}
+  redKillSounds:
+  - {fileID: 8300000, guid: d331d3758d93a2942ad9068bfd40c72d, type: 3}
+  - {fileID: 8300000, guid: 00df997e4b0bfad4b89db5e400e18b39, type: 3}
+  redWinSounds:
+  - {fileID: 8300000, guid: dbb28f96c09aa794294ed824106856c5, type: 3}
+  greenDeathSounds: []
+  greenHurtSounds: []
+  greenTauntSounds: []
+  greenKillSounds: []
+  greenWinSounds: []
+  blueDeathSounds: []
+  blueHurtSounds: []
+  blueTauntSounds: []
+  blueKillSounds: []
+  blueWinSounds: []
+  yellowDeathSounds: []
+  yellowHurtSounds: []
+  yellowTauntSounds: []
+  yellowKillSounds: []
+  yellowWinSounds: []
   playerSelect: {fileID: 1211943184}
   roundWon: {fileID: 2094583075}
   victory: {fileID: 1346406159}
@@ -486,6 +519,36 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: fe3c8e4c7562bbb449edc30884ff8ec7, type: 3}
   playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &271390542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 271390534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Kill Sounds
+  useUISource: 0
+  clips: []
+  playRandom: 1
   volume: 1
   variableVolume: 0
   volumeMin: 0.9
@@ -608,6 +671,11 @@ Prefab:
       propertyPath: m_AnchoredPosition.x
       value: 460
       objectReference: {fileID: 0}
+    - target: {fileID: 114029478031711120, guid: 12907ea6df15d8c49a57480120053e77,
+        type: 2}
+      propertyPath: playerWinsSound
+      value: 
+      objectReference: {fileID: 741420134}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12907ea6df15d8c49a57480120053e77, type: 2}
   m_IsPrefabParent: 0
@@ -1446,6 +1514,132 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 683861665}
+--- !u!1 &741420133 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1895805317283288, guid: 12907ea6df15d8c49a57480120053e77,
+    type: 2}
+  m_PrefabInternal: {fileID: 287277094}
+--- !u!114 &741420134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Red Player Wins
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: dbb28f96c09aa794294ed824106856c5, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Green Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Blue Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Yellow Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!1 &869974705
 GameObject:
   m_ObjectHideFlags: 0
