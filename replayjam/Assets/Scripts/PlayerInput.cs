@@ -2,6 +2,7 @@
 using System.Collections;
 using XboxCtrlrInput;
 using System;
+using System.Collections.Generic;
 
 public class PlayerInput : MonoBehaviour {
     public int playerPosition = 1;
@@ -11,6 +12,7 @@ public class PlayerInput : MonoBehaviour {
     public float maxReticalX;
     public float maxReticalY;
     public Transform retical;
+    public List<SpriteRenderer> aimDots;
     public float reticalLowMax;
     public float reticalLowMin;
     public float reticalHighMax;
@@ -103,8 +105,14 @@ public class PlayerInput : MonoBehaviour {
 
         Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
 
+        foreach (SpriteRenderer aimDot in aimDots)
+        {
+            aimDot.color = playerColor;
+        }
+
         playerColor.a = 0.25f;
         blink = playerColor;
+        
 
         //aura.color = playerColor;
         invincibleTimeLeft = invincibleTime;
