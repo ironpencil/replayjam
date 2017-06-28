@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooter: {fileID: 0}
+  shooterNum: 0
   bulletTrail: {fileID: 96745337132247672}
   bulletParticles: {fileID: 198361949668378238}
 --- !u!198 &198361949668378238

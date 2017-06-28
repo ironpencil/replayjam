@@ -41,33 +41,6 @@ public class GameManager : MonoBehaviour {
     public List<Sprite> playerSprites;
     public List<PortraitBehavior> playerPortraits;
 
-    public float killSoundChance = 1.0f;
-    public SoundEffectHandler killSounds;
-
-    public List<AudioClip> redDeathSounds;
-    public List<AudioClip> redHurtSounds;
-    public List<AudioClip> redTauntSounds;
-    public List<AudioClip> redKillSounds;
-    public List<AudioClip> redWinSounds;
-
-    public List<AudioClip> greenDeathSounds;
-    public List<AudioClip> greenHurtSounds;
-    public List<AudioClip> greenTauntSounds;
-    public List<AudioClip> greenKillSounds;
-    public List<AudioClip> greenWinSounds;
-
-    public List<AudioClip> blueDeathSounds;
-    public List<AudioClip> blueHurtSounds;
-    public List<AudioClip> blueTauntSounds;
-    public List<AudioClip> blueKillSounds;
-    public List<AudioClip> blueWinSounds;
-
-    public List<AudioClip> yellowDeathSounds;
-    public List<AudioClip> yellowHurtSounds;
-    public List<AudioClip> yellowTauntSounds;
-    public List<AudioClip> yellowKillSounds;
-    public List<AudioClip> yellowWinSounds;
-    
     public PlayerSelectController playerSelect;
     public RoundWonBehavior roundWon;
     public VictoryBehavior victory;
@@ -75,6 +48,8 @@ public class GameManager : MonoBehaviour {
     public SoundEffectHandler startRoundSound;
     public SoundEffectHandler endRoundSound;
     public SoundEffectHandler endGameSound;
+
+    public CharacterSoundManager characterSounds;
 
     // Use this for initialization
     void Start () {
@@ -347,55 +322,7 @@ public class GameManager : MonoBehaviour {
         playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
         playerScript.portrait = playerPortraits[pi.playerNum - 1];
 
-        SetupPlayerSounds(playerScript);
-        
         livingPlayers.Add(playerScript);
-    }
-
-    private void SetupPlayerSounds(PlayerInput player)
-    {
-        List<AudioClip> tauntSounds = null;
-        List<AudioClip> hurtSounds = null;
-        List<AudioClip> deathSounds = null;
-        switch (player.playerInfo.playerNum)
-        {
-            case 1:
-                tauntSounds = redTauntSounds;
-                hurtSounds = redHurtSounds;
-                deathSounds = redDeathSounds;
-                break;
-            case 2:
-                tauntSounds = yellowTauntSounds;
-                hurtSounds = yellowHurtSounds;
-                deathSounds = yellowDeathSounds;
-                break;
-            case 3:
-                tauntSounds = blueTauntSounds;
-                hurtSounds = blueHurtSounds;
-                deathSounds = blueDeathSounds;
-                break;
-            case 4:
-                tauntSounds = greenTauntSounds;
-                hurtSounds = greenHurtSounds;
-                deathSounds = greenDeathSounds;
-                break;
-        }
-
-        foreach (SoundEffectHandler seh in player.GetComponents<SoundEffectHandler>())
-        {
-            if (seh.description == "Taunt")
-            {
-                seh.clips = tauntSounds;
-            }
-            else if (seh.description == "Death")
-            {
-                seh.clips = deathSounds;
-            }
-            else if (seh.description == "Hurt")
-            {
-                seh.clips = hurtSounds;
-            }
-        }
     }
 
     void RespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
@@ -421,9 +348,7 @@ public class GameManager : MonoBehaviour {
             playerScript.playerInfo = pi;
             playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
             playerScript.portrait = playerPortraits[pi.playerNum - 1];
-
-            SetupPlayerSounds(playerScript);
-
+            
             livingPlayers.Add(playerScript);
         }
     }
@@ -545,26 +470,7 @@ public class GameManager : MonoBehaviour {
 
         killControllers[killer - 1].AddKill(killee);
 
-        if (killSoundChance >= UnityEngine.Random.Range(0.01f, 1.0f))
-        {
-            switch (killer)
-            {
-                case 1:
-                    killSounds.clips = redKillSounds;
-                    break;
-                case 2:
-                    killSounds.clips = yellowKillSounds;
-                    break;
-                case 3:
-                    killSounds.clips = blueKillSounds;
-                    break;
-                case 4:
-                    killSounds.clips = greenKillSounds;
-                    break;
-            }
-
-            killSounds.PlayEffect();
-        }
+        characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killer, false);
     }
 
     bool CheckForExitInput(XboxController controller)

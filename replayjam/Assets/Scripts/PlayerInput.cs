@@ -2,18 +2,17 @@
 using System.Collections;
 using XboxCtrlrInput;
 using System;
+using System.Collections.Generic;
 
 public class PlayerInput : MonoBehaviour {
     public int playerPosition = 1;
     public int playerHealth = 3;
     public float invincibleTime = 3;
     private float invincibleTimeLeft = 0;
-    public float hurtSoundChance = 1.0f;
-    public float deathSoundChance = 1.0f;
-    public float killSoundChance = 1.0f;
     public float maxReticalX;
     public float maxReticalY;
     public Transform retical;
+    public List<SpriteRenderer> aimDots;
     public float reticalLowMax;
     public float reticalLowMin;
     public float reticalHighMax;
@@ -57,9 +56,6 @@ public class PlayerInput : MonoBehaviour {
     public SoundEffectHandler shipHitSound;
     public SoundEffectHandler shieldFadeSound;
     public SoundEffectHandler shipExplodeSound;
-    public SoundEffectHandler deathSounds;
-    public SoundEffectHandler tauntSounds;
-    public SoundEffectHandler hurtSounds;
 
     public enum ThrustStyle
     {
@@ -113,8 +109,14 @@ public class PlayerInput : MonoBehaviour {
 
         Color playerColor = Globals.Instance.GameManager.GetPlayerColor(playerInfo.playerNum);
 
+        foreach (SpriteRenderer aimDot in aimDots)
+        {
+            aimDot.color = playerColor;
+        }
+
         playerColor.a = 0.25f;
         blink = playerColor;
+        
 
         //aura.color = playerColor;
         invincibleTimeLeft = invincibleTime;
@@ -206,7 +208,7 @@ public class PlayerInput : MonoBehaviour {
             nextTauntTime < Time.time)
         {
             nextTauntTime = Time.time + tauntInterval;
-            tauntSounds.PlayEffect();
+            Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Taunt, playerInfo.playerNum, false);
         }
     }
 
@@ -389,13 +391,12 @@ public class PlayerInput : MonoBehaviour {
             {
                 StartCoroutine(DestroyShield());
             }
-            
-            float roll = UnityEngine.Random.Range(0.0f, 1.0f);
-            if (playerHealth > 0 && UnityEngine.Random.Range(0.0f, 1.0f) <= hurtSoundChance)
+
+            if (playerHealth > 0)
             {
-                Debug.Log("Playing hurt sound for " + playerInfo.playerNum);
-                hurtSounds.PlayEffect();
+                Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Grunt, playerInfo.playerNum, false);
             }
+            
         }
         
         return killed;
@@ -448,10 +449,7 @@ public class PlayerInput : MonoBehaviour {
     {
         shipExplodeSound.PlayEffect();
 
-        if (deathSoundChance >= UnityEngine.Random.Range(0.0f, 1.0f))
-        {
-            deathSounds.PlayEffect();
-        }
+        Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Death, playerInfo.playerNum, false);
         
         GameObject explosion = GameObject.Instantiate(playerExplosion, transform.position, Quaternion.identity, Globals.Instance.dynamicsParent);
 

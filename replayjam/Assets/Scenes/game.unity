@@ -288,7 +288,6 @@ GameObject:
   - component: {fileID: 271390541}
   - component: {fileID: 271390540}
   - component: {fileID: 271390539}
-  - component: {fileID: 271390542}
   m_Layer: 0
   m_Name: Globals
   m_TagString: Untagged
@@ -332,6 +331,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1166225534}
+  - {fileID: 2004697730}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -359,7 +359,7 @@ MonoBehaviour:
   - {fileID: 1359605321}
   - {fileID: 1582893041}
   numPlayers: 0
-  enableShields: 0
+  enableShields: 1
   livingPlayers: []
   isRoundActive: 0
   isRoundReady: 0
@@ -382,44 +382,14 @@ MonoBehaviour:
   - {fileID: 1495635409}
   - {fileID: 875765435}
   - {fileID: 1939596266}
-  killSoundChance: 1
-  killSounds: {fileID: 271390542}
-  redDeathSounds:
-  - {fileID: 8300000, guid: da69161efba950941a8f1f6ef83f9187, type: 3}
-  - {fileID: 8300000, guid: 937a6334052ca644f899f4320f004f57, type: 3}
-  - {fileID: 8300000, guid: ea613309706d97a4583387f3d890056a, type: 3}
-  redHurtSounds:
-  - {fileID: 8300000, guid: 937a6334052ca644f899f4320f004f57, type: 3}
-  - {fileID: 8300000, guid: ea613309706d97a4583387f3d890056a, type: 3}
-  redTauntSounds:
-  - {fileID: 8300000, guid: 011a5785c5a83874e9608949b35d6b32, type: 3}
-  - {fileID: 8300000, guid: 0df24333e3290414a9af58d511681ef7, type: 3}
-  redKillSounds:
-  - {fileID: 8300000, guid: d331d3758d93a2942ad9068bfd40c72d, type: 3}
-  - {fileID: 8300000, guid: 00df997e4b0bfad4b89db5e400e18b39, type: 3}
-  redWinSounds:
-  - {fileID: 8300000, guid: dbb28f96c09aa794294ed824106856c5, type: 3}
-  greenDeathSounds: []
-  greenHurtSounds: []
-  greenTauntSounds: []
-  greenKillSounds: []
-  greenWinSounds: []
-  blueDeathSounds: []
-  blueHurtSounds: []
-  blueTauntSounds: []
-  blueKillSounds: []
-  blueWinSounds: []
-  yellowDeathSounds: []
-  yellowHurtSounds: []
-  yellowTauntSounds: []
-  yellowKillSounds: []
-  yellowWinSounds: []
   playerSelect: {fileID: 1211943184}
   roundWon: {fileID: 2094583075}
   victory: {fileID: 1346406159}
   startRoundSound: {fileID: 271390541}
   endRoundSound: {fileID: 271390540}
   endGameSound: {fileID: 271390539}
+  characterSounds: {fileID: 114271045072126314, guid: 429b803023d1b084386047c6a6d2ab1e,
+    type: 2}
 --- !u!114 &271390538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,36 +489,6 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: fe3c8e4c7562bbb449edc30884ff8ec7, type: 3}
   playRandom: 0
-  volume: 1
-  variableVolume: 0
-  volumeMin: 0.9
-  volumeMax: 1
-  pitch: 1
-  variablePitch: 0
-  pitchMin: 0.8
-  pitchMax: 1.2
-  playDelay: 0
-  variableDelay: 0
-  playDelayMin: 0
-  playDelayMax: 0.01
-  ignoreTimeScale: 0
-  playOneShot: 1
-  playOnStart: 0
---- !u!114 &271390542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 271390534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  description: Kill Sounds
-  useUISource: 0
-  clips: []
-  playRandom: 1
   volume: 1
   variableVolume: 0
   volumeMin: 0.9
@@ -1306,6 +1246,48 @@ Prefab:
       objectReference: {fileID: 441695056}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 52bf3e0c98e311d4d8fcbcbb6be08920, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &552412819
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 271390536}
+    m_Modifications:
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 429b803023d1b084386047c6a6d2ab1e, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &584350780
 Prefab:
@@ -2847,6 +2829,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1871280877}
   m_Script: {fileID: 11500000, guid: 67f43824a247c744abfe62b76fd1677a, type: 3}
+--- !u!4 &2004697730 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4054542334470986, guid: 429b803023d1b084386047c6a6d2ab1e,
+    type: 2}
+  m_PrefabInternal: {fileID: 552412819}
 --- !u!1 &2057455732
 GameObject:
   m_ObjectHideFlags: 0

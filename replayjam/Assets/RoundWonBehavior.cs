@@ -20,10 +20,6 @@ public class RoundWonBehavior : MonoBehaviour {
     public float killStampInterval = 0.2f;
 
     public SoundEffectHandler killStampSound;
-    public SoundEffectHandler redPlayerWinsSound;
-    public SoundEffectHandler yellowPlayerWinsSound;
-    public SoundEffectHandler bluePlayerWinsSound;
-    public SoundEffectHandler greenPlayerWinsSound;
     private int soundsPlayed = 0;
 
 	// Use this for initialization
@@ -153,20 +149,6 @@ public class RoundWonBehavior : MonoBehaviour {
             yield return new WaitForSeconds(killStampInterval);
         }
 
-        switch (gm.lastRoundWinner.playerNum)
-        {
-            case 1:
-                redPlayerWinsSound.PlayEffect();
-                break;
-            case 2:
-                yellowPlayerWinsSound.PlayEffect();
-                break;
-            case 3:
-                bluePlayerWinsSound.PlayEffect();
-                break;
-            case 4:
-                greenPlayerWinsSound.PlayEffect();
-                break;
-        }
+        Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Win, gm.lastRoundWinner.playerNum, true);
     }
 }
