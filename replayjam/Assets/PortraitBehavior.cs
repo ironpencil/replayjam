@@ -43,6 +43,7 @@ public class PortraitBehavior : MonoBehaviour {
     public AnimationCurve slideInCurve;
     public AnimationCurve slideOutCurve;
     public bool slidingIn;
+    bool finishedSliding = true;
     
     private class AnimationStage
     {
@@ -133,53 +134,74 @@ public class PortraitBehavior : MonoBehaviour {
 
     public void TakeDamage()
     {
-        if (glassStages.Count > damage)
+        damage++;
+
+        if (damage < glassStages.Count)
         {
-            glass.sprite = glassStages[damage++];
+            glass.sprite = glassStages[damage];
         }
-        glass.color = Color.white;
         StartCoroutine(AnimateDamage());
     }
 
     public void ResetDamage()
     {
         damage = 0;
-        glass.sprite = null;
-        glass.color = Color.clear;
+        glass.sprite = glassStages[0];
     }
 
     public void SlideIn()
     {
-        ResetDamage();
-        startTime = Time.time;
-        slideInTime = UnityEngine.Random.Range(minSlideInTime, maxSlideInTime);
-        slidingIn = true;
-        gameObject.GetComponent<GameObjectShake>().enabled = false;
+        if (!slidingIn)
+        {
+            finishedSliding = false;
+            ResetDamage();
+            startTime = Time.time;
+            slideInTime = UnityEngine.Random.Range(minSlideInTime, maxSlideInTime);
+            slidingIn = true;
+            gameObject.GetComponent<GameObjectShake>().enabled = false;
+        }
     }
 
     public void SlideOut()
     {
-        startTime = Time.time;
-        slideOutTime = UnityEngine.Random.Range(minSlideOutTime, maxSlideOutTime);
-        slidingIn = false;
-        gameObject.GetComponent<GameObjectShake>().enabled = false;
+        if (slidingIn)
+        {
+            finishedSliding = false;
+            startTime = Time.time;
+            slideOutTime = UnityEngine.Random.Range(minSlideOutTime, maxSlideOutTime);
+            slidingIn = false;
+            gameObject.GetComponent<GameObjectShake>().enabled = false;
+        }
     }
 
     // Update is called once per frame
     void Update () {
-        
-        if (slidingIn)
-        {
-            float percent = slideInCurve.Evaluate((Time.time - startTime) / slideInTime);
-            Vector2 newPos = startPos + ((endPos - startPos) * percent); //lerp is capped at 1
-            container.anchoredPosition = newPos; //Vector2.Lerp(startPos, endPos, percent);
 
-            if (percent == 1) gameObject.GetComponent<GameObjectShake>().enabled = true;
-        } else
+        if (!finishedSliding)
         {
-            float percent = slideOutCurve.Evaluate((Time.time - startTime) / slideOutTime);
-            container.anchoredPosition = Vector2.Lerp(endPos, startPos, percent);
+            if (slidingIn)
+            {
+                float percent = slideInCurve.Evaluate((Time.time - startTime) / slideInTime);
+                Vector2 newPos = startPos + ((endPos - startPos) * percent); //lerp is capped at 1
+                container.anchoredPosition = newPos; //Vector2.Lerp(startPos, endPos, percent);
+
+                if (percent == 1)
+                {
+                    gameObject.GetComponent<GameObjectShake>().enabled = true;
+                    finishedSliding = true;
+                }
+            }
+            else
+            {
+                float percent = slideOutCurve.Evaluate((Time.time - startTime) / slideOutTime);
+                container.anchoredPosition = Vector2.Lerp(endPos, startPos, percent);
+
+                if (percent == 1)
+                {
+                    finishedSliding = true;
+                    transform.parent.gameObject.SetActive(false);
+                }
+            }
         }
-        
 	}
 }
