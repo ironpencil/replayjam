@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour {
 
     public GameMode gameMode = GameMode.Deathmatch;
     public int killGoal = 10;
+    public List<Sprite> killIcons = new List<Sprite>();
+
+    public List<KillKountKontroller> killControllers = new List<KillKountKontroller>();
 
     public int numPlayers = 2;
 
@@ -240,10 +243,22 @@ public class GameManager : MonoBehaviour {
             Destroy(trans.gameObject);
         }
 
-        foreach (PlayerInput pi in livingPlayers)
+        //foreach (PlayerInput pi in livingPlayers)
+        //{
+        //    playerPortraits[pi.playerInfo.playerNum - 1].SlideOut();
+        //}
+
+        foreach (PlayerInfo pi in joinedPlayers)
         {
-            playerPortraits[pi.playerInfo.playerNum - 1].SlideOut();
+            playerPortraits[pi.playerNum - 1].SlideOut();
         }
+
+        foreach (KillKountKontroller killCounter in killControllers)
+        {
+            killCounter.Reset();
+        }
+
+        kills.Clear();
 
         livingPlayers.Clear();
 
@@ -258,7 +273,10 @@ public class GameManager : MonoBehaviour {
         playerSelect.ResetScreen();
     }
 
-
+    internal Sprite GetPlayerKillIcon(int playerNum)
+    {
+        return killIcons[playerNum - 1];
+    }
 
     internal Color GetPlayerColor(int playerNum)
     {
@@ -314,7 +332,6 @@ public class GameManager : MonoBehaviour {
             livingPlayers.Add(playerScript);
         }
     }
-
 
     public void KillPlayer(int playerNum)
     {
@@ -415,14 +432,6 @@ public class GameManager : MonoBehaviour {
 
             RespawnPlayer(pi.playerInfo, playerRing, playerPos);
 
-
-
-
-
-
-
-
-
         }
     }
 
@@ -438,6 +447,8 @@ public class GameManager : MonoBehaviour {
         killerKills.Add(killee);
 
         kills[killer] = killerKills;
+
+        killControllers[killer - 1].AddKill(killee);
     }
 
     bool CheckForExitInput(XboxController controller)
