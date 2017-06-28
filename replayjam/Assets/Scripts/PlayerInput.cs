@@ -208,7 +208,7 @@ public class PlayerInput : MonoBehaviour {
             nextTauntTime < Time.time)
         {
             nextTauntTime = Time.time + tauntInterval;
-            Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Taunt, playerInfo.playerNum, false);
+            Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Taunt, playerInfo.playerNum, true);
         }
     }
 
