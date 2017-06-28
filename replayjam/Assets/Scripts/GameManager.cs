@@ -208,6 +208,24 @@ public class GameManager : MonoBehaviour {
             playerPortraits[joinedPlayers[i].playerNum - 1].SlideIn();
         }
 
+        switch (numPlayers)
+        {
+            case 2:
+                //shields enabled
+                //kill goal = 5
+                break;
+            case 3:
+                //shields disabled
+                //kill goal = 10
+                break;
+            case 4:
+                //shields disabled
+                //kill goal = 10
+                break;
+            default:
+                break;
+        }
+
         if (numPlayers == 4)
         {
             //swap 3 and 4 positions to read left->right instead of clockwise around a circle

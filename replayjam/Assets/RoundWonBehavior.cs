@@ -10,8 +10,17 @@ public class RoundWonBehavior : MonoBehaviour {
 
     public List<Text> playerNames;
     public List<Text> playerScores;
+    public List<GameObject> playerKillCounts;
+
+    public GameObject killIconPrefab;
 
     public Text winnerText;
+
+    public float killStampDelay = 1.0f;
+    public float killStampInterval = 0.2f;
+
+    public SoundEffectHandler killStampSound;
+    private int soundsPlayed = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -42,8 +51,8 @@ public class RoundWonBehavior : MonoBehaviour {
 
     public void DisplayScreen()
     {
-        UpdateFields();
         gameObject.SetActive(true);
+        UpdateFields();        
     }
 
     public void Hide()
@@ -59,16 +68,25 @@ public class RoundWonBehavior : MonoBehaviour {
 
         foreach (Text t in playerScores)
         {
-            t.transform.parent.gameObject.SetActive(false);
+            t.transform.parent.parent.gameObject.SetActive(false);
+        }
+
+        foreach (GameObject killCount in playerKillCounts)
+        {
+            foreach (Transform child in killCount.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
         }
 
         int i = 0;
 
         GameManager.GameMode gameMode = gm.gameMode;
+        soundsPlayed = 0;
 
         foreach (PlayerInfo pi in gm.joinedPlayers)
         {
-            playerNames[i].transform.parent.gameObject.SetActive(true);
+            playerNames[i].transform.parent.parent.gameObject.SetActive(true);
 
             Color playerColor = gm.GetPlayerColor(pi.playerNum);
             playerNames[i].color = playerColor;
@@ -78,23 +96,57 @@ public class RoundWonBehavior : MonoBehaviour {
             if (gameMode == GameManager.GameMode.Survival)
             {
                 playerScores[i].text = pi.roundsWon + "";
+                playerKillCounts[i].SetActive(false);
             }
             else if (gameMode == GameManager.GameMode.Deathmatch)
             {
                 int kills = 0;
                 List<int> playerKills;
+
+                GameObject kc = playerKillCounts[i];
+                kc.SetActive(true);
+
                 if (gm.kills.TryGetValue(pi.playerNum, out playerKills))
                 {
                     //display all kill icons
                     kills = playerKills.Count;
-                }
 
+                    StartCoroutine(AddKills(playerScores[i], kc, playerKills));
+                }
                 
                 //set score to kills
-                playerScores[i].text = kills + "";
+                //playerScores[i].text = kills.ToString();
             }
 
             i++;
+        }
+    }
+
+    private IEnumerator AddKills(Text playerScore, GameObject kc, List<int> kills)
+    {
+        playerScore.text = "0";
+
+        yield return new WaitForSeconds(killStampDelay);
+
+        int killCount = 0;
+
+        foreach (int kill in kills)
+        {
+            killCount++;
+            playerScore.text = killCount.ToString();
+
+            //only play the kill sound once per kill instead of 4x at once for 4 players
+            if (killCount > soundsPlayed)
+            {
+                if (killStampSound != null) { killStampSound.PlayEffect(); }
+                soundsPlayed++;
+            }
+
+            GameObject killIcon = GameObject.Instantiate(killIconPrefab, kc.transform);
+            Image killImage = killIcon.GetComponent<Image>();
+            killImage.sprite = Globals.Instance.GameManager.GetPlayerKillIcon(kill);
+
+            yield return new WaitForSeconds(killStampInterval);
         }
     }
 }
