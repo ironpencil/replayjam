@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour {
     public SoundEffectHandler endRoundSound;
     public SoundEffectHandler endGameSound;
 
+    public CharacterSoundManager characterSounds;
+
     // Use this for initialization
     void Start () {
         
@@ -346,7 +348,7 @@ public class GameManager : MonoBehaviour {
             playerScript.playerInfo = pi;
             playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
             playerScript.portrait = playerPortraits[pi.playerNum - 1];
-
+            
             livingPlayers.Add(playerScript);
         }
     }
@@ -467,6 +469,8 @@ public class GameManager : MonoBehaviour {
         kills[killer] = killerKills;
 
         killControllers[killer - 1].AddKill(killee);
+
+        characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killer, false);
     }
 
     bool CheckForExitInput(XboxController controller)

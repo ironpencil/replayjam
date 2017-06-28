@@ -459,7 +459,7 @@ MonoBehaviour:
   - {fileID: 1359605321}
   - {fileID: 1582893041}
   numPlayers: 0
-  enableShields: 0
+  enableShields: 1
   livingPlayers: []
   isRoundActive: 0
   isRoundReady: 0
@@ -488,6 +488,8 @@ MonoBehaviour:
   startRoundSound: {fileID: 271390541}
   endRoundSound: {fileID: 271390540}
   endGameSound: {fileID: 271390539}
+  characterSounds: {fileID: 114271045072126314, guid: 429b803023d1b084386047c6a6d2ab1e,
+    type: 2}
 --- !u!114 &271390538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +711,11 @@ Prefab:
       propertyPath: m_AnchoredPosition.x
       value: 460
       objectReference: {fileID: 0}
+    - target: {fileID: 114029478031711120, guid: 12907ea6df15d8c49a57480120053e77,
+        type: 2}
+      propertyPath: playerWinsSound
+      value: 
+      objectReference: {fileID: 741420134}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12907ea6df15d8c49a57480120053e77, type: 2}
   m_IsPrefabParent: 0
@@ -1589,6 +1596,132 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 683861665}
+--- !u!1 &741420133 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1895805317283288, guid: 12907ea6df15d8c49a57480120053e77,
+    type: 2}
+  m_PrefabInternal: {fileID: 287277094}
+--- !u!114 &741420134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Red Player Wins
+  useUISource: 0
+  clips:
+  - {fileID: 8300000, guid: dbb28f96c09aa794294ed824106856c5, type: 3}
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Green Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Blue Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
+--- !u!114 &741420137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741420133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71259274b8da8d94493c581923603002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Yellow Player Wins
+  useUISource: 0
+  clips: []
+  playRandom: 0
+  volume: 1
+  variableVolume: 0
+  volumeMin: 0.9
+  volumeMax: 1
+  pitch: 1
+  variablePitch: 0
+  pitchMin: 0.8
+  pitchMax: 1.2
+  playDelay: 0
+  variableDelay: 0
+  playDelayMin: 0
+  playDelayMax: 0.01
+  ignoreTimeScale: 0
+  playOneShot: 1
+  playOnStart: 0
 --- !u!1 &869974705
 GameObject:
   m_ObjectHideFlags: 0

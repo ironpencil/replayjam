@@ -148,5 +148,7 @@ public class RoundWonBehavior : MonoBehaviour {
 
             yield return new WaitForSeconds(killStampInterval);
         }
+
+        Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Win, gm.lastRoundWinner.playerNum, true);
     }
 }
