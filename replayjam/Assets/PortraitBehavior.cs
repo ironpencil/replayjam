@@ -82,6 +82,5 @@ public class PortraitBehavior : MonoBehaviour {
             float percent = slideOutCurve.Evaluate((Time.time - startTime) / slideOutTime);
             container.anchoredPosition = Vector2.Lerp(endPos, startPos, percent);
         }
-        
 	}
 }

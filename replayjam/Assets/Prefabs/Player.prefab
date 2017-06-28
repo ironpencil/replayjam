@@ -291,8 +291,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1649683819981324, guid: 22eca1a27bd2a7b4f920002795e55af6,
     type: 2}
   shooter: {fileID: 1287869048872812}
-  shootForce: 30
-  shootInterval: 0.5
+  shootForce: 25
+  shootInterval: 0.8
   spawnOffset: {x: 0, y: 0}
   shootSound: {fileID: 114676440155957488}
 --- !u!114 &114028963500817328
@@ -405,8 +405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPosition: 1
-  playerHealth: 3
-  invincibleTime: 1
+  playerHealth: 2
+  invincibleTime: 1.5
   maxReticalX: 1
   maxReticalY: 1
   retical: {fileID: 4435403763373654}

@@ -26,7 +26,7 @@ public class RoundWonBehavior : MonoBehaviour {
         {
             if (XCI.GetButtonDown(XboxButton.A, (XboxController)i))
             {
-                if (gm.lastRoundWinner.roundsWon > 2)
+                if (gm.gameMode == GameManager.GameMode.Deathmatch || gm.lastRoundWinner.roundsWon > 2)
                 {
                     gm.EndGame();
                     gameObject.SetActive(false);
@@ -64,6 +64,8 @@ public class RoundWonBehavior : MonoBehaviour {
 
         int i = 0;
 
+        GameManager.GameMode gameMode = gm.gameMode;
+
         foreach (PlayerInfo pi in gm.joinedPlayers)
         {
             playerNames[i].transform.parent.gameObject.SetActive(true);
@@ -73,7 +75,24 @@ public class RoundWonBehavior : MonoBehaviour {
             playerNames[i].text = pi.name;
 
             playerScores[i].color = playerColor;
-            playerScores[i].text =  pi.roundsWon + "";
+            if (gameMode == GameManager.GameMode.Survival)
+            {
+                playerScores[i].text = pi.roundsWon + "";
+            }
+            else if (gameMode == GameManager.GameMode.Deathmatch)
+            {
+                int kills = 0;
+                List<int> playerKills;
+                if (gm.kills.TryGetValue(pi.playerNum, out playerKills))
+                {
+                    //display all kill icons
+                    kills = playerKills.Count;
+                }
+
+                
+                //set score to kills
+                playerScores[i].text = kills + "";
+            }
 
             i++;
         }

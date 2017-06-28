@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameMode gameMode = GameMode.Deathmatch;
+    public int killGoal = 10;
 
     public int numPlayers = 2;
 
@@ -25,7 +26,7 @@ public class GameManager : MonoBehaviour {
     public List<PlayerInfo> joinedPlayers = new List<PlayerInfo>();
     public List<PlayerInput> livingPlayers;
 
-    public Dictionary<int, int> kills = new Dictionary<int, int>();
+    public Dictionary<int, List<int>> kills = new Dictionary<int, List<int>>();
 
     public bool isRoundActive = false;
     public bool isRoundReady = false;
@@ -87,6 +88,43 @@ public class GameManager : MonoBehaviour {
                     {
                         lastRoundWinner = null;
                         StartCoroutine(EndRound());
+                    }
+                } else if (gameMode == GameMode.Deathmatch)
+                {
+                    List<int> winners = kills.Where(kvp => kvp.Value.Count() >= killGoal).Select(kvp => kvp.Key).ToList();
+
+                    int winnerCount = winners.Count;
+                    if (winnerCount > 0)
+                    {
+                        //todo: what if we have more than one winner - increase the kill goal?
+                        //for now, just pick the first index
+
+                        //if (winnerCount == 1) {
+                        //we have a winner!
+                        int winner = winners[0];
+                        //get playerInfo for winner and increase rounds won, set lastRoundWinner
+                        PlayerInfo pi = joinedPlayers.First(p => p.playerNum == winner);
+
+                        lastRoundWinner = pi;
+                        lastRoundWinner.roundsWon++;
+
+                        //if they're alive, make them invulnerable
+                        PlayerInput player = livingPlayers.FirstOrDefault(p => p.playerInfo.playerNum == winner);
+                        if (player != null)
+                        {
+                            player.invulnerable = true;
+                        }
+
+                        //stop respawning of players
+
+                        //end round
+                        StartCoroutine(EndRound());
+
+                        //} else
+                        //{
+                        //todo: we have more than one winner - increase the kill goal?
+                        //for now, just pick the first index
+                        //}
                     }
                 }
             }
@@ -251,24 +289,30 @@ public class GameManager : MonoBehaviour {
 
     void RespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
     {
-        StartCoroutine(DoRespawnPlayer(pi, playerRing, playerPosition));
+        if (isRoundActive)
+        {
+            StartCoroutine(DoRespawnPlayer(pi, playerRing, playerPosition));
+        }
     }
 
     IEnumerator DoRespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
     {
         yield return new WaitForSeconds(respawnTime);
 
-        GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
-        PlayerInput playerScript = player.GetComponent<PlayerInput>();
+        if (isRoundActive)
+        {
+            GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
+            PlayerInput playerScript = player.GetComponent<PlayerInput>();
 
-        playerScript.playerPosition = playerPosition;
+            playerScript.playerPosition = playerPosition;
 
-        playerScript.playerRing = playerRing;
-        playerScript.playerInfo = pi;
-        playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
-        playerScript.portrait = playerPortraits[pi.playerNum - 1];
+            playerScript.playerRing = playerRing;
+            playerScript.playerInfo = pi;
+            playerScript.playerShip.sprite = playerSprites[pi.playerNum - 1];
+            playerScript.portrait = playerPortraits[pi.playerNum - 1];
 
-        livingPlayers.Add(playerScript);
+            livingPlayers.Add(playerScript);
+        }
     }
 
 
@@ -380,6 +424,20 @@ public class GameManager : MonoBehaviour {
 
 
         }
+    }
+
+    public void AddKill(int killer, int killee)
+    {
+        List<int> killerKills;
+
+        if (!kills.TryGetValue(killer, out killerKills))
+        {
+            killerKills = new List<int>();
+        }
+
+        killerKills.Add(killee);
+
+        kills[killer] = killerKills;
     }
 
     bool CheckForExitInput(XboxController controller)

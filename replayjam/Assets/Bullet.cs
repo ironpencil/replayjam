@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
     public GameObject shooter;
+    public int shooterNum;
 
     public TrailRenderer bulletTrail;
     public ParticleSystem bulletParticles;
@@ -19,6 +20,8 @@ public class Bullet : MonoBehaviour {
         var main = bulletParticles.main;
         main.startColor = playerColor;
 
+        shooterNum = pi.playerInfo.playerNum;
+
         //Gradient gradient = bulletTrail.colorGradient;
         //GradientColorKey[] gcks = gradient.colorKeys;
 
@@ -32,13 +35,19 @@ public class Bullet : MonoBehaviour {
     void Collide(GameObject go)
     {
         PlayerInput player = go.GetComponent<PlayerInput>();
+        Destroy(gameObject);
 
         if (player != null && go != shooter)
         {
-            player.Hit();
-        }
+            if (player.Hit())
+            {
+                //Hit() returns true if the player dies, so this means we got a kill
 
-        Destroy(gameObject);
+                //todo: 
+                int victimNum = player.playerInfo.playerNum;
+                Globals.Instance.GameManager.AddKill(shooterNum, victimNum);
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

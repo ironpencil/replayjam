@@ -16,7 +16,7 @@ public class VictoryBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        victoryText.text = gm.lastRoundWinner.name + " is the victor!";
+        victoryText.text = gm.lastRoundWinner.name + " is the Victor!";
         victoryText.color = gm.GetPlayerColor(gm.lastRoundWinner.playerNum);
 
         for (int i = 1; i <= 4; i++)
