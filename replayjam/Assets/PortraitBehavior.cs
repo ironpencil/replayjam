@@ -167,6 +167,7 @@ public class PortraitBehavior : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        /*
         if (slidingIn)
         {
             float percent = slideInCurve.Evaluate((Time.time - startTime) / slideInTime);
@@ -179,5 +180,6 @@ public class PortraitBehavior : MonoBehaviour {
             float percent = slideOutCurve.Evaluate((Time.time - startTime) / slideOutTime);
             container.anchoredPosition = Vector2.Lerp(endPos, startPos, percent);
         }
+        */
 	}
 }
