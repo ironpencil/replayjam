@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInTime: 0.25
-  displayTime: 3
+  displayTime: 4
   fadeOutTime: 0.25
   minimumDisplayTime: 0
   automaticallyDismiss: 1
