@@ -488,8 +488,7 @@ MonoBehaviour:
   startRoundSound: {fileID: 271390541}
   endRoundSound: {fileID: 271390540}
   endGameSound: {fileID: 271390539}
-  characterSounds: {fileID: 114271045072126314, guid: 429b803023d1b084386047c6a6d2ab1e,
-    type: 2}
+  characterSounds: {fileID: 585696502}
 --- !u!114 &271390538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,6 +1498,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b5c598d20aebd946ac73cc0bdf3b5b5, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &585696502 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114271045072126314, guid: 429b803023d1b084386047c6a6d2ab1e,
+    type: 2}
+  m_PrefabInternal: {fileID: 552412819}
+  m_Script: {fileID: 11500000, guid: 328b342bbebd8c142803ab929200668b, type: 3}
 --- !u!224 &608655845 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224089540472583328, guid: 52bf3e0c98e311d4d8fcbcbb6be08920,
