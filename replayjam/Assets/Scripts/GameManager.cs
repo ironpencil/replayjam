@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     public List<KillKountKontroller> killControllers = new List<KillKountKontroller>();
 
     public int numPlayers = 2;
+    public bool showHowToPlay = true;
 
     public bool enableShields = false;
 
@@ -33,6 +34,9 @@ public class GameManager : MonoBehaviour {
 
     public bool isRoundActive = false;
     public bool isRoundReady = false;
+    public bool isShowingHowToPlay = false;
+    public bool newGame = true;
+
     public float respawnTime = 1.0f;
 
     public GameObject playerPrefab;
@@ -44,6 +48,7 @@ public class GameManager : MonoBehaviour {
     public PlayerSelectController playerSelect;
     public RoundWonBehavior roundWon;
     public VictoryBehavior victory;
+    public GameObject howToPlayScreen;
 
     public SoundEffectHandler startRoundSound;
     public SoundEffectHandler endRoundSound;
@@ -143,6 +148,17 @@ public class GameManager : MonoBehaviour {
                 Globals.Instance.DoQuit();
             }
 
+            if (isShowingHowToPlay)
+            {
+                if (Input.anyKeyDown)
+                {
+                    howToPlayScreen.SetActive(false);
+                    isShowingHowToPlay = false;
+                    newGame = false;
+                    StartRound();
+                }
+            }
+
             //if (isRoundReady && Input.anyKeyDown)
             //{
             //    StartRound();
@@ -199,10 +215,21 @@ public class GameManager : MonoBehaviour {
 
     public void StartRound()
     {
-        isRoundActive = true;
         isRoundReady = false;
 
         playerSelect.gameObject.SetActive(false);
+        startRoundSound.PlayEffect();
+
+        if (newGame && showHowToPlay)
+        {
+            newGame = false;
+            howToPlayScreen.SetActive(true);
+            isShowingHowToPlay = true;
+            return;
+        }
+
+        isRoundActive = true;
+
         joinedPlayers = joinedPlayers.Where(p => p.playerNum > 0).OrderBy(p => p.playerNum).ToList();
 
         numPlayers = joinedPlayers.Count;
@@ -238,8 +265,6 @@ public class GameManager : MonoBehaviour {
             livingPlayers[2].playerPosition = 4;
             livingPlayers[3].playerPosition = 3;
         }
-
-        startRoundSound.PlayEffect();
 
     }
 
@@ -292,6 +317,7 @@ public class GameManager : MonoBehaviour {
     private void CleanupGame()
     {
         CleanupRound();
+        newGame = true;
 
         joinedPlayers = new List<PlayerInfo>();
 

@@ -9,8 +9,6 @@ public class PlayerInput : MonoBehaviour {
     public int playerHealth = 3;
     public float invincibleTime = 3;
     private float invincibleTimeLeft = 0;
-    public float maxReticalX;
-    public float maxReticalY;
     public Transform retical;
     public List<SpriteRenderer> aimDots;
     public float reticalLowMax;
@@ -28,6 +26,7 @@ public class PlayerInput : MonoBehaviour {
     public Color blink;
 
     public bool invulnerable = false;
+    public bool canShoot = true;
     //public SpriteRenderer aura;
     public GameObject playerRing;
 
@@ -162,6 +161,7 @@ public class PlayerInput : MonoBehaviour {
         {
             HandleAttack();
             HandleTaunt();
+            HandleAiming();
         }
 
         if (kill)
@@ -174,7 +174,6 @@ public class PlayerInput : MonoBehaviour {
     {
         if (Globals.Instance.acceptPlayerGameInput)
         {
-            HandleAiming();
             HandleThrust();
         }
 
@@ -195,12 +194,15 @@ public class PlayerInput : MonoBehaviour {
 
     private void HandleAttack()
     {
-        if (XCI.GetButton(XboxButton.RightBumper, xboxController) ||
-            XCI.GetButton(XboxButton.LeftBumper, xboxController) ||
-            XCI.GetAxis(XboxAxis.RightTrigger, xboxController) > 0.0f ||
-            XCI.GetAxis(XboxAxis.LeftTrigger, xboxController) > 0.0f)
+        if (canShoot)
         {
-            gun.Shoot();
+            if (XCI.GetButton(XboxButton.RightBumper, xboxController) ||
+                XCI.GetButton(XboxButton.LeftBumper, xboxController) ||
+                XCI.GetAxis(XboxAxis.RightTrigger, xboxController) > 0.0f ||
+                XCI.GetAxis(XboxAxis.LeftTrigger, xboxController) > 0.0f)
+            {
+                gun.Shoot();
+            }
         }
     }
 

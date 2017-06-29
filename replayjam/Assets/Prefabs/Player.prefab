@@ -53,7 +53,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4383922546181062}
   - component: {fileID: 212517073605574628}
-  - component: {fileID: 114284611127706058}
   m_Layer: 17
   m_Name: Dot
   m_TagString: Untagged
@@ -94,7 +93,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4976172307511576}
   - component: {fileID: 212704468946360676}
-  - component: {fileID: 114094880503600548}
   m_Layer: 17
   m_Name: Dot
   m_TagString: Untagged
@@ -162,7 +160,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4156116234628214}
   - component: {fileID: 212641310522529272}
-  - component: {fileID: 114125181057874090}
   m_Layer: 17
   m_Name: Dot
   m_TagString: Untagged
@@ -451,36 +448,6 @@ MonoBehaviour:
   ignoreTimeScale: 0
   playOneShot: 1
   playOnStart: 0
---- !u!114 &114094880503600548
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1463397487929222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7fb94abddd3142851a1d6b73e6d02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4976172307511576}
-  doRotate: 1
-  startingRotation: 0
-  rotationPerSecond: 540
---- !u!114 &114125181057874090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930589682751286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7fb94abddd3142851a1d6b73e6d02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4156116234628214}
-  doRotate: 1
-  startingRotation: 0
-  rotationPerSecond: 540
 --- !u!114 &114147618279231666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -501,21 +468,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   shakeObject: {fileID: 0}
---- !u!114 &114284611127706058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1188314602972670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7fb94abddd3142851a1d6b73e6d02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4383922546181062}
-  doRotate: 1
-  startingRotation: 0
-  rotationPerSecond: 540
 --- !u!114 &114361757731387380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -530,8 +482,6 @@ MonoBehaviour:
   playerPosition: 1
   playerHealth: 2
   invincibleTime: 1.5
-  maxReticalX: 1
-  maxReticalY: 1
   retical: {fileID: 4435403763373654}
   aimDots:
   - {fileID: 212517073605574628}
@@ -550,6 +500,7 @@ MonoBehaviour:
   playerShip: {fileID: 212118974415905750}
   blink: {r: 0, g: 0, b: 0, a: 0}
   invulnerable: 0
+  canShoot: 1
   playerRing: {fileID: 0}
   gun: {fileID: 114012758290588268}
   hinge: {fileID: 0}
