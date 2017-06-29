@@ -113,11 +113,15 @@ public class GameManager : MonoBehaviour {
                         lastRoundWinner = pi;
                         lastRoundWinner.roundsWon++;
 
-                        //if they're alive, make them invulnerable
-                        PlayerInput player = livingPlayers.FirstOrDefault(p => p.playerInfo.playerNum == winner);
-                        if (player != null)
+                        foreach (PlayerInput player in livingPlayers)
                         {
-                            player.invulnerable = true;
+                            if (player.playerInfo.playerNum == winner)
+                            {
+                                player.invulnerable = true;
+                            } else
+                            {
+                                player.Kill();
+                            }
                         }
 
                         //stop respawning of players
@@ -243,11 +247,12 @@ public class GameManager : MonoBehaviour {
     {
         isRoundActive = false;
         //Time.timeScale = 0.0f;
-        
-        yield return new WaitForSecondsRealtime(2.0f);
+        endRoundSound.PlayEffect();
+
+        yield return new WaitForSecondsRealtime(4.0f);
 
         roundWon.DisplayScreen();
-        endRoundSound.PlayEffect();
+        
 
         CleanupRound();
         //Time.timeScale = 1.0f;

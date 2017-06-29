@@ -111,10 +111,26 @@ public class PortraitBehavior : MonoBehaviour {
     {
         damage++;
 
-        if (damage < glassStages.Count)
+        if (Globals.Instance.GameManager.gameMode == GameManager.GameMode.Survival)
         {
-            glass.sprite = glassStages[damage];
+            if (damage < glassStages.Count)
+            {
+                glass.sprite = glassStages[damage];
+            }
+        } else if (Globals.Instance.GameManager.gameMode == GameManager.GameMode.Deathmatch)
+        {
+            int killGoal = Globals.Instance.GameManager.killGoal;
+            
+            if (damage > killGoal * 0.6f)
+            {
+                glass.sprite = glassStages[2];
+            } else if (damage > killGoal * 0.3f)
+            {
+                glass.sprite = glassStages[1];
+            }
         }
+
+
         StartCoroutine(AnimateDamage());
     }
 

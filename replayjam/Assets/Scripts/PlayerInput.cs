@@ -368,8 +368,6 @@ public class PlayerInput : MonoBehaviour {
         if (invincibleTimeLeft == 0)
         {
             //Debug.Log("Preparing to shake " + playerInfo.playerNum);
-            portraitShaker.Shake();
-            portrait.TakeDamage();
 
             invincibleTimeLeft = invincibleTime;
 
@@ -396,6 +394,9 @@ public class PlayerInput : MonoBehaviour {
 
             if (playerHealth > 0)
             {
+                //killed player portrait updates are handled in Kill()
+                portraitShaker.Shake();
+                portrait.TakeDamage();
                 Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Grunt, playerInfo.playerNum, false);
             }
             
@@ -449,6 +450,9 @@ public class PlayerInput : MonoBehaviour {
 
     public void Kill()
     {
+        portraitShaker.Shake();
+        portrait.TakeDamage();
+
         shipExplodeSound.PlayEffect();
 
         Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Death, playerInfo.playerNum, false);

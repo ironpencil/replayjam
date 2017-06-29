@@ -94,6 +94,8 @@ public class RoundWonBehavior : MonoBehaviour {
             playerNames[i].text = pi.name;
 
             playerScores[i].color = playerColor;
+            playerScores[i].text = "0";
+
             if (gameMode == GameManager.GameMode.Survival)
             {
                 playerScores[i].text = pi.roundsWon + "";
@@ -125,8 +127,6 @@ public class RoundWonBehavior : MonoBehaviour {
 
     private IEnumerator AddKills(Text playerScore, GameObject kc, List<int> kills, bool wasWinner)
     {
-        playerScore.text = "0";
-
         yield return new WaitForSeconds(killStampDelay);
 
         int killCount = 0;
