@@ -44,6 +44,7 @@ public class PortraitBehavior : MonoBehaviour {
     public AnimationCurve slideOutCurve;
     public bool slidingIn;
     bool finishedSliding = true;
+    float nextFrame = 0.0f;
     
     private class AnimationStage
     {
@@ -58,7 +59,7 @@ public class PortraitBehavior : MonoBehaviour {
             this.time = time;
         }
     }
-
+    
     // Use this for initialization
     void Start () {
         rt = GetComponent<RectTransform>();
@@ -96,32 +97,6 @@ public class PortraitBehavior : MonoBehaviour {
                 idleAnimationStages.Add(new AnimationStage(1, 0, 0.2f));
                 break;
         }
-
-        StartCoroutine(AnimateIdly());
-	}
-
-    IEnumerator AnimateIdly()
-    {
-        while (true)
-        {
-            if (idle)
-            {
-                if (currentAnimationStage == null)
-                {
-                    currentAnimationStage = idleAnimationStages[0];
-                    character.sprite = idlePortraits[0];
-                }
-                else
-                {
-                    currentAnimationStage = idleAnimationStages[currentAnimationStage.nextIndex];
-                    character.sprite = idlePortraits[currentAnimationStage.imageIndex];
-                }
-                yield return new WaitForSecondsRealtime(currentAnimationStage.time);
-            } else
-            {
-                yield return new WaitForSecondsRealtime(0.1f);
-            }
-        }
     }
 
     IEnumerator AnimateDamage()
@@ -147,6 +122,8 @@ public class PortraitBehavior : MonoBehaviour {
     {
         damage = 0;
         glass.sprite = glassStages[0];
+        idle = true;
+        currentAnimationStage = null;
     }
 
     public void SlideIn()
@@ -175,7 +152,23 @@ public class PortraitBehavior : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
+
+        if (idle && Time.time > nextFrame)
+        {
+            if (currentAnimationStage == null)
+            {
+                currentAnimationStage = idleAnimationStages[0];
+                character.sprite = idlePortraits[0];
+            }
+            else
+            {
+                currentAnimationStage = idleAnimationStages[currentAnimationStage.nextIndex];
+                character.sprite = idlePortraits[currentAnimationStage.imageIndex];
+            }
+            nextFrame = Time.time + currentAnimationStage.time;
+        }
 
         if (!finishedSliding)
         {
@@ -203,5 +196,5 @@ public class PortraitBehavior : MonoBehaviour {
                 }
             }
         }
-	}
+    }
 }
