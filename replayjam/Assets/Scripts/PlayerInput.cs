@@ -98,7 +98,9 @@ public class PlayerInput : MonoBehaviour {
 
         transform.Rotate(startRotation);
 
-        float angleLimit = Mathf.Round(degreesPerPlayer * 0.5f);
+        degreesPerPlayer -= 15;
+
+        float angleLimit = degreesPerPlayer * 0.5f;// Mathf.Round(degreesPerPlayer * 0.5f);
 
         JointAngleLimits2D limits = new JointAngleLimits2D();
         limits.min = angleLimit * -1;
