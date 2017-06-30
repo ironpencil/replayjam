@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
     public bool isRoundReady = false;
     public bool isShowingHowToPlay = false;
     public bool newGame = true;
+    public bool allowRespawn = true;
 
     public float respawnTime = 1.0f;
 
@@ -102,7 +103,8 @@ public class GameManager : MonoBehaviour {
                         lastRoundWinner = null;
                         StartCoroutine(EndRound());
                     }
-                } else if (gameMode == GameMode.Deathmatch)
+                }
+                else if (gameMode == GameMode.Deathmatch)
                 {
                     List<int> winners = kills.Where(kvp => kvp.Value.Count() >= killGoal).Select(kvp => kvp.Key).ToList();
 
@@ -111,37 +113,85 @@ public class GameManager : MonoBehaviour {
                     {
                         //todo: what if we have more than one winner - increase the kill goal?
                         //for now, just pick the first index
-
-                        //if (winnerCount == 1) {
-                        //we have a winner!
-                        int winner = winners[0];
-                        //get playerInfo for winner and increase rounds won, set lastRoundWinner
-                        PlayerInfo pi = joinedPlayers.First(p => p.playerNum == winner);
-
-                        lastRoundWinner = pi;
-                        lastRoundWinner.roundsWon++;
-
-                        foreach (PlayerInput player in livingPlayers)
+                        if (winnerCount == 1)
                         {
-                            if (player.playerInfo.playerNum == winner)
+                            //we have a winner!
+                            int winner = winners[0];
+                            //get playerInfo for winner and increase rounds won, set lastRoundWinner
+                            PlayerInfo pi = joinedPlayers.First(p => p.playerNum == winner);
+
+                            lastRoundWinner = pi;
+                            lastRoundWinner.roundsWon++;
+
+                            foreach (PlayerInput player in livingPlayers)
                             {
-                                player.invulnerable = true;
-                            } else
+                                if (player.playerInfo.playerNum == winner)
+                                {
+                                    player.invulnerable = true;
+                                }
+                                else
+                                {
+                                    player.Kill(0);
+                                }
+                            }
+
+                            //stop respawning of players
+                            allowRespawn = false;
+
+                            //end round
+                            StartCoroutine(EndRound());
+
+                        }
+                        else
+                        {
+                            List<int> livingWinners = new List<int>();
+
+                            //kill all non-winning players and let winners fight it out
+                            foreach (PlayerInput player in livingPlayers)
                             {
-                                player.Kill(0);
+                                if (winners.Contains(player.playerInfo.playerNum))
+                                {
+                                    livingWinners.Add(player.playerInfo.playerNum);
+                                }
+                                else {
+                                    player.Kill(0); //kill all non-winning players
+                                }
+                            }
+
+                            //turn off respawn
+                            allowRespawn = false;
+
+                            //play until only 1 player is alive
+                            if (livingWinners.Count == 1)
+                            {
+                                //living player is the winner
+                                int winner = livingWinners[0];
+
+                                //get playerInfo for winner and increase rounds won, set lastRoundWinner
+                                PlayerInfo pi = joinedPlayers.First(p => p.playerNum == winner);
+
+                                lastRoundWinner = pi;
+                                lastRoundWinner.roundsWon++;
+
+                                foreach (PlayerInput player in livingPlayers)
+                                {
+                                    if (player.playerInfo.playerNum == winner)
+                                    {
+                                        player.invulnerable = true;
+                                    }
+                                    else
+                                    {
+                                        player.Kill(0);
+                                    }
+                                }
+
+                                //stop respawning of players
+                                allowRespawn = false;
+
+                                //end round
+                                StartCoroutine(EndRound());
                             }
                         }
-
-                        //stop respawning of players
-
-                        //end round
-                        StartCoroutine(EndRound());
-
-                        //} else
-                        //{
-                        //todo: we have more than one winner - increase the kill goal?
-                        //for now, just pick the first index
-                        //}
                     }
                 }
             }
@@ -243,6 +293,7 @@ public class GameManager : MonoBehaviour {
         startRoundSound.PlayEffect();
 
         isRoundActive = true;
+        allowRespawn = true;
 
         joinedPlayers = joinedPlayers.Where(p => p.playerNum > 0).OrderBy(p => p.playerNum).ToList();
 
@@ -389,7 +440,7 @@ public class GameManager : MonoBehaviour {
 
     void RespawnPlayer(PlayerInfo pi, GameObject playerRing, int playerPosition)
     {
-        if (isRoundActive)
+        if (isRoundActive && allowRespawn)
         {
             StartCoroutine(DoRespawnPlayer(pi, playerRing, playerPosition));
         }
@@ -399,7 +450,7 @@ public class GameManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(respawnTime);
 
-        if (isRoundActive)
+        if (isRoundActive && allowRespawn)
         {
             GameObject player = GameObject.Instantiate(playerPrefab, Globals.Instance.dynamicsParent);
             PlayerInput playerScript = player.GetComponent<PlayerInput>();
