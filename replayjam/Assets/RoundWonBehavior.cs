@@ -18,9 +18,13 @@ public class RoundWonBehavior : MonoBehaviour {
 
     public float killStampDelay = 1.0f;
     public float killStampInterval = 0.2f;
+    private float actualStampDelay = 0.0f;
+    private float actualStampInterval = 0.0f;
 
     public SoundEffectHandler killStampSound;
     private int soundsPlayed = 0;
+
+    private bool finishedDisplaying = true;
 
 	// Use this for initialization
 	void Start () {
@@ -35,15 +39,25 @@ public class RoundWonBehavior : MonoBehaviour {
         {
             if (XCI.GetButtonDown(XboxButton.A, (XboxController)i))
             {
-                if (gm.gameMode == GameManager.GameMode.Deathmatch || gm.lastRoundWinner.roundsWon > 2)
+                if (finishedDisplaying)
                 {
-                    gm.EndGame();
-                    gameObject.SetActive(false);
-                }
-                else
+                    if (gm.gameMode == GameManager.GameMode.Deathmatch || gm.lastRoundWinner.roundsWon > 2)
+                    {
+                        gm.EndGame();
+                        gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        gameObject.SetActive(false);
+                        gm.StartRound();
+                    }
+                } else
                 {
-                    gameObject.SetActive(false);
-                    gm.StartRound();
+                    actualStampDelay = 0.0f;
+                    actualStampInterval = 0.0f;
+                    soundsPlayed = 100000;
+                    finishedDisplaying = true;
+                    if (killStampSound != null) { killStampSound.PlayEffect(); }
                 }
             }
         }
@@ -52,6 +66,7 @@ public class RoundWonBehavior : MonoBehaviour {
     public void DisplayScreen()
     {
         gameObject.SetActive(true);
+        finishedDisplaying = false;
         UpdateFields();        
     }
 
@@ -83,6 +98,8 @@ public class RoundWonBehavior : MonoBehaviour {
 
         GameManager.GameMode gameMode = gm.gameMode;
         soundsPlayed = 0;
+        actualStampInterval = killStampInterval;
+        actualStampDelay = killStampDelay;
 
         foreach (PlayerInfo pi in gm.joinedPlayers)
         {
@@ -100,6 +117,7 @@ public class RoundWonBehavior : MonoBehaviour {
             {
                 playerScores[i].text = pi.roundsWon + "";
                 playerKillCounts[i].SetActive(false);
+                finishedDisplaying = true;
             }
             else if (gameMode == GameManager.GameMode.Deathmatch)
             {
@@ -127,7 +145,7 @@ public class RoundWonBehavior : MonoBehaviour {
 
     private IEnumerator AddKills(Text playerScore, GameObject kc, List<int> kills, bool wasWinner)
     {
-        yield return new WaitForSeconds(killStampDelay);
+        yield return new WaitForSeconds(actualStampDelay);
 
         int killCount = 0;
 
@@ -147,14 +165,16 @@ public class RoundWonBehavior : MonoBehaviour {
             Image killImage = killIcon.GetComponent<Image>();
             killImage.sprite = Globals.Instance.GameManager.GetPlayerKillIcon(kill);
 
-            yield return new WaitForSeconds(killStampInterval);
+            yield return new WaitForSeconds(actualStampInterval);
         }
 
         if (wasWinner)
         {
-            yield return new WaitForSeconds(killStampInterval);
+            yield return new WaitForSeconds(actualStampInterval);
 
             Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Win, gm.lastRoundWinner.playerNum, true);
         }
+
+        finishedDisplaying = true;
     }
 }
