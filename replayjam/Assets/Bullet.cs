@@ -37,13 +37,8 @@ public class Bullet : MonoBehaviour {
         PlayerInput player = go.GetComponent<PlayerInput>();
         Destroy(gameObject);
 
-        PlayerInput shooterInput = shooter.GetComponent<PlayerInput>();
-
         if (player != null && go != shooter)
         {
-            int shooterNum = 0;
-            if (shooterInput != null) { shooterNum = shooterInput.playerInfo.playerNum; }
-
             if (player.Hit(shooterNum))
             {
                 //Hit() returns true if the player dies, so this means we got a kill

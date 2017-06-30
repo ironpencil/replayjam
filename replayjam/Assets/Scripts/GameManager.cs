@@ -123,6 +123,8 @@ public class GameManager : MonoBehaviour {
                             lastRoundWinner = pi;
                             lastRoundWinner.roundsWon++;
 
+                            List<PlayerInput> killPlayers = new List<PlayerInput>();
+
                             foreach (PlayerInput player in livingPlayers)
                             {
                                 if (player.playerInfo.playerNum == winner)
@@ -131,8 +133,13 @@ public class GameManager : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    player.Kill(0);
+                                    killPlayers.Add(player);
                                 }
+                            }
+
+                            foreach (PlayerInput player in killPlayers)
+                            {
+                                player.Kill(0);
                             }
 
                             //stop respawning of players
@@ -144,34 +151,20 @@ public class GameManager : MonoBehaviour {
                         }
                         else
                         {
-                            List<int> livingWinners = new List<int>();
+                            int highestKills = kills.Max(kvp => kvp.Value.Count());
+                            List<int> mostKills = kills.Where(kvp => kvp.Value.Count() == highestKills).Select(kvp => kvp.Key).ToList();
 
-                            //kill all non-winning players and let winners fight it out
-                            foreach (PlayerInput player in livingPlayers)
+                            if (mostKills.Count == 1)
                             {
-                                if (winners.Contains(player.playerInfo.playerNum))
-                                {
-                                    livingWinners.Add(player.playerInfo.playerNum);
-                                }
-                                else {
-                                    player.Kill(0); //kill all non-winning players
-                                }
-                            }
+                                //winner!
+                                int winner = mostKills[0];
 
-                            //turn off respawn
-                            allowRespawn = false;
-
-                            //play until only 1 player is alive
-                            if (livingWinners.Count == 1)
-                            {
-                                //living player is the winner
-                                int winner = livingWinners[0];
-
-                                //get playerInfo for winner and increase rounds won, set lastRoundWinner
                                 PlayerInfo pi = joinedPlayers.First(p => p.playerNum == winner);
 
                                 lastRoundWinner = pi;
                                 lastRoundWinner.roundsWon++;
+
+                                List<PlayerInput> killPlayers = new List<PlayerInput>();
 
                                 foreach (PlayerInput player in livingPlayers)
                                 {
@@ -181,8 +174,13 @@ public class GameManager : MonoBehaviour {
                                     }
                                     else
                                     {
-                                        player.Kill(0);
+                                        killPlayers.Add(player);
                                     }
+                                }
+
+                                foreach (PlayerInput player in killPlayers)
+                                {
+                                    player.Kill(0);
                                 }
 
                                 //stop respawning of players

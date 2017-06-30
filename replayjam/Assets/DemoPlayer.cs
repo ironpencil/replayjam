@@ -153,7 +153,7 @@ public class DemoPlayer : MonoBehaviour {
 
             if (cross.z < 0) ang = ang * -1;
 
-            Debug.Log(fromDir + " " + toDir + " " + ang);
+            //Debug.Log(fromDir + " " + toDir + " " + ang);
 
             Vector3 thrust = Vector3.zero;
 
