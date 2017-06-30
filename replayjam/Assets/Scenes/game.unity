@@ -409,7 +409,7 @@ MonoBehaviour:
   pauseScreenUI: {fileID: 0}
   paused: 0
   acceptPlayerGameInput: 1
-  playIntro: 0
+  playIntro: 1
   deletePlayerPrefs: 0
   firstPanel: {fileID: 608655846}
   screenTransition: {fileID: 683861667}
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 0
-  killGoal: 3
+  killGoal: 10
   killIcons:
   - {fileID: 21300000, guid: a76857ac12cefb54dbf626e54c02f7de, type: 3}
   - {fileID: 21300000, guid: 02eb88a3330134b498271bca079c7119, type: 3}
@@ -1999,7 +1999,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: -1000
   m_Sprite: {fileID: 21300000, guid: 008466400df060343a2e2285fe4665e0, type: 3}
-  m_Color: {r: 0.13362025, g: 0.20043038, b: 0.203, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

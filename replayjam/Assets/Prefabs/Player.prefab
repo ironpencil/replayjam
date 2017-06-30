@@ -459,9 +459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af765aee4a0c9d48896c59b2b931760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magnitude: 30
-  sustainTime: 0.2
-  decayTime: 0.2
+  magnitude: 50
+  sustainTime: 0.1
+  decayTime: 0.3
   shakeOnStart: 0
   shakeOnCollision: 0
   collisionMask:

@@ -166,7 +166,7 @@ public class PlayerInput : MonoBehaviour {
 
         if (kill)
         {
-            Kill();
+            Kill(0);
         }
     }
 
@@ -361,7 +361,7 @@ public class PlayerInput : MonoBehaviour {
         }
     }
 
-    public bool Hit()
+    public bool Hit(int hitBy)
     {
         bool killed = false;
 
@@ -381,7 +381,7 @@ public class PlayerInput : MonoBehaviour {
             
             if (playerHealth < 1)
             {
-                Kill();
+                Kill(hitBy);
                 killed = true;
             } else if (playerHealth == 2)
             {
@@ -450,14 +450,23 @@ public class PlayerInput : MonoBehaviour {
         playerShip.color = Color.white;
     }
 
-    public void Kill()
+    public void Kill(int killedBy)
     {
         portraitShaker.Shake();
         portrait.TakeDamage();
 
         shipExplodeSound.PlayEffect();
 
-        Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Death, playerInfo.playerNum, false);
+        if (killedBy > 0)
+        {
+            if (UnityEngine.Random.Range(0, 2) == 0)
+            {
+                Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Death, playerInfo.playerNum, false);
+            } else
+            {
+                Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killedBy, false);
+            }
+        }
         
         GameObject explosion = GameObject.Instantiate(playerExplosion, transform.position, Quaternion.identity, Globals.Instance.dynamicsParent);
 

@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
                                 player.invulnerable = true;
                             } else
                             {
-                                player.Kill();
+                                player.Kill(0);
                             }
                         }
 
@@ -231,8 +231,7 @@ public class GameManager : MonoBehaviour {
         isRoundReady = false;
 
         playerSelect.gameObject.SetActive(false);
-        startRoundSound.PlayEffect();
-
+        
         if (newGame && showHowToPlay)
         {
             newGame = false;
@@ -240,6 +239,8 @@ public class GameManager : MonoBehaviour {
             isShowingHowToPlay = true;
             return;
         }
+
+        startRoundSound.PlayEffect();
 
         isRoundActive = true;
 

@@ -58,6 +58,7 @@ public class DeathMatchPrompt : MonoBehaviour {
 
         start.canvasRenderer.SetAlpha(1.0f);
         Globals.Instance.GameManager.EnableShooting();
+        Globals.Instance.GameManager.startRoundSound.PlayEffect();
 
         yield return new WaitForSeconds(startDisplayTime);
 
