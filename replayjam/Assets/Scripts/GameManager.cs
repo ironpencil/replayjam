@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour {
 
     public int numPlayers = 2;
     public bool showHowToPlay = true;
+    public bool showPrompts = true;
+
+    public DeathMatchPrompt deathMatchPrompt;
 
     public bool enableShields = false;
 
@@ -170,6 +173,16 @@ public class GameManager : MonoBehaviour {
             enableShields = !enableShields;
         }
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            showHowToPlay = !showHowToPlay;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            showPrompts = !showPrompts;
+        }
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             if (gameMode == GameMode.Survival)
@@ -266,6 +279,23 @@ public class GameManager : MonoBehaviour {
             livingPlayers[3].playerPosition = 3;
         }
 
+        if (showPrompts && gameMode == GameMode.Deathmatch)
+        {
+            foreach (PlayerInput pi in livingPlayers)
+            {
+                pi.canShoot = false;
+            }
+            deathMatchPrompt.gameObject.SetActive(true);
+            deathMatchPrompt.Display();
+        }
+    }
+
+    public void EnableShooting()
+    {
+        foreach (PlayerInput pi in livingPlayers)
+        {
+            pi.canShoot = true;
+        }
     }
 
     IEnumerator EndRound()
