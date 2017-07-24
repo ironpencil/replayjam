@@ -22,7 +22,7 @@ public class PlayerSelectController : MonoBehaviour {
     {
         foreach (PlayerSelector ps in playerSelectors)
         {
-            ps.Leave();
+            ps.Cancel();
         }
 
         startGame.canvasRenderer.SetAlpha(0.0f);

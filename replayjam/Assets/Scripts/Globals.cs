@@ -11,6 +11,7 @@ public class Globals : Singleton<Globals>
     public bool acceptPlayerGameInput = true;
 
     public bool playIntro = true;
+    public bool mute = false;
     public bool deletePlayerPrefs = false;
 
     public IntroPanel firstPanel;
@@ -83,6 +84,11 @@ public class Globals : Singleton<Globals>
 
     public void StartGame()
     {
+        if (mute)
+        {
+            Camera.main.GetComponent<AudioListener>().enabled = false;
+        }
+
         if (gameStartSound != null)
         {
             gameStartSound.PlayEffect();
