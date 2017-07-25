@@ -477,7 +477,7 @@ MonoBehaviour:
   playerColors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.92031866, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0.102999985, g: 0.7401795, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   playerSprites:
   - {fileID: 21300000, guid: cc89105801d1b7e45b6663eae5a38ee2, type: 3}
@@ -1831,6 +1831,10 @@ Prefab:
       propertyPath: m_AnchoredPosition.y
       value: -50
       objectReference: {fileID: 0}
+    - target: {fileID: 1645983564362956, guid: a210da8ac5bd40447aa2509eca09e621, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a210da8ac5bd40447aa2509eca09e621, type: 2}
   m_IsPrefabParent: 0
@@ -2946,7 +2950,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 27
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

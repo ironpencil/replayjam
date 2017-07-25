@@ -3,6 +3,7 @@ using System.Collections;
 using XboxCtrlrInput;
 using System;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayerInput : MonoBehaviour {
     public int playerPosition = 1;
@@ -29,6 +30,8 @@ public class PlayerInput : MonoBehaviour {
     public bool canShoot = true;
     //public SpriteRenderer aura;
     public GameObject playerRing;
+    public GameObject playerNameTag;
+    public TextMeshProUGUI playerNameText;
 
     public ShootProjectiles gun;
 
@@ -133,9 +136,32 @@ public class PlayerInput : MonoBehaviour {
             var shape = ps.shape;
             shape.arc = degreesPerPlayer;
 
-            startRotation.z -= angleLimit;
-            playerRing.transform.Rotate(startRotation);
+            
+            //this is bullshit but it works don't touch it
+            
+            Vector3 ringRotation = new Vector3(startRotation.x, startRotation.y, startRotation.z - angleLimit);
+            
+            playerRing.transform.Rotate(ringRotation);
             ps.Play();
+
+            playerNameTag = playerRing.transform.GetChild(0).gameObject;
+
+            float angle = startAngle - 7.5f;
+            Quaternion rot = Quaternion.AngleAxis(angle, Vector3.up);
+            Vector3 dir = rot * Vector3.up;
+            Vector3 worldDir = transform.TransformDirection(dir);
+
+            playerNameTag.transform.position = worldDir * -7.0f;
+
+            float nameTagAngle = startAngle;
+
+            playerNameTag.transform.localEulerAngles = new Vector3(0.0f, 0.0f, angleLimit - 90.0f);
+            playerNameText = playerNameTag.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+
+            playerNameText.color = new Color(playerColor.r, playerColor.g, playerColor.b, 0.25f);
+            playerNameText.text = playerInfo.name;
+
+            //end of (this particular) bullshit
         }
 
         if (!Globals.Instance.GameManager.enableShields)
