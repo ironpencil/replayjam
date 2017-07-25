@@ -19,15 +19,23 @@ public class PlayerSelector : MonoBehaviour {
     
     public SoundEffectHandler confirmSound;
     public SoundEffectHandler cancelSound;
+    public SoundEffectHandler joinedConfirmSound;
+    public SoundEffectHandler joinedCancelSound;
+
+    public SoundEffectHandler moveCursorSound;
+    public SoundEffectHandler changeLetterNextSound;
+    public SoundEffectHandler changeLetterPrevSound;
+    public SoundEffectHandler randomNameSound;
 
     public Text playerLabel;
     public Text playerStatus;
 
     public NameEntryController nameEntry;
+    public GameObject readyText;
 
     XboxController controller;
 
-    PlayerInfo pInfo;
+    PlayerInfo pInfo = new PlayerInfo();
 
 
     //used for name entry
@@ -47,7 +55,6 @@ public class PlayerSelector : MonoBehaviour {
         nameEntry.TextColor = playerColor;
         nameEntry.gameObject.SetActive(false);
 
-        pInfo = new PlayerInfo();
         pInfo.playerNum = playerNum;
         pInfo.name = nameEntry.GetName();
         pInfo.roundsWon = 0;
@@ -73,6 +80,7 @@ public class PlayerSelector : MonoBehaviour {
                 {
                     nameEntry.MoveCursor(horizontal > 0);
                     canMoveCursor = false;
+                    if (moveCursorSound != null) { moveCursorSound.PlayEffect(); }
                 }
             }
             else
@@ -90,12 +98,14 @@ public class PlayerSelector : MonoBehaviour {
                     //move up one letter
                     nameEntry.ChangeLetter(true);
                     letterChangeValue = 0.0f;
+                    if (changeLetterNextSound != null) { changeLetterNextSound.PlayEffect(); }
                 }
                 else if (vertical < 0 && letterChangeValue < (letterChangeThreshold * -1))
                 {
                     //move down one letter
                     nameEntry.ChangeLetter(false);
                     letterChangeValue = 0.0f;
+                    if (changeLetterPrevSound != null) { changeLetterPrevSound.PlayEffect(); }
                 }
             }
             else
@@ -108,43 +118,41 @@ public class PlayerSelector : MonoBehaviour {
                 if (XCI.GetButtonDown(XboxButton.DPadRight, controller))
                 {
                     nameEntry.MoveCursor(true);
+                    if (moveCursorSound != null) { moveCursorSound.PlayEffect(); }
                 }
                 else if (XCI.GetButtonDown(XboxButton.DPadLeft, controller))
                 {
                     nameEntry.MoveCursor(false);
+                    if (moveCursorSound != null) { moveCursorSound.PlayEffect(); }
                 }
 
                 if (XCI.GetButtonDown(XboxButton.DPadUp, controller))
                 {
                     nameEntry.ChangeLetter(true);
+                    if (changeLetterNextSound != null) { changeLetterNextSound.PlayEffect(); }
                 }
                 else if (XCI.GetButtonDown(XboxButton.DPadDown, controller))
                 {
                     nameEntry.ChangeLetter(false);
+                    if (changeLetterPrevSound != null) { changeLetterPrevSound.PlayEffect(); }
                 }
             }
 
             if (XCI.GetButtonDown(XboxButton.Y, controller))
             {
                 nameEntry.SetRandomName();
+                if (randomNameSound != null) { randomNameSound.PlayEffect(); }
             }
         }
 
         if (XCI.GetButtonDown(XboxButton.A, controller))
         {
-            if (state != PlayerSelectorState.Joined)
-            {
-                if (confirmSound != null) { confirmSound.PlayEffect(); }
-                Confirm();
-            }
+            Confirm();
         }
 
-        if (XCI.GetButtonDown(XboxButton.B, controller)) {
-            if (state != PlayerSelectorState.Unjoined)
-            {
-                if (cancelSound != null) { cancelSound.PlayEffect(); }
-                Cancel();
-            }
+        if (XCI.GetButtonDown(XboxButton.B, controller))
+        {
+            Cancel();
         }
 
         if (XCI.GetButtonDown(XboxButton.Start, controller))
@@ -161,19 +169,23 @@ public class PlayerSelector : MonoBehaviour {
     {
         if (state == PlayerSelectorState.Unjoined)
         {
+            if (confirmSound != null) { confirmSound.PlayEffect(); }
             state = PlayerSelectorState.NameEntry;
             nameEntry.gameObject.SetActive(true);
             nameEntry.DisplayTextEntry();
 
             if (playerStatus != null)
             {
-                playerStatus.text = "A to confirm. B to cancel.";
+                playerStatus.text = "A: Confirm     B: Cancel\r\nY: Random Name";
             }
 
         } else if (state == PlayerSelectorState.NameEntry)
         {
+            if (joinedConfirmSound != null) { joinedConfirmSound.PlayEffect(); }
             state = PlayerSelectorState.Joined;
             nameEntry.DisplayName();
+
+            readyText.SetActive(true);
 
             pInfo.name = nameEntry.GetName();
 
@@ -181,7 +193,7 @@ public class PlayerSelector : MonoBehaviour {
 
             if (playerStatus != null)
             {
-                playerStatus.text = "Joined! Press B to cancel...";
+                playerStatus.text = "Joined!\r\nPress B to cancel...";
             }
         }
     }
@@ -190,13 +202,16 @@ public class PlayerSelector : MonoBehaviour {
     {
         if (state == PlayerSelectorState.Joined)
         {
+            if (joinedCancelSound != null) { joinedCancelSound.PlayEffect(); }
             state = PlayerSelectorState.NameEntry;
             nameEntry.gameObject.SetActive(true);
             nameEntry.DisplayTextEntry();
 
+            readyText.SetActive(false);
+
             if (playerStatus != null)
             {
-                playerStatus.text = "A to confirm. B to cancel.";
+                playerStatus.text = "A: Confirm     B: Cancel\r\nY: Random Name";
             }
 
             Globals.Instance.GameManager.RemovePlayer(pInfo);
@@ -204,6 +219,7 @@ public class PlayerSelector : MonoBehaviour {
         }
         else if (state == PlayerSelectorState.NameEntry)
         {
+            if (cancelSound != null) { cancelSound.PlayEffect(); }
             Reset();
         }
     }
@@ -214,6 +230,7 @@ public class PlayerSelector : MonoBehaviour {
         state = PlayerSelectorState.Unjoined;
 
         nameEntry.gameObject.SetActive(false);
+        readyText.SetActive(false);
 
         Globals.Instance.GameManager.RemovePlayer(pInfo);
 

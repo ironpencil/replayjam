@@ -4,6 +4,7 @@ using XboxCtrlrInput;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using TMPro.Examples;
 
 public class PlayerInput : MonoBehaviour {
     public int playerPosition = 1;
@@ -100,9 +101,9 @@ public class PlayerInput : MonoBehaviour {
 
         transform.Rotate(startRotation);
 
-        degreesPerPlayer -= 15;
+        float trimmedDegreesPerPlayer = degreesPerPlayer - 15;
 
-        float angleLimit = degreesPerPlayer * 0.5f;// Mathf.Round(degreesPerPlayer * 0.5f);
+        float angleLimit = trimmedDegreesPerPlayer * 0.5f;// Mathf.Round(degreesPerPlayer * 0.5f);
 
         JointAngleLimits2D limits = new JointAngleLimits2D();
         limits.min = angleLimit * -1;
@@ -134,15 +135,43 @@ public class PlayerInput : MonoBehaviour {
             var main = ps.main;
             main.startColor = playerColor;
             var shape = ps.shape;
-            shape.arc = degreesPerPlayer;
+            shape.arc = trimmedDegreesPerPlayer;
 
             
-            //this is bullshit but it works don't touch it
             
             Vector3 ringRotation = new Vector3(startRotation.x, startRotation.y, startRotation.z - angleLimit);
             
             playerRing.transform.Rotate(ringRotation);
             ps.Play();
+
+
+            //this is bullshit but it works don't touch it
+
+            float tagDistanceFromCenter = 0.0f;
+            float curveScale = 0.0f;
+            float textWidth = 0.0f;
+
+            switch (numPlayers)
+            {
+                case 2:
+                    tagDistanceFromCenter = -3.0f;
+                    curveScale = 24.0f;
+                    textWidth = 14.0f;
+                    break;
+                case 3:
+                    tagDistanceFromCenter = -5.5f;
+                    curveScale = 15f;
+                    textWidth = 12.0f;
+                    break;
+                case 4:
+                    tagDistanceFromCenter = -7.0f;
+                    curveScale = 10.0f;
+                    textWidth = 9.0f;
+                    break;
+                default:
+                    break;
+            }
+
 
             playerNameTag = playerRing.transform.GetChild(0).gameObject;
 
@@ -151,15 +180,26 @@ public class PlayerInput : MonoBehaviour {
             Vector3 dir = rot * Vector3.up;
             Vector3 worldDir = transform.TransformDirection(dir);
 
-            playerNameTag.transform.position = worldDir * -7.0f;
+            playerNameTag.transform.position = worldDir * tagDistanceFromCenter;
 
             float nameTagAngle = startAngle;
 
             playerNameTag.transform.localEulerAngles = new Vector3(0.0f, 0.0f, angleLimit - 90.0f);
             playerNameText = playerNameTag.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+            playerNameText.rectTransform.sizeDelta = new Vector2(textWidth, playerNameText.rectTransform.sizeDelta.y);
 
-            playerNameText.color = new Color(playerColor.r, playerColor.g, playerColor.b, 0.25f);
+            playerNameText.color = new Color(playerColor.r, playerColor.g, playerColor.b, 1.0f); //0.18f);
             playerNameText.text = playerInfo.name;
+
+            WarpTextExample warpText = playerNameText.gameObject.GetComponent<WarpTextExample>();
+
+            warpText.CurveScale = curveScale;
+
+            if (playerPosition == 3 || playerPosition == 4)
+            {
+                warpText.invertCurve = true;
+                playerNameText.rectTransform.localScale = playerNameText.rectTransform.localScale * -1;
+            }
 
             //end of (this particular) bullshit
         }

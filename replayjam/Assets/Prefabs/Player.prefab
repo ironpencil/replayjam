@@ -502,12 +502,14 @@ MonoBehaviour:
   invulnerable: 0
   canShoot: 1
   playerRing: {fileID: 0}
+  playerNameTag: {fileID: 0}
+  playerNameText: {fileID: 0}
   gun: {fileID: 114012758290588268}
   hinge: {fileID: 0}
   maxThrust: 1000
   kill: 0
   thrustStyle: 1
-  tauntInterval: 3
+  tauntInterval: 2
   portraitShaker: {fileID: 0}
   shieldHitSound: {fileID: 114849728119449954}
   shipHitSound: {fileID: 114050359278066320}

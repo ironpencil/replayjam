@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour {
     public bool newGame = true;
     public bool allowRespawn = true;
 
+    public float tutorialMinDisplayTime = 1.0f;
+    private float canDismissTutorialTime = 0.0f;
+
     public float respawnTime = 1.0f;
 
     public GameObject playerPrefab;
@@ -57,6 +60,9 @@ public class GameManager : MonoBehaviour {
     public SoundEffectHandler startRoundSound;
     public SoundEffectHandler endRoundSound;
     public SoundEffectHandler endGameSound;
+
+    public SoundEffectHandler welcomeToSound;
+    public SoundEffectHandler blackHoleBulletSound;
 
     public CharacterSoundManager characterSounds;
 
@@ -201,7 +207,7 @@ public class GameManager : MonoBehaviour {
 
             if (isShowingHowToPlay)
             {
-                if (Input.anyKeyDown)
+                if (Input.anyKeyDown && Time.time > canDismissTutorialTime)
                 {
                     howToPlayScreen.SetActive(false);
                     isShowingHowToPlay = false;
@@ -216,33 +222,40 @@ public class GameManager : MonoBehaviour {
             //}
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            enableShields = !enableShields;
-        }
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    enableShields = !enableShields;
+        //}
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             showHowToPlay = !showHowToPlay;
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            showPrompts = !showPrompts;
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (gameMode == GameMode.Survival)
+            if (showHowToPlay)
             {
-                gameMode = GameMode.Deathmatch;
-            }
-            else
+                startRoundSound.PlayEffect();
+            } else
             {
-                gameMode = GameMode.Survival;
+                endRoundSound.PlayEffect();
             }
         }
-	}
+
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    showPrompts = !showPrompts;
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    if (gameMode == GameMode.Survival)
+        //    {
+        //        gameMode = GameMode.Deathmatch;
+        //    }
+        //    else
+        //    {
+        //        gameMode = GameMode.Survival;
+        //    }
+        //}
+    }
 
     public void AddPlayer(PlayerInfo player)
     {
@@ -285,10 +298,12 @@ public class GameManager : MonoBehaviour {
             newGame = false;
             howToPlayScreen.SetActive(true);
             isShowingHowToPlay = true;
+            welcomeToSound.PlayEffect();
+            canDismissTutorialTime = Time.time + tutorialMinDisplayTime;
             return;
         }
 
-        startRoundSound.PlayEffect();
+        blackHoleBulletSound.PlayEffect();
 
         isRoundActive = true;
         allowRespawn = true;

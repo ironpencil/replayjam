@@ -15,6 +15,8 @@ namespace TMPro.Examples
         public float SpeedMultiplier = 1.0f;
         public float CurveScale = 1.0f;
 
+        public bool invertCurve = false;
+
         void Awake()
         {
             m_TextComponent = gameObject.GetComponent<TMP_Text>();
@@ -53,7 +55,11 @@ namespace TMPro.Examples
             Matrix4x4 matrix;
 
             m_TextComponent.havePropertiesChanged = true; // Need to force the TextMeshPro Object to be updated.
-            CurveScale *= 10;
+            CurveScale += 1;
+            CurveScale -= 1;
+
+            if (invertCurve) { CurveScale *= -1; }
+
             float old_CurveScale = CurveScale;
             AnimationCurve old_curve = CopyAnimationCurve(VertexCurve);
 
@@ -84,12 +90,13 @@ namespace TMPro.Examples
                 float boundsMinX = m_TextComponent.bounds.min.x;  //textInfo.meshInfo[0].mesh.bounds.min.x;
                 float boundsMaxX = m_TextComponent.bounds.max.x;  //textInfo.meshInfo[0].mesh.bounds.max.x;
 
-                Debug.Log("1:" + boundsMinX + " | " + boundsMaxX);
+                //Debug.Log("1:" + boundsMinX + " | " + boundsMaxX);
 
+                //use rect size instead of text size
                 boundsMinX = rectTransform.offsetMin.x;
                 boundsMaxX = rectTransform.offsetMax.x;  //textInfo.meshInfo[0].mesh.bounds.max.x;
 
-                Debug.Log("2:" + boundsMinX + " | " + boundsMaxX);
+                //Debug.Log("2:" + boundsMinX + " | " + boundsMaxX);
 
                 for (int i = 0; i < characterCount; i++)
                 {
@@ -102,9 +109,18 @@ namespace TMPro.Examples
                     int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
 
                     vertices = textInfo.meshInfo[materialIndex].vertices;
+                    
 
                     // Compute the baseline mid point for each character
                     Vector3 offsetToMidBaseline = new Vector2((vertices[vertexIndex + 0].x + vertices[vertexIndex + 2].x) / 2, textInfo.characterInfo[i].baseLine);
+                    string verticeString = "";
+                    foreach (var vert3 in vertices)
+                    {
+                        verticeString += vert3.ToString() + "\r\n";
+                    }
+                    Debug.Log("Vertices=" + verticeString + " Midpoint=" + offsetToMidBaseline);
+
+                    if (invertCurve) { offsetToMidBaseline.y *= -1; }
                     //float offsetY = VertexCurve.Evaluate((float)i / characterCount + loopCount / 50f); // Random.Range(-0.25f, 0.25f);
 
                     // Apply offset to adjust our pivot point.
