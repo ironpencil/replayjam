@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour {
     public SoundEffectHandler blackHoleBulletSound;
 
     public CharacterSoundManager characterSounds;
+    public PortraitSpeechManager characterSpeech;
 
     // Use this for initialization
     void Start () {
@@ -596,7 +597,7 @@ public class GameManager : MonoBehaviour {
 
         killControllers[killer - 1].AddKill(killee);
 
-        characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killer, false);
+        //characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killer, false);
     }
 
     bool CheckForExitInput(XboxController controller)

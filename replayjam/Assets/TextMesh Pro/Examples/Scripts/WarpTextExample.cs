@@ -118,7 +118,6 @@ namespace TMPro.Examples
                     {
                         verticeString += vert3.ToString() + "\r\n";
                     }
-                    Debug.Log("Vertices=" + verticeString + " Midpoint=" + offsetToMidBaseline);
 
                     if (invertCurve) { offsetToMidBaseline.y *= -1; }
                     //float offsetY = VertexCurve.Evaluate((float)i / characterCount + loopCount / 50f); // Random.Range(-0.25f, 0.25f);
@@ -131,8 +130,6 @@ namespace TMPro.Examples
 
                     // Compute the angle of rotation for each character based on the animation curve
                     float x0 = (offsetToMidBaseline.x - boundsMinX) / (boundsMaxX - boundsMinX); // Character's position relative to the bounds of the mesh.
-                    Debug.Log("Char=" + textInfo.characterInfo[i].character.ToString() + " x0=" + x0);
-                        //float x0 = 0.0f;
                     float x1 = x0 + 0.0001f;
                     float y0 = VertexCurve.Evaluate(x0) * CurveScale;
                     float y1 = VertexCurve.Evaluate(x1) * CurveScale;

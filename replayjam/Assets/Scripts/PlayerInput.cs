@@ -525,10 +525,16 @@ public class PlayerInput : MonoBehaviour {
 
         if (killedBy > 0)
         {
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            int rand = UnityEngine.Random.Range(0, 3);
+            if (rand == 0)
             {
                 Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Death, playerInfo.playerNum, false);
-            } else
+            }
+            else if (rand == 1)
+            {
+                Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Grunt, playerInfo.playerNum, false);
+            }
+            else if (rand == 2)
             {
                 Globals.Instance.GameManager.characterSounds.PlayVoice(CharacterSoundManager.VoiceType.Laugh, killedBy, false);
             }

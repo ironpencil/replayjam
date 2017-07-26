@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterSoundManager : MonoBehaviour {
 
-    public float voiceCooldown = 5.0f;
+    public float voiceCooldown = 2.0f;
 
     private float lastVoice = 0.0f;
 
@@ -43,15 +43,19 @@ public class CharacterSoundManager : MonoBehaviour {
             {
                 case VoiceType.Taunt:
                     taunts[index].PlayEffect();
+                    Globals.Instance.GameManager.characterSpeech.ShowEmotion(PortraitSpeechManager.Emotion.Smirk, playerNumber, 2.0f);
                     break;
                 case VoiceType.Death:
                     deaths[index].PlayEffect();
+                    Globals.Instance.GameManager.characterSpeech.ShowEmotion(PortraitSpeechManager.Emotion.Dizzy, playerNumber, 2.0f);
                     break;
                 case VoiceType.Grunt:
                     grunts[index].PlayEffect();
+                    Globals.Instance.GameManager.characterSpeech.ShowEmotion(PortraitSpeechManager.Emotion.Dizzy, playerNumber, 2.0f);
                     break;
                 case VoiceType.Laugh:
                     laughs[index].PlayEffect();
+                    Globals.Instance.GameManager.characterSpeech.ShowEmotion(PortraitSpeechManager.Emotion.Laugh, playerNumber, 2.0f);
                     break;
                 case VoiceType.Win:
                     wins[index].PlayEffect();
