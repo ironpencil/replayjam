@@ -357,8 +357,8 @@ MonoBehaviour:
   dynamicsParent: {fileID: 152047075}
   GameManager: {fileID: 271390537}
   isQuitting: 0
---- !u!4 &271390536
-Transform:
+--- !u!224 &271390536
+RectTransform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -370,8 +370,13 @@ Transform:
   - {fileID: 1166225534}
   - {fileID: 2004697730}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &271390537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2803,7 +2808,7 @@ RectTransform:
   - {fileID: 50261200}
   - {fileID: 581288764}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
